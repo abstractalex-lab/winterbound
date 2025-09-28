@@ -243,8 +243,8 @@ public class GameMap {
                     item.tick(actorLocations.locationOf(actor), actor);
                     item.tickStatuses(actorLocations.locationOf(actor));
                 }
-                actor.tickStatuses(actorLocations.locationOf(actor));
             }
+            actor.tickStatuses(actorLocations.locationOf(actor));
         }
         // tick ground and items on ground
         for (int y : heights) {

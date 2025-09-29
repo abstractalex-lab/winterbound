@@ -11,6 +11,7 @@ import edu.monash.fit2099.engine.displays.Menu;
 import game.actions.GameOverAction;
 import game.attributes.PlayerAttribute;
 import game.capabilities.Abilities;
+import game.interfaces.Flammable;
 import game.items.Bedroll;
 import game.items.Bottle;
 import game.weapons.BareFist;
@@ -19,7 +20,7 @@ import game.weapons.BareFist;
  * Class representing the Player.
  * @author Adrian Kristanto
  */
-public class Player extends Actor {
+public class Player extends Actor implements Flammable {
 
 
     static final int HYDRATION_LEVEL = 20;
@@ -95,5 +96,8 @@ public class Player extends Actor {
     }
 
 
-
+    @Override
+    public void burn(int damage) {
+        this.hurt(damage);
+    }
 }

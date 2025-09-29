@@ -12,6 +12,7 @@ import game.actions.GameOverAction;
 import game.attributes.PlayerAttribute;
 import game.capabilities.Abilities;
 import game.interfaces.Flammable;
+import game.interfaces.Freezable;
 import game.items.Bedroll;
 import game.items.Bottle;
 import game.weapons.BareFist;
@@ -20,7 +21,7 @@ import game.weapons.BareFist;
  * Class representing the Player.
  * @author Adrian Kristanto
  */
-public class Player extends Actor implements Flammable {
+public class Player extends Actor implements Flammable, Freezable {
 
 
     static final int HYDRATION_LEVEL = 20;
@@ -99,5 +100,10 @@ public class Player extends Actor implements Flammable {
     @Override
     public void burn(int damage) {
         this.hurt(damage);
+    }
+
+    @Override
+    public void onFrozen() {
+        this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, 1);
     }
 }

@@ -7,17 +7,20 @@ import game.interfaces.Flammable;
 
 public class Burning implements Status {
 
-    private int duration = 5;
+    private int duration;
+    private int damage;
     private final Flammable flammable;
 
-    public Burning(Flammable flammable) {
+    public Burning(Flammable flammable, int duration, int damage) {
         this.flammable = flammable;
+        this.duration = duration;
+        this.damage = damage;
     }
 
     @Override
     public void tickStatus(GameEntity gameEntity, Location location) {
         if (flammable != null) {
-            flammable.burn(5);
+            flammable.burn(damage);
             duration--;
         }
     }

@@ -8,6 +8,8 @@ import game.interfaces.Flammable;
 
 public class Fire extends Ground {
     private int remaining = 3;
+    private int duration = 5;
+    private int damage = 5;
 
     public Fire() {
         super('^', "Fire");
@@ -23,7 +25,7 @@ public class Fire extends Ground {
         if (location.containsAnActor()) {
             Flammable flammable = location.getActorAs(Flammable.class);
             if(flammable != null){
-                location.getActor().addStatus(new Burning(flammable));
+                location.getActor().addStatus(new Burning(flammable, duration, damage));
             }
         }
     }

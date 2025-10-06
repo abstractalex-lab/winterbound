@@ -4,6 +4,8 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.DefaultGroundCreator;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
+import game.actors.Dragon;
+import game.actors.MutiStateCreature;
 import game.actors.Player;
 import game.actors.animals.Animal;
 import game.actors.animals.Bear;
@@ -14,6 +16,8 @@ import game.grounds.Snow;
 import game.grounds.plants.AppleTree;
 import game.grounds.plants.HazelnutTree;
 import game.grounds.plants.YewBerryTree;
+import game.states.FireState;
+import game.weapons.FireBreathe;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,6 +58,7 @@ public class Earth extends World {
         Animal bear = new Bear();
         Animal deer = new Deer();
         Animal wolf = new Wolf();
+
 
         gameMap.at(12, 8).addActor(bear);
         gameMap.at(1, 2).addActor(deer);

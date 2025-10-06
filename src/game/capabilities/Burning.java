@@ -10,7 +10,8 @@ public class Burning implements Status {
     private int duration = 5;
     private final Flammable flammable;
 
-    public Burning(Flammable flammable) {
+    public Burning (Flammable flammable, int burnDuration, int burnDamage)
+    {
         this.flammable = flammable;
     }
 

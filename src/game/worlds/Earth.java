@@ -9,6 +9,7 @@ import game.actors.animals.Animal;
 import game.actors.animals.Bear;
 import game.actors.animals.Deer;
 import game.actors.animals.Wolf;
+import game.grounds.Dirt;
 import game.grounds.Snow;
 import game.grounds.plants.AppleTree;
 import game.grounds.plants.HazelnutTree;
@@ -28,6 +29,8 @@ public class Earth extends World {
         groundCreator.registerGround('T', AppleTree::new);
         groundCreator.registerGround('A', HazelnutTree::new);
         groundCreator.registerGround('Y', YewBerryTree::new);
+
+        groundCreator.registerGround('+', Dirt::new);
 
         List<String> map = Arrays.asList(
                 ".T....T.................................",

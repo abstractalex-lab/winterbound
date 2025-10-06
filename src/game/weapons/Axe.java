@@ -3,14 +3,16 @@ package game.weapons;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.capabilities.Bleeding;
+import java.util.Random;
 
 /**
- * An axe weapon that can cause bleeding damage.
+ * An axe weapon that can cause bleeding damage and be coated.
  */
-public class Axe extends WeaponItem {
+public class Axe extends CoatableWeapon {
     private static final int BLEED_CHANCE = 50;
     private static final int BLEED_DAMAGE = 10;
     private static final int BLEED_DURATION = 2;
+    private final Random random = new Random();
 
     /**
      * Constructor for Axe.
@@ -20,7 +22,7 @@ public class Axe extends WeaponItem {
     }
 
     @Override
-    protected String applySpecialEffects(Actor attacker, Actor target, GameMap map) {
+    public String applyWeaponEffects(Actor attacker, Actor target, GameMap map) {
         if (random.nextInt(100) < BLEED_CHANCE) {
             target.addStatus(new Bleeding(BLEED_DURATION, BLEED_DAMAGE));
             return " and causes bleeding!";

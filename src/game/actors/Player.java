@@ -99,7 +99,9 @@ public class Player extends Actor implements Flammable, Freezable {
 
     @Override
     public void burn(int damage) {
-        this.hurt(damage);
+        if(!this.hasAbility(Abilities.FIRE_RESISTANT)){
+            this.hurt(damage);
+        }
     }
 
     @Override

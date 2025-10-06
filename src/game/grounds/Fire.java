@@ -23,7 +23,7 @@ public class Fire extends Ground {
         if (location.containsAnActor()) {
             Flammable flammable = location.getActorAs(Flammable.class);
             if(flammable != null){
-                location.getActor().addStatus(new Burning(flammable));
+                location.getActor().addStatus(new Burning(flammable, 5, 5));
             }
         }
     }

@@ -2,6 +2,7 @@ package game.capabilities;
 
 import edu.monash.fit2099.engine.GameEntity;
 import edu.monash.fit2099.engine.capabilities.Status;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Location;
 import game.interfaces.Flammable;
 
@@ -19,8 +20,9 @@ public class Burning implements Status {
 
     @Override
     public void tickStatus(GameEntity gameEntity, Location location) {
+        Display display = new Display();
         if (flammable != null) {
-            flammable.burn(damage);
+            display.println(flammable.burn(damage));
             duration--;
         }
     }

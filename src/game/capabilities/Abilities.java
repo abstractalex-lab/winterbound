@@ -6,5 +6,5 @@ package game.capabilities;
  */
 public enum Abilities {
     CAN_ATTACK, CAN_CONSUME, CAN_FEED,
-    FIRE_RESISTANT
+    FIRE_RESISTANT, FROZEN_RESISTANT
 }

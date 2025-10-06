@@ -16,7 +16,10 @@ import game.grounds.Snow;
 import game.grounds.plants.AppleTree;
 import game.grounds.plants.HazelnutTree;
 import game.grounds.plants.YewBerryTree;
+import game.states.CreatureState;
 import game.states.FireState;
+import game.states.IceState;
+import game.weapons.Claw;
 import game.weapons.FireBreathe;
 
 import java.util.Arrays;
@@ -37,10 +40,10 @@ public class Earth extends World {
         groundCreator.registerGround('+', Dirt::new);
 
         List<String> map = Arrays.asList(
-                ".T....T.................................",
-                "A.........A.............................",
                 "........................................",
-                "...Y....................................",
+                "........................................",
+                "........................................",
+                "........................................",
                 "........................................",
                 "........................................",
                 "........................................",
@@ -52,17 +55,26 @@ public class Earth extends World {
         GameMap gameMap = new GameMap("Forest", groundCreator, map);
         this.addGameMap(gameMap);
 
-        Player player = new Player("Explorer", 'ඞ', 100);
+        Player player = new Player("Explorer", 'ඞ', 100000);
         this.addPlayer(player, gameMap.at(1, 1));
 
         Animal bear = new Bear();
         Animal deer = new Deer();
         Animal wolf = new Wolf();
 
+        List<CreatureState> allstates = Arrays.asList(
+                new FireState(new FireBreathe()),
+                new IceState(new Claw())
+        );
+        MutiStateCreature dragon = new Dragon(allstates);
+        gameMap.at(5,5).addActor(dragon);
 
-        gameMap.at(12, 8).addActor(bear);
-        gameMap.at(1, 2).addActor(deer);
-        gameMap.at(5, 6).addActor(wolf);
+
+//        gameMap.at(12, 8).addActor(bear);
+//        gameMap.at(1, 2).addActor(deer);
+//        gameMap.at(5, 6).addActor(wolf);
+
+
 
     }
 }

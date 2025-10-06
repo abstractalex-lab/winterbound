@@ -24,8 +24,8 @@ import game.weapons.BareFist;
 public class Player extends Actor implements Flammable, Freezable {
 
 
-    static final int HYDRATION_LEVEL = 20;
-    static final int WARMTH_LEVEL = 30;
+    static final int HYDRATION_LEVEL = 20000;
+    static final int WARMTH_LEVEL = 30000;
 
     /**
      * Constructor.
@@ -98,10 +98,12 @@ public class Player extends Actor implements Flammable, Freezable {
 
 
     @Override
-    public void burn(int damage) {
+    public String burn(int damage) {
         if(!this.hasAbility(Abilities.FIRE_RESISTANT)){
             this.hurt(damage);
+            return this + " is burned, losing " + damage + " HP.";
         }
+        return this + " is resistant to burning.";
     }
 
     @Override

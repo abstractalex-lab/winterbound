@@ -7,15 +7,16 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperation;
+import edu.monash.fit2099.engine.actors.attributes.BaseAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.attributes.PlayerAttribute;
 import game.behaviours.WanderBehaviour;
 import game.capabilities.Abilities;
-import game.interfaces.CreatureState;
 import game.interfaces.Flammable;
 import game.interfaces.Freezable;
+import game.states.CreatureState;
 
 import java.util.List;
 import java.util.Map;
@@ -24,22 +25,15 @@ import java.util.TreeMap;
 public abstract class MutiStateCreature extends Actor implements Flammable, Freezable {
 
     protected Map<Integer, Behaviour> behaviours = new TreeMap<>();
+
     protected CreatureState currentState;
 
     protected List<CreatureState> allStates;
 
-    /**
-     * The constructor of the Actor class.
-     *
-     * @param name        the name of the Actor
-     * @param displayChar the character that will represent the Actor in the
-     *                    display
-     * @param hitPoints   the Actor's starting hit points
-     */
-    public MutiStateCreature(String name, char displayChar, int hitPoints, CreatureState initialState, List<CreatureState> allStates) {
+    public MutiStateCreature(String name, char displayChar, int hitPoints, List<CreatureState> allStates) {
         super(name, displayChar, hitPoints);
-        this.currentState = initialState;
-        this.enableAbility(initialState.stateAbility());
+        this.currentState = allStates.get(0);
+        this.enableAbility(currentState.stateAbility());
         this.allStates = allStates;
         this.behaviours.put(999, new WanderBehaviour());
 
@@ -72,11 +66,17 @@ public abstract class MutiStateCreature extends Actor implements Flammable, Free
         return currentState;
     }
 
-    public void changeState(CreatureState newState) {
-        if (currentState != null)
-            this.disableAbility(currentState.stateAbility());
-        this.currentState = newState;
-        this.enableAbility(newState.stateAbility());
+    public String changeState() {
+        int index = allStates.indexOf(currentState);
+
+        int nextIndex = (index + 1) % allStates.size();
+        CreatureState nextState = allStates.get(nextIndex);
+
+        this.disableAbility(currentState.stateAbility());
+        this.enableAbility(nextState.stateAbility());
+
+        currentState = nextState;
+        return this + " changes to " + nextState.getClass().getSimpleName() + "!";
     }
 
     @Override
@@ -85,10 +85,12 @@ public abstract class MutiStateCreature extends Actor implements Flammable, Free
     }
 
     @Override
-    public void burn(int damage) {
+    public String burn(int damage) {
         if(!this.hasAbility(Abilities.FIRE_RESISTANT)){
             this.hurt(damage);
+            return this + " is burned, losing " + damage + " HP.";
         }
+        return this + " is resistant to burning.";
     }
 
     @Override
@@ -96,14 +98,12 @@ public abstract class MutiStateCreature extends Actor implements Flammable, Free
         this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, 1);
     }
 
-    @Override
-    public boolean isConscious() {
-        return super.isConscious()
-                && this.getAttribute(PlayerAttribute.WARMTH_LEVEL) > 0;
-    }
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "(" + currentState.getClass().getName() + ")";
+        return name + "[" + currentState + "]" + " ("
+                + this.getAttribute(BaseAttributes.HEALTH) + "/"
+                + this.getMaximumAttribute(BaseAttributes.HEALTH)
+                + ")";
     }
 }

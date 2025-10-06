@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public abstract class MutiStateCreature extends Actor implements Flammable, Freezable {
+public abstract class MultiStateCreature extends Actor implements Flammable, Freezable {
 
     protected Map<Integer, Behaviour> behaviours = new TreeMap<>();
 
@@ -30,7 +30,7 @@ public abstract class MutiStateCreature extends Actor implements Flammable, Free
 
     protected List<CreatureState> allStates;
 
-    public MutiStateCreature(String name, char displayChar, int hitPoints, List<CreatureState> allStates) {
+    public MultiStateCreature(String name, char displayChar, int hitPoints, List<CreatureState> allStates) {
         super(name, displayChar, hitPoints);
         this.currentState = allStates.get(0);
         this.enableAbility(currentState.stateAbility());

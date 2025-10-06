@@ -7,7 +7,7 @@ import game.states.CreatureState;
 import java.util.List;
 
 
-public class Dragon extends MutiStateCreature {
+public class Dragon extends MultiStateCreature {
 
 
     public Dragon(List<CreatureState> allStates) {

@@ -22,13 +22,9 @@ public class FireBreathe extends IntrinsicWeapon {
 
         Random rand = new Random();
 
-        List<Location> nearbyLocations = map.locationOf(target).getNearbyLocations(2);
+        List<Location> nearbyLocations = map.locationOf(target).getNearbyLocations(1);
         for(Location nearbyLocation: nearbyLocations){
             nearbyLocation.setGround(new Fire());
-            Flammable flammable = nearbyLocation.getActorAs(Flammable.class);
-            if(flammable != null){
-                nearbyLocation.getActor().addStatus(new Burning(flammable, 5, 5));
-            }
         }
 
         if (!(rand.nextInt(100) <= this.hitRate)) {

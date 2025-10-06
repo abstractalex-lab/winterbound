@@ -1,30 +1,23 @@
 package game.states;
 
+import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Abilities;
-import game.interfaces.CreatureState;
 
-public class IceState implements CreatureState {
+public class IceState extends CreatureState {
 
     private IntrinsicWeapon intrinsicWeapon;
 
+    public IceState(IntrinsicWeapon intrinsicWeapon){
+        super(intrinsicWeapon);
+    }
+
     @Override
     public Enum<Abilities> stateAbility() {
-
+        return Abilities.FROZEN_RESISTANT;
     }
 
-    @Override
-    public IntrinsicWeapon getIntrinsicWeapon() {
-        return null;
-    }
 
-    @Override
-    public void setWeapon(IntrinsicWeapon intrinsicWeapon) {
 
-    }
-
-    @Override
-    public CreatureState nextState() {
-        return null;
-    }
 }

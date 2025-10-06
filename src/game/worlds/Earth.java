@@ -5,7 +5,7 @@ import edu.monash.fit2099.engine.positions.DefaultGroundCreator;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.actors.Dragon;
-import game.actors.MutiStateCreature;
+import game.actors.MultiStateCreature;
 import game.actors.Player;
 import game.actors.animals.Animal;
 import game.actors.animals.Bear;
@@ -66,7 +66,7 @@ public class Earth extends World {
                 new FireState(new FireBreathe()),
                 new IceState(new Claw())
         );
-        MutiStateCreature dragon = new Dragon(allstates);
+        MultiStateCreature dragon = new Dragon(allstates);
         gameMap.at(5,5).addActor(dragon);
 
 

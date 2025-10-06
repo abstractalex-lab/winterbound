@@ -7,11 +7,17 @@ import game.interfaces.Freezable;
 
 public class Frozen implements Status {
 
-    private int duration = 3;
+    private int duration = 0;
+    private int warmthReduction = 0;
     private final Freezable freezable;
 
-    public Frozen(Freezable freezable){
+
+    public Frozen (Freezable freezable ,int frostbiteDuration, int warmthReduction)
+    {
         this.freezable = freezable;
+        this.duration = frostbiteDuration;
+        this.warmthReduction = warmthReduction;
+
     }
 
     @Override

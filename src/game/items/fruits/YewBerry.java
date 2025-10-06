@@ -1,8 +1,14 @@
 package game.items.fruits;
 
+import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseAttributes;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.CoatWeaponAction;
+import game.coatings.YewBerryCoating;
+import game.interfaces.Coatable;
+import game.weapons.Torch;
 
 
 /**
@@ -31,5 +37,20 @@ public class YewBerry extends Fruit {
         // Set the actor to unconscious, removing them from the map.
         actor.unconscious(map);
         return super.consumedBy(actor, map) + " then it kills " + actor.getClass().getSimpleName() + " immediately";
+    }
+
+    @Override
+    public ActionList allowableActions(Actor owner, GameMap map) {
+        ActionList actions = super.allowableActions(owner, map);
+
+        // Add coating actions for coatable weapons (excluding torches)
+        for (Item item : owner.getItemInventory()) {
+            if (item instanceof Coatable && !(item instanceof Torch)) {
+                Coatable weapon = (Coatable) item;
+                actions.add(new CoatWeaponAction(weapon, this, new YewBerryCoating()));
+            }
+        }
+
+        return actions;
     }
 }

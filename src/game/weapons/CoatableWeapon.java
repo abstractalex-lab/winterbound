@@ -1,4 +1,3 @@
-// game/weapons/CoatableWeapon.java
 package game.weapons;
 
 import edu.monash.fit2099.engine.actors.Actor;

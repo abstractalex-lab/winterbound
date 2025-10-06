@@ -1,4 +1,3 @@
-// game/weapons/Bow.java
 package game.weapons;
 
 /**

@@ -45,7 +45,7 @@ public class Plains extends World {
         groundCreator.registerGround('+', Dirt::new);
 
         // Define the map layout
-        List<String> plainsMap = Arrays.asList(
+        List<String> map = Arrays.asList(
                 ".........................",
                 ".........................",
                 ".........................",
@@ -57,20 +57,7 @@ public class Plains extends World {
         );
 
         // Step 3: Create and add the map to the world
-        GameMap plains = new GameMap("Plains", groundCreator, plainsMap);
-        this.addGameMap(plains);
-
-        // Step 4: Optionally, spawn the player here for testing or leave empty
-        Player player = new Player("Explorer", '@', 100);
-        Location startLocation = plains.at(12, 3);
-        plains.addActor(player, startLocation);
-
-        // Step 5: (Later in Earth.constructWorld()) we will cross-link teleporters between maps
-        // e.g. TeleDoor in Earth ↔ TeleDoor in Plains
-        // This ensures bi-directional travel once both maps exist.
-
-        // Step 6: Add one TeleportCube into player's inventory
-//        TeleportCube cube = new TeleportCube();
-//        player.addItemToInventory(cube);
+        GameMap gameMap = new GameMap("Plains", groundCreator, map);
+        this.addGameMap(gameMap);
     }
 }

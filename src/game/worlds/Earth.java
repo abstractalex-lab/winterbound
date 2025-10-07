@@ -21,6 +21,7 @@ import game.states.FireState;
 import game.states.IceState;
 import game.weapons.Claw;
 import game.weapons.FireBreathe;
+import game.weapons.IceBreathe;
 
 import java.util.Arrays;
 import java.util.List;
@@ -64,7 +65,7 @@ public class Earth extends World {
 
         List<CreatureState> allstates = Arrays.asList(
                 new FireState(new FireBreathe()),
-                new IceState(new Claw())
+                new IceState(new IceBreathe())
         );
         MultiStateCreature dragon = new Dragon(allstates);
         gameMap.at(5,5).addActor(dragon);

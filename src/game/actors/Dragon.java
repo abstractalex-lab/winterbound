@@ -1,6 +1,17 @@
 package game.actors;
 
 
+import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.DoNothingAction;
+import edu.monash.fit2099.engine.actors.Behaviour;
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperation;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
+import edu.monash.fit2099.engine.actors.attributes.BaseAttributes;
+import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.GameOverAction;
+import game.attributes.PlayerAttribute;
 import game.behaviours.MultiStateAttackBehaviour;
 import game.states.CreatureState;
 
@@ -9,12 +20,41 @@ import java.util.List;
 
 public class Dragon extends MultiStateCreature {
 
+    static final int WARMTH_LEVEL = 2;
 
     public Dragon(List<CreatureState> allStates) {
-        super("Dragon", 'd', 200, allStates);
+        super("Dragon", 'd', 300, allStates);
         this.behaviours.put(1, new MultiStateAttackBehaviour(this));
+        this.addNewStatistic(PlayerAttribute.WARMTH_LEVEL, new BaseActorAttribute(WARMTH_LEVEL));
     }
 
+    @Override
+    public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+
+        if(!isConscious()){
+            return new GameOverAction(unconscious(map));
+        }
+
+        for (Behaviour behaviour : behaviours.values()) {
+            Action action = behaviour.generateAction(this, map);
+            // If a behavior provides an action, execute it.
+            if(action != null)
+                return action;
+        }
+        defaultEffect();
+
+
+        return new DoNothingAction();
+    }
+
+    public void defaultEffect(){
+        this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, 1);
+    }
+    @Override
+    public boolean isConscious() {
+        return super.isConscious()
+                && this.getAttribute(PlayerAttribute.WARMTH_LEVEL) > 0;
+    }
 }
 
 

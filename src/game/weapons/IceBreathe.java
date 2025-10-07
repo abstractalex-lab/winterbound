@@ -4,22 +4,21 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.capabilities.Burning;
-import game.grounds.Fire;
-import game.interfaces.Flammable;
+import game.capabilities.Frozen;
+import game.grounds.Snow;
+import game.interfaces.Freezable;
 
 import java.util.List;
 import java.util.Random;
 
-public class FireBreathe extends IntrinsicWeapon {
+public class IceBreathe extends IntrinsicWeapon {
 
-    public FireBreathe() {
-        super(50, "breathes fire", 80, "breathe fire");
+    public IceBreathe() {
+        super(50, "breathe a chilling frost", 80, "frost breath");
     }
 
     @Override
     public String attack(Actor attacker, Actor target, GameMap map) {
-
         Random rand = new Random();
 
         if (!(rand.nextInt(100) <= this.hitRate)) {
@@ -30,18 +29,19 @@ public class FireBreathe extends IntrinsicWeapon {
 
         List<Location> nearbyLocations = map.locationOf(target).getNearbyLocations(1);
         for(Location nearbyLocation: nearbyLocations){
-            nearbyLocation.setGround(new Fire());
+            nearbyLocation.setGround(new Snow());
         }
 
         Location targetLocation = map.locationOf(target);
-        Flammable targetFlammable = targetLocation.getActorAs(Flammable.class);
-        if (targetFlammable != null) {
-            target.addStatus(new Burning(targetFlammable, 5, 5));
+        Freezable targetFreezable = targetLocation.getActorAs(Freezable.class);
+        if (targetFreezable != null) {
+            target.addStatus(new Frozen(targetFreezable));
         }
 
         return String.format(
-                "%s breathes a wave of fire at %s for %d damage! Flames spread to nearby tiles!",
-                attacker, target, damage
+                "%s exhales a freezing breath at %s, dealing %d damage! "
+                        + "The ground around %s is covered in frost.",
+                attacker, target, damage, target
         );
     }
 }

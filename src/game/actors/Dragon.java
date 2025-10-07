@@ -13,6 +13,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.GameOverAction;
 import game.attributes.PlayerAttribute;
 import game.behaviours.MultiStateAttackBehaviour;
+import game.capabilities.Stance;
 import game.states.CreatureState;
 
 import java.util.List;
@@ -20,10 +21,11 @@ import java.util.List;
 
 public class Dragon extends MultiStateCreature {
 
-    static final int WARMTH_LEVEL = 2;
+    static final int WARMTH_LEVEL = 300;
 
     public Dragon(List<CreatureState> allStates) {
-        super("Dragon", 'd', 300, allStates);
+        super("Dragon", 'D', 300, allStates);
+        this.enableAbility(Stance.HOSTILE);
         this.behaviours.put(1, new MultiStateAttackBehaviour(this));
         this.addNewStatistic(PlayerAttribute.WARMTH_LEVEL, new BaseActorAttribute(WARMTH_LEVEL));
     }
@@ -35,14 +37,14 @@ public class Dragon extends MultiStateCreature {
             return new GameOverAction(unconscious(map));
         }
 
+        defaultEffect();
+
         for (Behaviour behaviour : behaviours.values()) {
             Action action = behaviour.generateAction(this, map);
             // If a behavior provides an action, execute it.
             if(action != null)
                 return action;
         }
-        defaultEffect();
-
 
         return new DoNothingAction();
     }
@@ -50,6 +52,7 @@ public class Dragon extends MultiStateCreature {
     public void defaultEffect(){
         this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, 1);
     }
+
     @Override
     public boolean isConscious() {
         return super.isConscious()

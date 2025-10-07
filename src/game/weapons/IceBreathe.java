@@ -14,7 +14,7 @@ import java.util.Random;
 public class IceBreathe extends IntrinsicWeapon {
 
     public IceBreathe() {
-        super(50, "breathe a chilling frost", 80, "frost breath");
+        super(60, "breathes a chilling frost", 80, "frost breath");
     }
 
     @Override

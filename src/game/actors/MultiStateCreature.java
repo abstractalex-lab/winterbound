@@ -67,10 +67,19 @@ public abstract class MultiStateCreature extends Actor implements Flammable, Fre
     }
 
     public String changeState() {
-        int index = allStates.indexOf(currentState);
+        int hp = this.getAttribute(BaseAttributes.HEALTH);
+        int maxHp = this.getMaximumAttribute(BaseAttributes.HEALTH);
+        int numStates = allStates.size();
 
-        int nextIndex = (index + 1) % allStates.size();
-        CreatureState nextState = allStates.get(nextIndex);
+        int interval = Math.max(1, maxHp / numStates);
+
+        int index = Math.min(numStates - 1, (maxHp - hp) / interval);
+
+        CreatureState nextState = allStates.get(index);
+
+        if (nextState == getState()) {
+            return "";
+        }
 
         this.disableAbility(currentState.stateAbility());
         this.enableAbility(nextState.stateAbility());

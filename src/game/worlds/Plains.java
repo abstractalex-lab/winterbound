@@ -6,9 +6,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
 import game.actors.Player;
-import game.grounds.Dirt;
-import game.grounds.TeleDoor;
-import game.grounds.TeleCircle;
+import game.grounds.*;
 import game.items.TeleportCube;
 
 import java.util.Arrays;
@@ -40,7 +38,7 @@ public class Plains extends World {
         groundCreator.registerGround('.', Dirt::new);
         groundCreator.registerGround('#', TeleDoor::new);
         groundCreator.registerGround('O', TeleCircle::new);
-//        groundCreator.registerGround('^', FireGround::new);
+        groundCreator.registerGround('^', FireGround::new);
         groundCreator.registerGround('+', Dirt::new);
 
         // Define the map layout

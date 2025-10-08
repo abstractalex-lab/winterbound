@@ -1,16 +1,16 @@
-package game.capabilities;
+package game.statuses;
 
 import edu.monash.fit2099.engine.GameEntity;
 import edu.monash.fit2099.engine.capabilities.Status;
 import edu.monash.fit2099.engine.positions.Location;
 import game.interfaces.Freezable;
 
-public class Frozen implements Status {
+public class Freezing implements Status {
 
     private int duration = 3;
     private final Freezable freezable;
 
-    public Frozen(Freezable freezable){
+    public Freezing(Freezable freezable){
         this.freezable = freezable;
     }
 

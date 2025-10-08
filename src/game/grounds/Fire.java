@@ -1,13 +1,10 @@
 package game.grounds;
 
 
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-import game.capabilities.Burning;
+import game.statuses.Burning;
 import game.interfaces.Flammable;
-
-import java.util.List;
 
 public class Fire extends Ground {
     private int remaining = 3;

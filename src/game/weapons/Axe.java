@@ -2,7 +2,7 @@ package game.weapons;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.capabilities.Bleeding;
+import game.statuses.Bleeding;
 
 /**
  * An axe weapon that can cause bleeding damage.

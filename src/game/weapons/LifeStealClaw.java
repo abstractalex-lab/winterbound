@@ -3,7 +3,7 @@ package game.weapons;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.capabilities.Bleeding;
+import game.statuses.Bleeding;
 
 import java.util.Random;
 

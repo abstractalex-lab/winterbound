@@ -23,14 +23,14 @@ public class Frozen implements Status {
     @Override
     public void tickStatus(GameEntity currEntity, Location location) {
         if(freezable != null){
-            freezable.onFrozen();
+            freezable.onFrozen(warmthReduction);
             duration--;
         }
     }
 
     @Override
     public boolean isStatusActive() {
-        return duration == 0;
+        return duration > 0;
     }
 
     @Override

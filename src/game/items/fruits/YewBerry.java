@@ -10,10 +10,10 @@ import game.coatings.YewBerryCoating;
 import game.interfaces.Coatable;
 import game.weapons.Torch;
 
-
 /**
  * A Yew Berry item.
  * Consuming a Yew Berry is highly poisonous and immediately kills the actor.
+ * Can be used to coat weapons with poison (excluding torches).
  */
 public class YewBerry extends Fruit {
     /**
@@ -43,7 +43,6 @@ public class YewBerry extends Fruit {
     public ActionList allowableActions(Actor owner, GameMap map) {
         ActionList actions = super.allowableActions(owner, map);
 
-        // Add coating actions for coatable weapons (excluding torches)
         for (Item item : owner.getItemInventory()) {
             if (item instanceof Coatable && !(item instanceof Torch)) {
                 Coatable weapon = (Coatable) item;

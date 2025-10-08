@@ -7,6 +7,8 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.actions.RangedAttackAction;
 import game.capabilities.Abilities;
 
+import java.util.List;
+
 /**
  * A bow weapon that can attack from range and be coated.
  */
@@ -39,20 +41,13 @@ public class Bow extends CoatableWeapon {
 
         if (owner.hasAbility(Abilities.CAN_ATTACK)) {
             Location ownerLocation = map.locationOf(owner);
+            
+            List<Location> nearbyLocations = ownerLocation.getNearbyLocations(RANGE);
 
-            // Check all locations within range for targets
-            for (int x = ownerLocation.x() - RANGE; x <= ownerLocation.x() + RANGE; x++) {
-                for (int y = ownerLocation.y() - RANGE; y <= ownerLocation.y() + RANGE; y++) {
-                    if (map.getXRange().contains(x) && map.getYRange().contains(y)) {
-                        Location targetLocation = map.at(x, y);
-                        if (targetLocation.containsAnActor() && targetLocation != ownerLocation) {
-                            int distance = Math.abs(x - ownerLocation.x()) + Math.abs(y - ownerLocation.y());
-                            if (distance <= RANGE) {
-                                Actor target = targetLocation.getActor();
-                                actions.add(new RangedAttackAction(target, this));
-                            }
-                        }
-                    }
+            for (Location targetLocation : nearbyLocations) {
+                if (targetLocation.containsAnActor()) {
+                    Actor target = targetLocation.getActor();
+                    actions.add(new RangedAttackAction(target, this));
                 }
             }
         }

@@ -96,14 +96,26 @@ public class Player extends Actor implements Flammable, Freezable {
         return super.unconscious(map);
     }
 
-
+    /**
+     * Implementation of Flammable interface.
+     * Applies burn damage to the player.
+     *
+     * @param damage the amount of damage to apply
+     */
     @Override
     public void burn(int damage) {
         this.hurt(damage);
     }
 
+    /**
+     * Implementation of Freezable interface.
+     * Reduces the player's warmth level when frozen.
+     *
+     * @param warmthReduction the amount of warmth to reduce
+     */
     @Override
-    public void onFrozen() {
-        this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, 1);
+    public void onFrozen(int warmthReduction) {
+        this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, warmthReduction);
     }
+
 }

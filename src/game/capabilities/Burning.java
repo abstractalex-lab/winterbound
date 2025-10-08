@@ -28,7 +28,7 @@ public class Burning implements Status {
 
     @Override
     public boolean isStatusActive() {
-        return duration == 0;
+        return duration > 0;
     }
 
     @Override

@@ -15,9 +15,9 @@ import game.grounds.plants.YewBerryTree;
 import game.states.BerserkState;
 import game.states.CreatureState;
 import game.states.FireState;
-import game.states.IceState;
+import game.states.WindState;
 import game.weapons.FireBreathe;
-import game.weapons.IceBreathe;
+import game.weapons.WindHowl;
 import game.weapons.LifeStealClaw;
 
 import java.util.Arrays;
@@ -57,8 +57,8 @@ public class Earth extends World {
         this.addPlayer(player, gameMap.at(1, 1));
 
         List<CreatureState> allStates = Arrays.asList(
+                new WindState(new WindHowl()),
                 new FireState(new FireBreathe()),
-                new IceState(new IceBreathe()),
                 new BerserkState(new LifeStealClaw())
         );
 

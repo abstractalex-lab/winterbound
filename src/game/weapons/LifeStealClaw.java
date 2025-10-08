@@ -3,6 +3,7 @@ package game.weapons;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.capabilities.Bleeding;
 
 import java.util.Random;
 
@@ -23,6 +24,7 @@ public class LifeStealClaw extends IntrinsicWeapon {
         }
 
         target.hurt(damage);
+        target.addStatus(new Bleeding(5,5));
 
         int healAmount = Math.max(1, (int) Math.round(damage * lifeStealRatio));
         attacker.heal(healAmount);

@@ -78,14 +78,14 @@ public abstract class MultiStateCreature extends Actor implements Flammable, Fre
         CreatureState nextState = allStates.get(index);
 
         if (nextState == getState()) {
-            return "";
+            return this + " stays in " + nextState.getClass().getSimpleName();
         }
 
         this.disableAbility(currentState.stateAbility());
         this.enableAbility(nextState.stateAbility());
 
         currentState = nextState;
-        return this + " changes to " + nextState.getClass().getSimpleName() + "!";
+        return this + " changes to " + nextState.getClass().getSimpleName();
     }
 
     @Override

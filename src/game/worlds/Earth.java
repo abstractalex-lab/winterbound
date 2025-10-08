@@ -33,7 +33,7 @@ public class Earth extends World {
         groundCreator.registerGround('Y', YewBerryTree::new);
         groundCreator.registerGround('#', TeleDoor::new);
         groundCreator.registerGround('O', TeleCircle::new);
-        groundCreator.registerGround('^', FireGround::new);
+//        groundCreator.registerGround('^', FireGround::new);
         groundCreator.registerGround('+', Dirt::new);
 
         List<String> map = Arrays.asList(

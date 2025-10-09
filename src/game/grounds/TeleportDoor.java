@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.*;
 import game.actions.TeleportAction;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +22,6 @@ public class TeleportDoor extends Ground {
         destinations.add(loc);
     }
 
-    public List<Location> getDestinations() {
-        return destinations;
-    }
-
     @Override
     public ActionList allowableActions(Actor actor, Location location, String direction) {
         ActionList actions = new ActionList();
@@ -36,19 +31,5 @@ public class TeleportDoor extends Ground {
             }
         }
         return actions;
-    }
-
-    public void onTeleport(Location source, Location dest) {
-        GameMap map = dest.map();
-        int cx = dest.x(), cy = dest.y();
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                if (dx == 0 && dy == 0) continue;
-                int x = cx + dx, y = cy + dy;
-                if (x >= 0 && x < map.getXRange().max() + 1 && y >= 0 && y < map.getYRange().max() + 1) {
-                    map.at(x, y).setGround(new FireGround());
-                }
-            }
-        }
     }
 }

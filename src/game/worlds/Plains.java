@@ -10,8 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * <h2>Plains Map</h2>
- * A second map introduced in REQ1, designed for teleportation and
+ * Plains map. A second map introduced in REQ1, designed for teleportation and
  * inter-map travel testing. Contains grasslands and teleportation grounds.
  */
 public class Plains extends World {
@@ -29,7 +28,7 @@ public class Plains extends World {
      * Builds the "Plains" map and populates its base elements.
      * This map will later be linked with the "Earth" map via TeleDoors and TeleCircles.
      *
-     * @return
+     * @return The map of the Plains
      */
     public GameMap constructWorld() throws Exception {
         DefaultGroundCreator groundCreator = new DefaultGroundCreator();
@@ -43,9 +42,9 @@ public class Plains extends World {
                 ".........................",
                 ".........................",
                 ".........................",
-                "..O......#..............",
                 ".........................",
-                "........................",
+                ".........................",
+                ".........................",
                 ".........................",
                 "........................."
         );

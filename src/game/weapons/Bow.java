@@ -1,10 +1,15 @@
-// game/weapons/Bow.java
 package game.weapons;
 
+import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.RangedAttackAction;
+import game.capabilities.Abilities;
+
 /**
- * A bow weapon that can attack from range.
+ * A bow weapon that can attack from range and be coated.
  */
-public class Bow extends WeaponItem {
+public class Bow extends CoatableWeapon {
     private static final int RANGE = 3;
 
     /**
@@ -14,11 +19,19 @@ public class Bow extends WeaponItem {
         super("Bow", 'c', 5, "shoots", 25);
     }
 
-    /**
-     * Get the attack range of this bow.
-     * @return the range in tiles
-     */
-    public int getRange() {
-        return RANGE;
+    @Override
+    public String applyWeaponEffects(Actor attacker, Actor target, GameMap map) {
+        return "";
+    }
+
+    @Override
+    public ActionList allowableActions(Actor owner, GameMap map) {
+        ActionList actions = super.allowableActions(owner, map);
+
+        if (owner.hasAbility(Abilities.CAN_ATTACK)) {
+            actions.add(RangedAttackAction.generateRangedAttacks(owner, this, RANGE, map));
+        }
+
+        return actions;
     }
 }

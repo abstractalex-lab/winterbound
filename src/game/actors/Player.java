@@ -16,6 +16,7 @@ import game.interfaces.Freezable;
 import game.items.Bedroll;
 import game.items.Bottle;
 import game.weapons.BareFist;
+import game.weapons.Bow;
 
 /**
  * Class representing the Player.
@@ -42,6 +43,7 @@ public class Player extends Actor implements Flammable, Freezable {
         this.addNewStatistic(PlayerAttribute.WARMTH_LEVEL, new BaseActorAttribute(WARMTH_LEVEL));
         this.addItemToInventory(new Bedroll());
         this.addItemToInventory(new Bottle());
+        this.addItemToInventory(new Bow());
 
         this.enableAbility(Abilities.CAN_ATTACK);
         this.enableAbility(Abilities.CAN_FEED);

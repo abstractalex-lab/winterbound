@@ -3,6 +3,7 @@ package game.weapons;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.Weapon;
 import java.util.Random;
 
@@ -13,7 +14,6 @@ public abstract class WeaponItem extends Item implements Weapon {
     protected final int damage;
     protected final String verb;
     protected final int hitRate;
-    protected final Random random = new Random();
 
     /**
      * Constructor for WeaponItem.
@@ -32,13 +32,20 @@ public abstract class WeaponItem extends Item implements Weapon {
 
     @Override
     public String attack(Actor attacker, Actor target, GameMap map) {
+        Random random = new Random();
+
         if (!(random.nextInt(100) < hitRate)) {
             return attacker + " misses " + target + ".";
         }
 
+        Location targetLoc = map.locationOf(target);
+        int x = targetLoc.x();
+        int y = targetLoc.y();
+
         target.hurt(damage);
-        String result = String.format("%s %s %s for %d damage",
-                attacker, verb, target, damage);
+        // Base attack description with coordinates
+        String result = String.format("%s %s %s at (%d, %d) for %d damage",
+                attacker, verb, target, x, y, damage);
 
         // Apply any special effects
         result += applySpecialEffects(attacker, target, map);

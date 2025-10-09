@@ -2,7 +2,7 @@ package game.coatings;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.capabilities.Frozen;
+import game.statuses.Freezing;
 import game.interfaces.Coating;
 import game.interfaces.Freezable;
 
@@ -17,7 +17,7 @@ public class SnowCoating implements Coating {
     public String applyEffect(Actor target, GameMap map) {
         Freezable freezable = target.asCapability(Freezable.class).orElse(null);
         if (freezable != null) {
-            target.addStatus(new Frozen(freezable, FROSTBITE_DURATION, WARMTH_REDUCTION));;
+            target.addStatus(new Freezing(freezable, FROSTBITE_DURATION, WARMTH_REDUCTION));;
         }
         return " and causes frostbite!";
     }

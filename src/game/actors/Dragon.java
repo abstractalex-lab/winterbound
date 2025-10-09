@@ -11,6 +11,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.GameOverAction;
 import game.attributes.PlayerAttribute;
+import game.behaviours.WanderBehaviour;
 import game.capabilities.Stance;
 import game.states.CreatureState;
 
@@ -25,6 +26,7 @@ public class Dragon extends MultiStateCreature {
         super("Dragon", 'D', 300, allStates);
         this.enableAbility(Stance.HOSTILE);
         this.addNewStatistic(PlayerAttribute.WARMTH_LEVEL, new BaseActorAttribute(WARMTH_LEVEL));
+        this.behaviours.put(999, new WanderBehaviour());
     }
 
     @Override

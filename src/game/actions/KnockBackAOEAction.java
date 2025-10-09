@@ -71,7 +71,7 @@ public class KnockBackAOEAction extends Action {
 
         try {
             map.moveActor(target, newLoc);
-            return target + " is knocked back " + distance + " tile(s)!";
+            return target + " is knocked back " + distance + " tile(s) by " + attacker;
         } catch (Exception e) {
             return target + " resists the knockback!";
         }

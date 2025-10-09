@@ -59,7 +59,6 @@ public class Earth extends World {
         List<CreatureState> allStates = Arrays.asList(
                 new FireState(new FireBreathe()),
                 new WindState(new WindHowl()),
-
                 new BerserkState(new LifeStealClaw())
         );
 

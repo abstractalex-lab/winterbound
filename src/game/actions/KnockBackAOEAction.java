@@ -32,14 +32,12 @@ public class KnockBackAOEAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         Location attackerLoc = map.locationOf(attacker);
-        List<Location> nearby = attackerLoc.getNearbyLocations(1);
         StringBuilder result = new StringBuilder();
 
-        for (Location loc : nearby) {
-            if (loc.containsAnActor()) {
-                Actor target = loc.getActor();
-                result.append(knockBackSingleTarget(map, attackerLoc, loc, target)).append("\n");
-            }
+        for (Actor target: targets) {
+            Location targetLoca = map.locationOf(target);
+            result.append(knockBackSingleTarget(map, attackerLoc, targetLoca, target)).append("\n");
+
         }
 
         return result.toString().trim();

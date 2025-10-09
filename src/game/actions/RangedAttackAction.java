@@ -1,10 +1,13 @@
-// game/actions/RangedAttackAction.java
 package game.actions;
 
 import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.Weapon;
+
+import java.util.List;
 
 /**
  * Action for attacking at range.
@@ -36,6 +39,29 @@ public class RangedAttackAction extends Action {
 
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " shoots at " + target + " with " + weapon;
+        return actor + " ranged attacks " + target + " with " + weapon;
+    }
+
+    /**
+     * Static helper method to generate ranged attack actions for all targets within range.
+     * @param owner the actor wielding the weapon
+     * @param weapon the ranged weapon being used
+     * @param range the attack range
+     * @param map the game map
+     * @return an ActionList containing ranged attack actions for all valid targets
+     */
+    public static ActionList generateRangedAttacks(Actor owner, Weapon weapon, int range, GameMap map) {
+        ActionList actions = new ActionList();
+        Location ownerLocation = map.locationOf(owner);
+        List<Location> nearbyLocations = ownerLocation.getNearbyLocations(range);
+
+        for (Location targetLocation : nearbyLocations) {
+            if (targetLocation.containsAnActor()) {
+                Actor target = targetLocation.getActor();
+                actions.add(new RangedAttackAction(target, weapon));
+            }
+        }
+
+        return actions;
     }
 }

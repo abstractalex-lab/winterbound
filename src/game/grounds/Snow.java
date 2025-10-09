@@ -2,13 +2,11 @@ package game.grounds;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.CoatWeaponAction;
 import game.coatings.SnowCoating;
 import game.interfaces.Coatable;
-import game.weapons.Torch;
 
 /**
  * A class representing snow on the ground.
@@ -25,12 +23,9 @@ public class Snow extends Ground {
 
         // When standing ON snow (empty direction = current location)
         if (direction.isEmpty()) {
-            // Provide snow coating for all eligible weapons
-            for (Item item : actor.getItemInventory()) {
-                if (item instanceof Coatable && !(item instanceof Torch)) {
-                    Coatable weapon = (Coatable) item;
-                    actions.add(new CoatWeaponAction(weapon, null, new SnowCoating()));
-                }
+            // Provide snow coating for all coatable weapons
+            for (Coatable weapon : actor.getItemInventoryAs(Coatable.class)) {
+                actions.add(new CoatWeaponAction(weapon, null, new SnowCoating()));
             }
         }
 

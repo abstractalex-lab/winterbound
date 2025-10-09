@@ -43,11 +43,8 @@ public class YewBerry extends Fruit {
     public ActionList allowableActions(Actor owner, GameMap map) {
         ActionList actions = super.allowableActions(owner, map);
 
-        for (Item item : owner.getItemInventory()) {
-            if (item instanceof Coatable && !(item instanceof Torch)) {
-                Coatable weapon = (Coatable) item;
-                actions.add(new CoatWeaponAction(weapon, this, new YewBerryCoating()));
-            }
+        for (Coatable weapon : owner.getItemInventoryAs(Coatable.class)) {
+            actions.add(new CoatWeaponAction(weapon, this, new YewBerryCoating()));
         }
 
         return actions;

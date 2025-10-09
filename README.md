@@ -28,6 +28,14 @@ Each subclass specifies:
 * A specific Ability (e.g., elemental resistance).
 * Optional Behaviour(s) that execute automatically every turn. Behaviours are stored in a TreeMap<Integer, Behaviour> to manage multiple concurrent actions by priority.
 
+## Actions and Behaviours
+RangedAttackAction, RangedAttackBehaviour — attack other actors in different range.
+BurningAuraAction, BurningAuraBehaviour — Sets adjacent tiles on fire while wandering.
+KnockBackAOEAction, KnockBackAOEBehaviour — Pushes away all actors within 1-tile radius, simulating a wind shockwave.
+
+## Abilities
+FIRE_RESISTANT — Grants immunity to fire and burning effects while in FireState.
+
 ## Example Creature — Dragon
 The Dragon transitions through three states:
 WindState -> FireState -> BerserkState

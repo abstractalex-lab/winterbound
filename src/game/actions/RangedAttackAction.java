@@ -15,15 +15,19 @@ import java.util.List;
 public class RangedAttackAction extends Action {
     private final Actor target;
     private final Weapon weapon;
+    private final int x;
+    private final int y;
 
     /**
      * Constructor.
      * @param target the target to attack
      * @param weapon the weapon to use
      */
-    public RangedAttackAction(Actor target, Weapon weapon) {
+    public RangedAttackAction(Actor target, Weapon weapon, int x, int y) {
         this.target = target;
         this.weapon = weapon;
+        this.x = x;
+        this.y = y;
     }
 
     @Override
@@ -39,7 +43,8 @@ public class RangedAttackAction extends Action {
 
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " ranged attacks " + target + " with " + weapon;
+        return String.format("%s attacks %s at (%d, %d) with %s",
+                actor, target, x, y, weapon);
     }
 
     /**
@@ -58,7 +63,9 @@ public class RangedAttackAction extends Action {
         for (Location targetLocation : nearbyLocations) {
             if (targetLocation.containsAnActor()) {
                 Actor target = targetLocation.getActor();
-                actions.add(new RangedAttackAction(target, weapon));
+                int x = targetLocation.x();
+                int y = targetLocation.y();
+                actions.add(new RangedAttackAction(target, weapon, x, y));
             }
         }
 

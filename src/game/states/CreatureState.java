@@ -1,9 +1,14 @@
 package game.states;
 
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.actors.MultiStateCreature;
 import game.capabilities.Abilities;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Represents an abstract state of a creature that can possess unique combat properties and abilities.
@@ -18,6 +23,11 @@ public abstract class CreatureState {
 
     /** The intrinsic weapon representing this state’s unique attack style. */
     protected IntrinsicWeapon intrinsicWeapon;
+
+
+
+    /** Optional behaviour associated with this state. */
+    protected final Map<Integer, Behaviour> stateBehaviours = new TreeMap<>();
 
     /**
      * Constructs a creature state with the specified intrinsic weapon.
@@ -37,6 +47,7 @@ public abstract class CreatureState {
         return intrinsicWeapon;
     }
 
+
     /**
      * Performs an attack using this state’s intrinsic weapon.
      *
@@ -45,7 +56,7 @@ public abstract class CreatureState {
      * @param map the game map on which the attack occurs
      * @return a string describing the result of the attack
      */
-    public String attack(Actor attacker, Actor target, GameMap map) {
+    public String attack(MultiStateCreature attacker, Actor target, GameMap map) {
         return intrinsicWeapon.attack(attacker, target, map);
     }
 
@@ -56,6 +67,35 @@ public abstract class CreatureState {
      * @return the state-specific ability as an enum value
      */
     public abstract Enum<Abilities> stateAbility();
+
+    /**
+     * Called when the creature enters this state.
+     * Adds all state behaviours (with priority) and enables ability.
+     */
+    public void enterState(MultiStateCreature creature) {
+        Enum<Abilities> ability = stateAbility();
+        if (ability != null) {
+            creature.enableAbility(ability);
+        }
+
+        // Merge all state behaviours with existing creature behaviours
+        creature.getBehaviours().putAll(stateBehaviours);
+    }
+
+    /**
+     * Called when the creature leaves this state.
+     * Removes all state behaviours and disables ability.
+     */
+    public void leaveState(MultiStateCreature creature) {
+        Enum<Abilities> ability = stateAbility();
+        if (ability != null) {
+            creature.disableAbility(ability);
+        }
+
+        // Remove only behaviours that belong to this state
+        creature.getBehaviours().values().removeAll(stateBehaviours.values());
+    }
+
 
     /**
      * Returns a string representation of the current state, typically its class name.

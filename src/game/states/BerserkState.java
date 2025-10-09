@@ -1,6 +1,8 @@
 package game.states;
 
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.AttackBehaviour;
+import game.behaviours.RangedAttackBehaviour;
 import game.capabilities.Abilities;
 
 /**
@@ -23,7 +25,9 @@ public class BerserkState extends CreatureState {
      */
     public BerserkState(IntrinsicWeapon weapon) {
         super(weapon);
+        this.stateBehaviours.put(0, new AttackBehaviour());
     }
+
 
     /**
      * Returns the ability associated with this state.

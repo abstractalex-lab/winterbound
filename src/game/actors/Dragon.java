@@ -7,12 +7,10 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperation;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
-import edu.monash.fit2099.engine.actors.attributes.BaseAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.GameOverAction;
 import game.attributes.PlayerAttribute;
-import game.behaviours.MultiStateAttackBehaviour;
 import game.capabilities.Stance;
 import game.states.CreatureState;
 
@@ -26,12 +24,13 @@ public class Dragon extends MultiStateCreature {
     public Dragon(List<CreatureState> allStates) {
         super("Dragon", 'D', 300, allStates);
         this.enableAbility(Stance.HOSTILE);
-        this.behaviours.put(1, new MultiStateAttackBehaviour(this));
         this.addNewStatistic(PlayerAttribute.WARMTH_LEVEL, new BaseActorAttribute(WARMTH_LEVEL));
     }
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+
+        display.println(changeState());
 
         if(!isConscious()){
             return new GameOverAction(unconscious(map));

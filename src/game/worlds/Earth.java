@@ -57,8 +57,9 @@ public class Earth extends World {
         this.addPlayer(player, gameMap.at(1, 1));
 
         List<CreatureState> allStates = Arrays.asList(
-                new WindState(new WindHowl()),
                 new FireState(new FireBreathe()),
+                new WindState(new WindHowl()),
+
                 new BerserkState(new LifeStealClaw())
         );
 

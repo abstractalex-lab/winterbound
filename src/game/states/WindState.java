@@ -1,6 +1,9 @@
 package game.states;
 
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.AttackBehaviour;
+import game.behaviours.KnockBackAOEBehaviour;
+import game.behaviours.RangedAttackBehaviour;
 import game.capabilities.Abilities;
 
 /**
@@ -24,6 +27,8 @@ public class WindState extends CreatureState {
      */
     public WindState(IntrinsicWeapon intrinsicWeapon) {
         super(intrinsicWeapon);
+        this.stateBehaviours.put(0, new KnockBackAOEBehaviour(1));
+        this.stateBehaviours.put(1, new RangedAttackBehaviour(2));
     }
 
     /**

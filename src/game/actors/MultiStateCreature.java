@@ -37,6 +37,8 @@ import java.util.TreeMap;
  */
 public abstract class MultiStateCreature extends Actor implements Flammable, Freezable {
 
+
+
     /** Ordered list of behaviours that control how the creature acts each turn. */
     protected Map<Integer, Behaviour> behaviours = new TreeMap<>();
 
@@ -57,9 +59,13 @@ public abstract class MultiStateCreature extends Actor implements Flammable, Fre
     public MultiStateCreature(String name, char displayChar, int hitPoints, List<CreatureState> allStates) {
         super(name, displayChar, hitPoints);
         this.currentState = allStates.get(0);
-        this.enableAbility(currentState.stateAbility());
+        this.currentState.enterState(this);
         this.allStates = allStates;
-        this.behaviours.put(999, new WanderBehaviour());
+    }
+
+
+    public Map<Integer, Behaviour> getBehaviours() {
+        return behaviours;
     }
 
     /**
@@ -124,13 +130,15 @@ public abstract class MultiStateCreature extends Actor implements Flammable, Fre
 
         CreatureState nextState = allStates.get(index);
         if (nextState == getState()) {
-            return this + " stays in " + nextState.getClass().getSimpleName();
+            return this + " stays in " + nextState;
         }
 
-        this.disableAbility(currentState.stateAbility());
-        this.enableAbility(nextState.stateAbility());
+
+        currentState.leaveState(this);
+        nextState.enterState(this);
+
         currentState = nextState;
-        return this + " changes to " + nextState.getClass().getSimpleName();
+        return this + " changes to " + nextState;
     }
 
     /**
@@ -162,8 +170,8 @@ public abstract class MultiStateCreature extends Actor implements Flammable, Fre
      * Handles the freezing effect by reducing the creature’s warmth level.
      */
     @Override
-    public void onFrozen() {
-        this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, 1);
+    public void onFrozen(int warmthReduction) {
+        this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, warmthReduction);
     }
 
     /**

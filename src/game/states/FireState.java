@@ -2,7 +2,12 @@ package game.states;
 
 
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.BurningAuraBehaviour;
+import game.behaviours.RangedAttackBehaviour;
 import game.capabilities.Abilities;
+import game.weapons.WindHowl;
+
+import java.util.Random;
 
 /**
  * Represents the fire-based combat state of a MultiStateCreature.
@@ -26,7 +31,10 @@ public class FireState extends CreatureState {
      */
     public FireState(IntrinsicWeapon weapon) {
         super(weapon);
+        this.stateBehaviours.put(1, new RangedAttackBehaviour(2));
+        this.stateBehaviours.put(2, new BurningAuraBehaviour());
     }
+
 
     /**
      * Returns the special ability associated with this state.

@@ -26,8 +26,8 @@ public class Earth extends World {
         groundCreator.registerGround('T', AppleTree::new);
         groundCreator.registerGround('A', HazelnutTree::new);
         groundCreator.registerGround('Y', YewBerryTree::new);
-        groundCreator.registerGround('#', TeleDoor::new);
-        groundCreator.registerGround('O', TeleCircle::new);
+        groundCreator.registerGround('#', TeleportDoor::new);
+        groundCreator.registerGround('O', TeleportCircle::new);
         groundCreator.registerGround('^', FireGround::new);
         groundCreator.registerGround('+', Dirt::new);
 
@@ -58,5 +58,27 @@ public class Earth extends World {
         gameMap.at(1, 2).addActor(deer);
         gameMap.at(5, 6).addActor(wolf);
 
+        Plains plainsWorld = new Plains(this.display);
+        GameMap plainsMap = plainsWorld.constructWorld();
+        this.addGameMap(plainsMap);
+
+        var forestDoorLoc = gameMap.at(18, 2);
+        if (!(forestDoorLoc.getGround() instanceof TeleportDoor)) {
+            forestDoorLoc.setGround(new TeleportDoor());
+        }
+        var plainsDoorLoc = plainsMap.at(10, 1);
+        if (!(plainsDoorLoc.getGround() instanceof TeleportDoor)) {
+            plainsDoorLoc.setGround(new TeleportDoor());
+        }
+
+        // Link both directions
+        TeleportDoor forestDoor = (TeleportDoor) forestDoorLoc.getGround();
+        TeleportDoor plainsDoor  = (TeleportDoor)  plainsDoorLoc.getGround();
+        forestDoor.addDestination(plainsMap, plainsDoorLoc);
+        plainsDoor.addDestination(gameMap,  forestDoorLoc);
+
+        // Place cube on Forest ground to pick up
+        game.items.TeleportCube cube = new game.items.TeleportCube();
+        gameMap.at(6, 1).addItem(cube);
     }
 }

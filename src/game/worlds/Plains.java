@@ -3,11 +3,8 @@ package game.worlds;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.DefaultGroundCreator;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
-import game.actors.Player;
 import game.grounds.*;
-import game.items.TeleportCube;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,30 +28,31 @@ public class Plains extends World {
     /**
      * Builds the "Plains" map and populates its base elements.
      * This map will later be linked with the "Earth" map via TeleDoors and TeleCircles.
+     *
+     * @return
      */
-    public void constructWorld() throws Exception {
-        // Register ground symbols and their creators
+    public GameMap constructWorld() throws Exception {
         DefaultGroundCreator groundCreator = new DefaultGroundCreator();
-        groundCreator.registerGround('.', Dirt::new);
-        groundCreator.registerGround('#', TeleDoor::new);
-        groundCreator.registerGround('O', TeleCircle::new);
+        groundCreator.registerGround('.', Snow::new);
+        groundCreator.registerGround('#', TeleportDoor::new);
+        groundCreator.registerGround('O', TeleportCircle::new);
         groundCreator.registerGround('^', FireGround::new);
         groundCreator.registerGround('+', Dirt::new);
 
-        // Define the map layout
         List<String> map = Arrays.asList(
                 ".........................",
                 ".........................",
                 ".........................",
+                "...............#.........",
                 ".........................",
-                ".........................",
-                ".........................",
+                "......O..................",
                 ".........................",
                 "........................."
         );
 
-        // Step 3: Create and add the map to the world
+        // create and add the map to the world
         GameMap gameMap = new GameMap("Plains", groundCreator, map);
         this.addGameMap(gameMap);
+        return gameMap;
     }
 }

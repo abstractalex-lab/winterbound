@@ -11,6 +11,7 @@ import edu.monash.fit2099.engine.displays.Menu;
 import game.actions.GameOverAction;
 import game.attributes.PlayerAttribute;
 import game.capabilities.Abilities;
+import game.grounds.FireGround;
 import game.items.Bedroll;
 import game.items.Bottle;
 import game.weapons.BareFist;
@@ -53,6 +54,7 @@ public class Player extends Actor {
             return new GameOverAction(unconscious(map));
         }
 
+        FireGround.tickActor(this); //added burn tick
         // Handle multi-turn Actions
         if (lastAction.getNextAction() != null)
             return lastAction.getNextAction();

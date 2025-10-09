@@ -4,17 +4,24 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.interfaces.Flammable;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
+/**
+ * FireGround (^): applies a stackable burn that persists even after leaving the tile.
+ * - Touching fire adds +BURN_DURATION turns (stacks).
+ * - Damage is applied once per actor turn via FireGround.tickActor(...).
+ * - The fire tile itself lasts FIRE_LIFETIME turns, then becomes Dirt.
+ */
 public class FireGround extends Ground implements Flammable {
 
     private static final int DAMAGE_PER_TURN = 5;
-    private static final int BASE_BURN_DURATION = 5; // each entry adds +5 turns
-    private static final int FIRE_LIFETIME = 3;      // fire tile itself lasts 3 ticks
-
+    private static final int BURN_DURATION   = 5;  // per stack
+    private static final int FIRE_LIFETIME   = 3;  // tile lifetime
     private int lifetime = FIRE_LIFETIME;
-    private final Map<Actor, Integer> burnStacks = new HashMap<>();
+
+    // Global burn registry
+    private static final WeakHashMap<Actor, Integer> burns = new WeakHashMap<>();
 
     public FireGround() {
         super('^', "Fire");
@@ -23,37 +30,39 @@ public class FireGround extends Ground implements Flammable {
     @Override
     public void tick(Location location) {
         Actor actor = location.getActor();
-
-        // apply or refresh burn duration if an actor is here
         if (actor != null) {
-            // stack the burn timer (+5 turns each exposure)
-            burnStacks.put(actor, burnStacks.getOrDefault(actor, 0) + BASE_BURN_DURATION);
+            // stack burn duration
+            burns.put(actor, burns.getOrDefault(actor, 0) + BURN_DURATION);
         }
 
-        // process burn effects on all tracked actors
-        for (Map.Entry<Actor, Integer> entry : burnStacks.entrySet()) {
-            Actor burnedActor = entry.getKey();
-            int remaining = entry.getValue();
-
-            if (remaining > 0) {
-                burnedActor.hurt(DAMAGE_PER_TURN);
-                burnStacks.put(burnedActor, remaining - 1);
-                System.out.println(burnedActor + " is burned! (" + remaining + " turns left)");
-            }
-        }
-
-        // decrease tile lifetime
+        // fire tile lifetime
         lifetime--;
-
-        // Fire burns out into Dirt after lifetime ends
         if (lifetime <= 0) {
             location.setGround(new Dirt());
-            System.out.println("Fire burned out at (" + location.x() + "," + location.y() + ")");
         }
+    }
+
+    public static void tickActor(Actor actor) {
+        Integer remaining = burns.get(actor);
+        if (remaining == null || remaining <= 0) return;
+
+        actor.hurt(DAMAGE_PER_TURN);
+        int after = remaining - 1;
+        if (after <= 0) {
+            burns.remove(actor);
+        } else {
+            burns.put(actor, after);
+        }
+    }
+
+    /** For UI/logic if needed. */
+    public static boolean isBurning(Actor actor) {
+        Integer r = burns.get(actor);
+        return r != null && r > 0;
     }
 
     @Override
     public String burn(int damage) {
-        return "The flames scorch everything for " + damage + " HP per turn";
+        return "The flames scorch for " + damage + " HP per turn!";
     }
 }

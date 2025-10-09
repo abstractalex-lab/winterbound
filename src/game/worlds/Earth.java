@@ -73,7 +73,7 @@ public class Earth extends World {
 
         // Link both directions
         TeleportDoor forestDoor = (TeleportDoor) forestDoorLoc.getGround();
-        TeleportDoor plainsDoor  = (TeleportDoor)  plainsDoorLoc.getGround();
+        TeleportDoor plainsDoor = (TeleportDoor) plainsDoorLoc.getGround();
         forestDoor.addDestination(plainsMap, plainsDoorLoc);
         plainsDoor.addDestination(gameMap,  forestDoorLoc);
 

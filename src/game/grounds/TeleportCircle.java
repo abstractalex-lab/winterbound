@@ -36,7 +36,7 @@ public class TeleportCircle extends Ground {
         ActionList actions = new ActionList();
         if (location.getActor() == actor) {
             for (Location d : destinations) {
-                actions.add(new TeleportAction(this, d.map(), d, location));
+                actions.add(new TeleportAction(TeleportAction.Mode.CIRCLE, this, d.map(), d, location));
             }
         }
         return actions;

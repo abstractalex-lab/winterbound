@@ -27,7 +27,7 @@ public class Wolf extends PredatorAnimal implements Tameable {
      * Initializes the wolf with a name, display character, hit points, and an intrinsic weapon.
      */
     public Wolf() {
-        super("Wolf", 'e', 100);
+        super("Wolf", 'e', 100, 25 );
         this.setIntrinsicWeapon(new Bite());
     }
 

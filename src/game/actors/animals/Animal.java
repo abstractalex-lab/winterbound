@@ -141,9 +141,11 @@ public abstract class Animal extends Actor implements Flammable, Freezable {
      * Reduces the animal's warmth level when frozen.
      *
      * @param warmthReduction the amount of warmth to reduce
+     * @return description of feeling cold
      */
     @Override
-    public void onFrozen(int warmthReduction) {
+    public String onFrozen(int warmthReduction) {
         this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, warmthReduction);
+        return this + " feels cold.";
     }
 }

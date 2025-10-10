@@ -1,15 +1,25 @@
 package game.worlds;
 
+import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.DefaultGroundCreator;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
+import game.actors.Dragon;
+import game.actors.MultiStateCreature;
 import game.actors.Player;
 import game.actors.animals.*;
 import game.grounds.*;
 import game.grounds.plants.*;
 import game.items.*;
+import game.states.BerserkState;
+import game.states.CreatureState;
+import game.states.FireState;
+import game.states.WindState;
+import game.weapons.FireBreathe;
+import game.weapons.LifeStealClaw;
+import game.weapons.WindHowl;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,13 +43,13 @@ public class Earth extends World {
 
         List<String> map = Arrays.asList(
                 "........................................",
-                "A.......................................",
-                "........................................",
-                "...Y....................................",
                 "........................................",
                 "........................................",
+                "....................A...................",
                 "........................................",
+                "Y.......................................",
                 "........................................",
+                "....................T...................",
                 "........................................",
                 "........................................"
         );
@@ -50,13 +60,22 @@ public class Earth extends World {
         Player player = new Player("Explorer", 'ඞ', 100);
         this.addPlayer(player, gameMap.at(1, 1));
 
-        Animal bear = new Bear();
-        Animal deer = new Deer();
-        Animal wolf = new Wolf();
+//        Animal bear = new Bear();
+//        Animal deer = new Deer();
+//        Animal wolf = new Wolf();
+//
+//        gameMap.at(12, 8).addActor(bear);
+//        gameMap.at(1, 2).addActor(deer);
+//        gameMap.at(5, 6).addActor(wolf);
 
-        gameMap.at(12, 8).addActor(bear);
-        gameMap.at(1, 2).addActor(deer);
-        gameMap.at(5, 6).addActor(wolf);
+        List<CreatureState> allStates = Arrays.asList(
+                new FireState(new FireBreathe()),
+                new WindState(new WindHowl()),
+                new BerserkState(new LifeStealClaw())
+        );
+
+        MultiStateCreature dragon = new Dragon(allStates);
+        gameMap.at(6,6).addActor(dragon);
 
         gameMap.at(10,9).setGround(
                 new Tundra(Arrays.<Supplier<? extends Actor>>asList(() -> new Bear()))

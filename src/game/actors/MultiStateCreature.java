@@ -165,10 +165,14 @@ public abstract class MultiStateCreature extends Actor implements Flammable, Fre
 
     /**
      * Handles the freezing effect by reducing the creature’s warmth level.
+     *
+     * @param warmthReduction the amount of warmth to reduce
+     * @return description of feeling cold
      */
     @Override
-    public void onFrozen(int warmthReduction) {
+    public String onFrozen(int warmthReduction) {
         this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, warmthReduction);
+        return this + " feels cold.";
     }
 
     /**

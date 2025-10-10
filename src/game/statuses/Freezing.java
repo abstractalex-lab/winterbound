@@ -1,7 +1,9 @@
 package game.statuses;
 
 import edu.monash.fit2099.engine.GameEntity;
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.capabilities.Status;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Location;
 import game.interfaces.Freezable;
 
@@ -22,9 +24,14 @@ public class Freezing implements Status {
 
     @Override
     public void tickStatus(GameEntity currEntity, Location location) {
+        Display display = new Display();
+        Actor actor = location.getActor();
         if(freezable != null){
-            freezable.onFrozen(warmthReduction);
+            display.println(freezable.onFrozen(warmthReduction));
             duration--;
+            if(!actor.isConscious()){
+                actor.unconscious(location.map());
+            }
         }
     }
 

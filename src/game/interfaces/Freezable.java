@@ -1,5 +1,5 @@
 package game.interfaces;
 
 public interface Freezable {
-    void onFrozen(int warmthReduction);
+    String onFrozen(int warmthReduction);
 }

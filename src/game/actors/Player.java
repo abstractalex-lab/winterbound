@@ -25,8 +25,8 @@ import game.weapons.Bow;
 public class Player extends Actor implements Flammable, Freezable {
 
 
-    static final int HYDRATION_LEVEL = 20000;
-    static final int WARMTH_LEVEL = 30000;
+    static final int HYDRATION_LEVEL = 20;
+    static final int WARMTH_LEVEL = 30;
 
     /**
      * Constructor.
@@ -115,10 +115,12 @@ public class Player extends Actor implements Flammable, Freezable {
      * Reduces the player's warmth level when frozen.
      *
      * @param warmthReduction the amount of warmth to reduce
+     * @return description of feeling cold
      */
     @Override
-    public void onFrozen(int warmthReduction) {
+    public String onFrozen(int warmthReduction) {
         this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, warmthReduction);
+        return this + " feels cold.";
     }
 
 }

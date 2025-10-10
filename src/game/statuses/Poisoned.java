@@ -28,6 +28,9 @@ public class Poisoned implements Status {
             Actor actor = (Actor) gameEntity;
             actor.hurt(damage);
             duration--;
+            if(!actor.isConscious()){
+                actor.unconscious(location.map());
+            }
         }
     }
 

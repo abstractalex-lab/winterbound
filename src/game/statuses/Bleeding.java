@@ -29,6 +29,9 @@ public class Bleeding implements Status {
         if (gameEntity instanceof Actor) {
             Actor actor = (Actor) gameEntity;
             actor.hurt(damage);
+            if(!actor.isConscious()){
+                actor.unconscious(location.map());
+            }
             duration--;
             display.println(actor + " bleeds for " + damage + " damage.");
         }

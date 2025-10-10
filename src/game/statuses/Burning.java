@@ -1,6 +1,7 @@
 package game.statuses;
 
 import edu.monash.fit2099.engine.GameEntity;
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.capabilities.Status;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Location;
@@ -21,9 +22,13 @@ public class Burning implements Status {
     @Override
     public void tickStatus(GameEntity gameEntity, Location location) {
         Display display = new Display();
+        Actor actor = location.getActor();
         if (flammable != null) {
             display.println(flammable.burn(damage));
             duration--;
+            if(!actor.isConscious()){
+                actor.unconscious(location.map());
+            }
         }
     }
 

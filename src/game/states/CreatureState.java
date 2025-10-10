@@ -25,7 +25,6 @@ public abstract class CreatureState {
     protected IntrinsicWeapon intrinsicWeapon;
 
 
-
     /** Optional behaviour associated with this state. */
     protected final Map<Integer, Behaviour> stateBehaviours = new TreeMap<>();
 
@@ -46,30 +45,6 @@ public abstract class CreatureState {
     public IntrinsicWeapon getIntrinsicWeapon() {
         return intrinsicWeapon;
     }
-
-
-//    /**
-//     * Performs an attack using this state’s intrinsic weapon.
-//     *
-//     * @param attacker the actor performing the attack
-//     * @param target the actor being attacked
-//     * @param map the game map on which the attack occurs
-//     * @return a string describing the result of the attack
-//     */
-//    public String attack(MultiStateCreature attacker, Actor target, GameMap map) {
-//        return intrinsicWeapon.attack(attacker, target, map) + changeState(attacker);
-//    }
-//
-//    private String changeState(MultiStateCreature creature){
-//        CreatureState nextState = creature.nextState();
-//        if(nextState != null) {
-//            this.leaveState(creature);
-//            creature.changeState(nextState);
-//            nextState.enterState(creature);
-//            return " and changes to " + nextState;
-//        }
-//        return "";
-//    }
 
     /**
      * Returns the ability associated with this state.

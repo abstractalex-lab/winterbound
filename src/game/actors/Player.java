@@ -117,8 +117,9 @@ public class Player extends Actor implements Flammable, Freezable {
      * @param warmthReduction the amount of warmth to reduce
      */
     @Override
-    public void onFrozen(int warmthReduction) {
+    public String onFrozen(int warmthReduction) {
         this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, warmthReduction);
+        return this + " feels cold.";
     }
 
 }

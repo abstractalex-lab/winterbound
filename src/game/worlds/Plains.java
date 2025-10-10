@@ -1,13 +1,18 @@
 package game.worlds;
 
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.DefaultGroundCreator;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
+import game.actors.animals.Bear;
+import game.actors.animals.Deer;
+import game.actors.animals.Wolf;
 import game.grounds.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * Plains map. A second map introduced in REQ1, designed for teleportation and
@@ -52,6 +57,21 @@ public class Plains extends World {
         // create and add the map to the world
         GameMap gameMap = new GameMap("Plains", groundCreator, map);
         this.addGameMap(gameMap);
-        return gameMap;
+
+        // Place REQ2 spawners (Plains)
+        gameMap.at(8, 7).setGround(
+                new Tundra(java.util.Arrays.<java.util.function.Supplier<? extends Actor>>
+                        asList(() -> new Wolf()))
+        );
+        gameMap.at(12, 2).setGround(
+                new Cave(java.util.Arrays.<java.util.function.Supplier<? extends Actor>>
+                        asList(() -> new Bear(), () -> new Wolf()))
+        );
+        gameMap.at(11, 4).setGround(
+                new Meadow(java.util.Arrays.<java.util.function.Supplier<? extends Actor>>
+                        asList(() -> new Deer(), () -> new Bear()))
+        );
+
+        return gameMap; // ← now at the end
     }
 }

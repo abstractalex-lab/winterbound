@@ -29,7 +29,7 @@ public class Bear extends PredatorAnimal implements Tameable {
      * Initializes the bear with a name, display character, hit points, and an intrinsic weapon.
      */
     public Bear() {
-        super("Beer", 'b', 200);
+        super("Bear", 'b', 200, 50);
         this.setIntrinsicWeapon(new Claw());
     }
 

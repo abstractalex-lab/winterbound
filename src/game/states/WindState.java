@@ -1,7 +1,6 @@
 package game.states;
 
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.behaviours.AttackBehaviour;
 import game.behaviours.KnockBackAOEBehaviour;
 import game.behaviours.RangedAttackBehaviour;
 import game.capabilities.Abilities;

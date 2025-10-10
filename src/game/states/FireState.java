@@ -5,9 +5,6 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.behaviours.BurningAuraBehaviour;
 import game.behaviours.RangedAttackBehaviour;
 import game.capabilities.Abilities;
-import game.weapons.WindHowl;
-
-import java.util.Random;
 
 /**
  * Represents the fire-based combat state of a MultiStateCreature.

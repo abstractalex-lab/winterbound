@@ -25,7 +25,7 @@ public class LifeStealClaw extends IntrinsicWeapon {
      * Constructs a {@code LifeStealClaw} with fixed damage, effect description, and hit rate.
      */
     public LifeStealClaw() {
-        super(100, "slashes with life-stealing claws", 50, "life-steal claw");
+        super(100, "slashes with life-stealing claws", 30, "life-steal claw");
     }
 
     /**

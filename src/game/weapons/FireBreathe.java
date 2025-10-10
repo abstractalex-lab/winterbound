@@ -26,7 +26,7 @@ public class FireBreathe extends IntrinsicWeapon {
      * Constructs a {@code FireBreathe} weapon with fixed damage and hit rate.
      */
     public FireBreathe() {
-        super(50, "breathes fire", 80, "breathe fire");
+        super(50, "breathes fire", 50, "breathe fire");
     }
 
     /**

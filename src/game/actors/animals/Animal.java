@@ -11,9 +11,12 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
 import game.actions.FeedAction;
 import game.attributes.AnimalAttribute;
+import game.attributes.PlayerAttribute;
 import game.behaviours.WanderBehaviour;
 import game.capabilities.Abilities;
 import game.interfaces.FeedableItem;
+import game.interfaces.Flammable;
+import game.interfaces.Freezable;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,7 +26,7 @@ import java.util.TreeMap;
  * It defines common behaviors for all animals, such as wandering and being able to be fed.
  * @author Your Name Here
  */
-public abstract class Animal extends Actor {
+public abstract class Animal extends Actor implements Flammable, Freezable {
 
     private Map<Integer, Behaviour> behaviours = new TreeMap<>();
 
@@ -119,5 +122,28 @@ public abstract class Animal extends Actor {
      */
     Map<Integer, Behaviour> getBehaviours(){
         return new TreeMap<>(behaviours);
+    }
+
+    /**
+     * Implementation of Flammable interface.
+     * Applies burn damage to the animal.
+     *
+     * @param damage the amount of damage to apply
+     */
+    @Override
+    public String burn(int damage) {
+        this.hurt(damage);
+        return this + " is burned, losing " + damage + " HP.";
+    }
+
+    /**
+     * Implementation of Freezable interface.
+     * Reduces the animal's warmth level when frozen.
+     *
+     * @param warmthReduction the amount of warmth to reduce
+     */
+    @Override
+    public void onFrozen(int warmthReduction) {
+        this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, warmthReduction);
     }
 }

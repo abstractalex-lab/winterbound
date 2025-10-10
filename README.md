@@ -43,18 +43,18 @@ FIRE_RESISTANT — Grants immunity to fire and burning effects while in FireStat
 
 ### Example Creature — Dragon
 The Dragon transitions through three states:
-WindState -> FireState -> BerserkState
+FireState -> WindState -> BerserkState
 
 ### FireState:
 The dragon can ignite nearby tiles while wandering and resistant to Fire.
-The dragon breathes fire in range 2 and ignites target's nearby tiles and add Burning status to target.
+The dragon breathes fire in range of 2 and ignites target's nearby tiles and add Burning status to target.
 
 * Intrinsic Weapon -> FireBreathe
 * Ability -> FIRE_RESISTANT
 * Behaviour(s) -> BurningAuraBehaviour, RangedAttackBehaviour
 
 ### WindState:
-The dragon can knock back nearby actors while wandering automatically and attack others in range 2.
+The dragon can knock back nearby actors while wandering automatically and attack others in range of 2.
 
 * Intrinsic Weapon -> WindHowl
 * Ability -> null
@@ -69,7 +69,7 @@ The dragon enters a rage mode, dealing heavy melee damage and restoring health t
 
 ### State Transition Rules
 
-* The Dragon starts in WindState.
+* The Dragon starts in FireState.
 * When HP falls below 2/3 of its maximum, it transitions to FireState.
 * When HP falls below 1/3, it transitions to BerserkState.
 * On each transition:

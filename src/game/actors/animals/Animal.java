@@ -5,10 +5,12 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperation;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
 import game.actions.FeedAction;
+import game.attributes.AnimalAttribute;
 import game.behaviours.WanderBehaviour;
 import game.capabilities.Abilities;
 import game.interfaces.FeedableItem;
@@ -45,13 +47,22 @@ public abstract class Animal extends Actor {
      * @param display The display to print messages to.
      * @return The action to be performed this turn.
      */
+
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        // Warmth: -1 per turn; remove at 0
+        if (this.hasStatistic(AnimalAttribute.WARMTH_LEVEL)) {
+            try {
+                this.modifyAttribute(AnimalAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, 1);
+                if (this.getAttribute(AnimalAttribute.WARMTH_LEVEL) <= 0) {
+                    map.removeActor(this);
+                    return new DoNothingAction();
+                }
+            } catch (IllegalArgumentException ignored) {}
+        }
         for (Behaviour behaviour : getBehaviours().values()) {
             Action action = behaviour.generateAction(this, map);
-            // If a behavior provides an action, execute it.
-            if(action != null)
-                return action;
+            if (action != null) return action;
         }
         return new DoNothingAction();
     }

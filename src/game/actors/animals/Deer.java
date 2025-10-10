@@ -2,9 +2,11 @@ package game.actors.animals;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.RetrieveAction;
+import game.attributes.AnimalAttribute;
 import game.behaviours.CollectFruitBehaviour;
 import game.behaviours.FollowBehaviour;
 import game.capabilities.Stance;
@@ -30,6 +32,7 @@ public class Deer extends Animal implements Tameable {
      */
     public Deer() {
         super("Deer", 'd', 50);
+        this.addNewStatistic(AnimalAttribute.WARMTH_LEVEL, new BaseActorAttribute(10));
     }
 
     @Override

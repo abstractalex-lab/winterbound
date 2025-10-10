@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperation;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
@@ -36,12 +37,11 @@ public abstract class Animal extends Actor implements Flammable, Freezable {
      * @param displayChar The character that represents the animal in the display.
      * @param hitPoints The animal's starting hit points.
      */
-    public Animal(String name, char displayChar, int hitPoints) {
+    public Animal(String name, char displayChar, int hitPoints, int warmth) {
         super(name, displayChar, hitPoints);
-        // Default behavior for all animals is to wander.
         this.behaviours.put(999, new WanderBehaviour());
+        this.addNewStatistic(AnimalAttribute.WARMTH_LEVEL, new BaseActorAttribute(warmth));
     }
-
     /**
      * Selects and returns an action to perform in the current turn.
      * @param actions The list of available actions.

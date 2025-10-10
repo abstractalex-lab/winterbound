@@ -31,8 +31,8 @@ public class Deer extends Animal implements Tameable {
      * Initializes the deer with a name, display character, and hit points.
      */
     public Deer() {
-        super("Deer", 'd', 50);
-        this.addNewStatistic(AnimalAttribute.WARMTH_LEVEL, new BaseActorAttribute(10));
+        super("Deer", 'd', 50, 10);
+
     }
 
     @Override

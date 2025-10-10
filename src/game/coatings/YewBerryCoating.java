@@ -2,7 +2,7 @@ package game.coatings;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.capabilities.Poisoned;
+import game.statuses.Poisoned;
 import game.interfaces.Coating;
 
 /**

@@ -11,20 +11,22 @@ import edu.monash.fit2099.engine.displays.Menu;
 import game.actions.GameOverAction;
 import game.attributes.PlayerAttribute;
 import game.capabilities.Abilities;
-import game.grounds.FireGround;
+import game.interfaces.Flammable;
+import game.interfaces.Freezable;
 import game.items.Bedroll;
 import game.items.Bottle;
 import game.weapons.BareFist;
+import game.weapons.Bow;
 
 /**
  * Class representing the Player.
  * @author Adrian Kristanto
  */
-public class Player extends Actor {
+public class Player extends Actor implements Flammable, Freezable {
 
 
-    static final int HYDRATION_LEVEL = 20;
-    static final int WARMTH_LEVEL = 30;
+    static final int HYDRATION_LEVEL = 20000;
+    static final int WARMTH_LEVEL = 30000;
 
     /**
      * Constructor.
@@ -41,6 +43,7 @@ public class Player extends Actor {
         this.addNewStatistic(PlayerAttribute.WARMTH_LEVEL, new BaseActorAttribute(WARMTH_LEVEL));
         this.addItemToInventory(new Bedroll());
         this.addItemToInventory(new Bottle());
+        this.addItemToInventory(new Bow());
 
         this.enableAbility(Abilities.CAN_ATTACK);
         this.enableAbility(Abilities.CAN_FEED);
@@ -54,7 +57,6 @@ public class Player extends Actor {
             return new GameOverAction(unconscious(map));
         }
 
-        FireGround.tickActor(this); //added burn tick
         // Handle multi-turn Actions
         if (lastAction.getNextAction() != null)
             return lastAction.getNextAction();
@@ -96,6 +98,27 @@ public class Player extends Actor {
         return super.unconscious(map);
     }
 
+    /**
+     * Implementation of Flammable interface.
+     * Applies burn damage to the player.
+     *
+     * @param damage the amount of damage to apply
+     */
+    @Override
+    public String burn(int damage) {
+            this.hurt(damage);
+            return this + " is burned, losing " + damage + " HP.";
+    }
 
+    /**
+     * Implementation of Freezable interface.
+     * Reduces the player's warmth level when frozen.
+     *
+     * @param warmthReduction the amount of warmth to reduce
+     */
+    @Override
+    public void onFrozen(int warmthReduction) {
+        this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, warmthReduction);
+    }
 
 }

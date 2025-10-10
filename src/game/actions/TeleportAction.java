@@ -5,7 +5,8 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.grounds.FireGround;
+import game.grounds.Fire;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -140,7 +141,7 @@ public class TeleportAction extends Action {
                 int x = cx + dx, y = cy + dy;
 
                 //if within map bounds, set that tile on fire
-                if (inBounds(map, x, y)) map.at(x, y).setGround(new FireGround());
+                if (inBounds(map, x, y)) map.at(x, y).setGround(new Fire());
             }
         }
     }
@@ -166,7 +167,7 @@ public class TeleportAction extends Action {
 
         //random pick 1 out of valid neighbours, and replace it with FireGround ground type
         Location randomNeighbour = neighbours.get(rng.nextInt(neighbours.size()));
-        randomNeighbour.setGround(new FireGround());
+        randomNeighbour.setGround(new Fire());
         System.out.println("TeleportCircle ignited fire at (" +
                 randomNeighbour.x() + "," + randomNeighbour.y() + ") on " + src.map().toString());
     }

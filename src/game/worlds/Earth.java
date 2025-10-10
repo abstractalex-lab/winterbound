@@ -26,12 +26,12 @@ public class Earth extends World {
         groundCreator.registerGround('Y', YewBerryTree::new);
         groundCreator.registerGround('#', TeleportDoor::new);
         groundCreator.registerGround('O', TeleportCircle::new);
-        groundCreator.registerGround('^', FireGround::new);
+        groundCreator.registerGround('^', Fire::new);
         groundCreator.registerGround('+', Dirt::new);
 
         List<String> map = Arrays.asList(
-                ".T....T.................................",
-                "A.........A.............................",
+                "........................................",
+                "A.......................................",
                 "........................................",
                 "...Y....................................",
                 "........................................",

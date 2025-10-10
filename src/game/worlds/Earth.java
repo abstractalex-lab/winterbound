@@ -1,5 +1,6 @@
 package game.worlds;
 
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.DefaultGroundCreator;
 import edu.monash.fit2099.engine.positions.GameMap;
@@ -12,6 +13,7 @@ import game.items.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class Earth extends World {
     public Earth(Display display) {
@@ -56,6 +58,24 @@ public class Earth extends World {
         gameMap.at(1, 2).addActor(deer);
         gameMap.at(5, 6).addActor(wolf);
 
+        gameMap.at(10,9).setGround(
+                new Tundra(Arrays.<Supplier<? extends Actor>>asList(() -> new Bear()))
+        );
+        gameMap.at(8, 7).setGround(
+                new Tundra(Arrays.<Supplier<? extends Actor>>asList(() -> new Wolf()))
+        );
+        gameMap.at(11, 6).setGround(
+                new Cave(Arrays.<Supplier<? extends Actor>>asList(() -> new Bear(), () -> new Wolf(), () -> new Deer()))
+        );
+        gameMap.at(12, 2).setGround(
+                new Cave(Arrays.<Supplier<? extends Actor>>asList(() -> new Bear(), () -> new Wolf()))
+        );
+        gameMap.at(9, 5).setGround(
+                new Meadow(Arrays.<Supplier<? extends Actor>>asList(() -> new Deer()))
+        );
+        gameMap.at(11, 4).setGround(
+                new Meadow(Arrays.<Supplier<? extends Actor>>asList(() -> new Deer(), () -> new Bear()))
+        );
         Plains plainsWorld = new Plains(this.display);
         GameMap plainsMap = plainsWorld.constructWorld();
         this.addGameMap(plainsMap);

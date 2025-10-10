@@ -3,6 +3,7 @@ package game.statuses;
 import edu.monash.fit2099.engine.GameEntity;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.capabilities.Status;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Location;
 
 /**
@@ -24,12 +25,13 @@ public class Poisoned implements Status {
 
     @Override
     public void tickStatus(GameEntity gameEntity, Location location) {
+        Display display = new Display();
         if (gameEntity instanceof Actor) {
             Actor actor = (Actor) gameEntity;
             actor.hurt(damage);
             duration--;
             if(!actor.isConscious()){
-                actor.unconscious(location.map());
+                display.println(actor.unconscious(location.map()));
             }
         }
     }

@@ -106,11 +106,8 @@ public class Player extends Actor implements Flammable, Freezable {
      */
     @Override
     public String burn(int damage) {
-        if(!this.hasAbility(Abilities.FIRE_RESISTANT)){
             this.hurt(damage);
             return this + " is burned, losing " + damage + " HP.";
-        }
-        return this + " is resistant to burning.";
     }
 
     /**

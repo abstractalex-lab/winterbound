@@ -122,6 +122,17 @@ public abstract class MultiStateCreature extends Actor implements Flammable, Fre
      * @return a message describing the result of the state change
      */
     public String changeState() {
+        CreatureState nextState = this.nextState();
+        if(nextState() != null) {
+            currentState.leaveState(this);
+            nextState.enterState(this);
+            currentState = nextState;
+            return "and changes to " + nextState;
+        }
+        return "";
+    }
+
+    public CreatureState nextState(){
         int hp = this.getAttribute(BaseAttributes.HEALTH);
         int maxHp = this.getMaximumAttribute(BaseAttributes.HEALTH);
         int numStates = allStates.size();
@@ -130,15 +141,9 @@ public abstract class MultiStateCreature extends Actor implements Flammable, Fre
 
         CreatureState nextState = allStates.get(index);
         if (nextState == getState()) {
-            return this + " stays in " + nextState;
+            return null;
         }
-
-
-        currentState.leaveState(this);
-        nextState.enterState(this);
-
-        currentState = nextState;
-        return this + " changes to " + nextState;
+        return nextState;
     }
 
     /**
@@ -159,11 +164,8 @@ public abstract class MultiStateCreature extends Actor implements Flammable, Fre
      */
     @Override
     public String burn(int damage) {
-        if (!this.hasAbility(Abilities.FIRE_RESISTANT)) {
-            this.hurt(damage);
-            return this + " is burned, losing " + damage + " HP.";
-        }
-        return this + " is resistant to burning.";
+        this.hurt(damage);
+        return this + " is burned, losing " + damage + " HP.";
     }
 
     /**

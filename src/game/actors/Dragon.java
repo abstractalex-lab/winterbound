@@ -31,8 +31,7 @@ public class Dragon extends MultiStateCreature {
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-
-        display.println(changeState());
+        changeState();
 
         if(!isConscious()){
             return new GameOverAction(unconscious(map));

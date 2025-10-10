@@ -30,6 +30,7 @@ public class Freezing implements Status {
             display.println(freezable.onFrozen(warmthReduction));
             duration--;
             if(!actor.isConscious()){
+                duration = 0;
                 display.println(actor.unconscious(location.map()));
             }
         }

@@ -27,6 +27,7 @@ public class Burning implements Status {
             display.println(flammable.burn(damage));
             duration--;
             if(!actor.isConscious()){
+                duration = 0;
                 display.println(actor.unconscious(location.map()));
             }
         }

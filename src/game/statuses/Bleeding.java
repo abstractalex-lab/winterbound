@@ -30,6 +30,7 @@ public class Bleeding implements Status {
             Actor actor = (Actor) gameEntity;
             actor.hurt(damage);
             if(!actor.isConscious()){
+                duration = 0;
                 display.println(actor.unconscious(location.map()));
             }
             duration--;

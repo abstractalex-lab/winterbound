@@ -31,6 +31,7 @@ public class Poisoned implements Status {
             actor.hurt(damage);
             duration--;
             if(!actor.isConscious()){
+                duration = 0;
                 display.println(actor.unconscious(location.map()));
             }
         }

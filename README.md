@@ -9,10 +9,15 @@
       VF      VF      .JMML..JML.    YM     .JMML.    .JMMmmmmMMM .JMML. .JMM.
 ```
 
-REQ5 — Multi-State Creature System
-Class Structure
+## Contribution Log
+[Link to Group Contribution Log spreadsheet](https://docs.google.com/spreadsheets/d/14l60JpGq3CE-WVBTjQ6HDyauSbhznTMZf4ikgSVDu5s/edit?usp=sharing)
 
-## MultiStateCreature
+---
+
+# REQ5 — Multi-State Creature System
+## Class Structure
+
+### MultiStateCreature
 
 * An abstract superclass representing creatures capable of switching states.
 * Holds the current active CreatureState.
@@ -21,22 +26,22 @@ Class Structure
 * Delegates attack logic to the current state’s intrinsic weapon.
 * Calls enterState() and leaveState() to enable/disable abilities and behaviours when transitioning.
 
-## CreatureState
+### CreatureState
 An abstract class that defines the shared structure for each combat form.
 Each subclass specifies:
 * A unique IntrinsicWeapon for its attack effect.
 * A specific Ability (e.g., elemental resistance).
 * Optional Behaviour(s) that execute automatically every turn. Behaviours are stored in a TreeMap<Integer, Behaviour> to manage multiple concurrent actions by priority.
 
-## Actions and Behaviours
+### Actions and Behaviours
 RangedAttackAction, RangedAttackBehaviour — attack other actors in different range.
 BurningAuraAction, BurningAuraBehaviour — Sets adjacent tiles on fire while wandering.
 KnockBackAOEAction, KnockBackAOEBehaviour — Pushes away all actors within 1-tile radius, simulating a wind shockwave.
 
-## Abilities
+### Abilities
 FIRE_RESISTANT — Grants immunity to fire and burning effects while in FireState.
 
-## Example Creature — Dragon
+### Example Creature — Dragon
 The Dragon transitions through three states:
 WindState -> FireState -> BerserkState
 
@@ -62,7 +67,7 @@ The dragon enters a rage mode, dealing heavy melee damage and restoring health t
 * Ability -> null
 * Behaviour(s) -> AttackBehaviour
 
-## State Transition Rules
+### State Transition Rules
 
 * The Dragon starts in WindState.
 * When HP falls below 2/3 of its maximum, it transitions to FireState.

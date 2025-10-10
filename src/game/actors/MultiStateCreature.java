@@ -12,7 +12,6 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.attributes.PlayerAttribute;
-import game.behaviours.WanderBehaviour;
 import game.capabilities.Abilities;
 import game.interfaces.Flammable;
 import game.interfaces.Freezable;
@@ -118,18 +117,14 @@ public abstract class MultiStateCreature extends Actor implements Flammable, Fre
      * Changes the creature’s state based on its remaining health.
      * The state transition is proportional to its HP percentage, switching to the corresponding
      * index in {@code allStates}.
-     *
-     * @return a message describing the result of the state change
      */
-    public String changeState() {
+    public void changeState() {
         CreatureState nextState = this.nextState();
         if(nextState() != null) {
             currentState.leaveState(this);
             nextState.enterState(this);
             currentState = nextState;
-            return "and changes to " + nextState;
         }
-        return "";
     }
 
     public CreatureState nextState(){

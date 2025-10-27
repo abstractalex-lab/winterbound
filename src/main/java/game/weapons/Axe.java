@@ -24,7 +24,7 @@ public class Axe extends CoatableWeapon {
     @Override
     public String applyWeaponEffects(Actor attacker, Actor target, GameMap map) {
         if (random.nextInt(100) < BLEED_CHANCE) {
-            target.addStatus(new Bleeding(BLEED_DURATION, BLEED_DAMAGE));
+            target.addStatus(new Bleeding(BLEED_DURATION, BLEED_DAMAGE, target));
             return " and causes bleeding!";
         }
         return "";

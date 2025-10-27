@@ -46,7 +46,7 @@ public class LifeStealClaw extends IntrinsicWeapon {
         }
 
         target.hurt(damage);
-        target.addStatus(new Bleeding(5, 5));
+        target.addStatus(new Bleeding(5, 5, target));
 
         int healAmount = Math.max(1, (int) Math.round(damage * lifeStealRatio));
         attacker.heal(healAmount);

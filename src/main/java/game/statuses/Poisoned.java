@@ -10,7 +10,7 @@ import edu.monash.fit2099.engine.positions.Location;
  * A status effect that poisons an actor, dealing damage over time.
  */
 public class Poisoned implements Status {
-    private Actor target;
+    private final Actor target;
     private int duration;
     private final int damage;
 
@@ -28,15 +28,10 @@ public class Poisoned implements Status {
     @Override
     public void tickStatus(GameEntity gameEntity, Location location) {
         Display display = new Display();
-        if (gameEntity instanceof Actor) {
-            Actor actor = (Actor) gameEntity;
-            actor.hurt(damage);
-            duration--;
-            if(!actor.isConscious()){
-                duration = 0;
-                display.println(actor.unconscious(location.map()));
-            }
-        }
+        target.hurt(damage);
+        duration--;
+
+
     }
 
     @Override

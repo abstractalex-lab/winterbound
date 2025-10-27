@@ -46,14 +46,9 @@ public class Burning implements Status {
     @Override
     public void tickStatus(GameEntity gameEntity, Location location) {
         Display display = new Display();
-        Actor actor = location.getActor();
         if (flammable != null) {
             display.println(flammable.burn(damage));
             duration--;
-            if(!actor.isConscious()){
-                duration = 0;
-                display.println(actor.unconscious(location.map()));
-            }
         }
     }
 

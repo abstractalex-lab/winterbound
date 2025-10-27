@@ -14,7 +14,7 @@ public class YewBerryCoating implements Coating {
 
     @Override
     public String applyEffect(Actor target, GameMap map) {
-        target.addStatus(new Poisoned(POISON_DURATION, POISON_DAMAGE));
+        target.addStatus(new Poisoned(target,POISON_DURATION, POISON_DAMAGE));
         return " and poisons the target!";
     }
 

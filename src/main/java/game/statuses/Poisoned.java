@@ -10,6 +10,7 @@ import edu.monash.fit2099.engine.positions.Location;
  * A status effect that poisons an actor, dealing damage over time.
  */
 public class Poisoned implements Status {
+    private Actor target;
     private int duration;
     private final int damage;
 
@@ -18,7 +19,8 @@ public class Poisoned implements Status {
      * @param duration number of turns the poison lasts
      * @param damage damage dealt per turn
      */
-    public Poisoned(int duration, int damage) {
+    public Poisoned(Actor target, int duration, int damage) {
+        this.target = target;
         this.duration = duration;
         this.damage = damage;
     }

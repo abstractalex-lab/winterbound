@@ -90,10 +90,13 @@ public class Earth extends World {
                 new Cave(Arrays.<Supplier<? extends Actor>>asList(() -> new Bear(), () -> new Wolf()))
         );
         gameMap.at(9, 5).setGround(
-                new Meadow(Arrays.<Supplier<? extends Actor>>asList(() -> new Deer()))
-        );
+                new Meadow(Arrays.<Supplier<? extends Actor>>asList(() -> new Deer(), () -> new Crocodile())))
+        ;
         gameMap.at(11, 4).setGround(
                 new Meadow(Arrays.<Supplier<? extends Actor>>asList(() -> new Deer(), () -> new Bear()))
+        );
+        gameMap.at(7,7).setGround(
+                new Swamp(Arrays.<Supplier<? extends Actor>>asList(() -> new Deer(), () -> new Crocodile()))
         );
         Plains plainsWorld = new Plains(this.display);
         GameMap plainsMap = plainsWorld.constructWorld();

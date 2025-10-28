@@ -13,25 +13,11 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * Abstract ground that can periodically spawn actors.
- * Subclasses specify chance, cooldown, and a spawn table.
- */
 public abstract class SpawningGround extends Ground {
 
-    // cooldown only; no stored Random dependency
     private int cooldown = 0;
 
     protected SpawningGround(char displayChar, String name) {
-        super(displayChar, name);
-    }
-
-    /**
-     * Backward-compat constructor kept intentionally; the Random parameter is ignored.
-     * This preserves existing subclass constructors that called super(..., new Random()).
-     */
-    @Deprecated
-    protected SpawningGround(char displayChar, String name, java.util.Random ignored) {
         super(displayChar, name);
     }
 
@@ -41,11 +27,11 @@ public abstract class SpawningGround extends Ground {
     /** Number of ticks to wait after an attempted spawn (success or fail). */
     protected int spawnCooldownTicks() { return 1; }
 
-    /**
-     * Spawn table entries. If you want weighting, repeat entries.
-     * e.g., [Wolf, Wolf, Wolf, Bear] gives Wolf 75%, Bear 25%.
-     */
+    /** Spawn table entries. Equal chance unless you repeat suppliers to weight. */
     protected abstract List<Supplier<? extends Actor>> spawnTable();
+
+    /** Hook: subclasses can veto an attempt (e.g., Swamp needs nearby actors). */
+    protected boolean canAttempt(Location here) { return true; }
 
     @Override
     public void tick(Location location) {
@@ -56,15 +42,20 @@ public abstract class SpawningGround extends Ground {
             return;
         }
 
-        // Local RNG — avoids unnecessary stored dependency.
-        ThreadLocalRandom tlr = ThreadLocalRandom.current();
+        // allow subclass to gate attempts
+        if (!canAttempt(location)) {
+            cooldown = spawnCooldownTicks();
+            return;
+        }
+
+        ThreadLocalRandom rng = ThreadLocalRandom.current();
 
         // roll for a spawn attempt
-        if (tlr.nextDouble() <= spawnChance()) {
+        if (rng.nextDouble() <= spawnChance()) {
             List<Supplier<? extends Actor>> table = spawnTable();
             if (!table.isEmpty()) {
                 // choose candidate species (weighted by repetition)
-                Actor candidate = table.get(tlr.nextInt(table.size())).get();
+                Actor candidate = table.get(rng.nextInt(table.size())).get();
 
                 // choose a free destination: prefer current tile, else a random free neighbour
                 Location dest = null;
@@ -72,8 +63,7 @@ public abstract class SpawningGround extends Ground {
                     dest = location;
                 } else {
                     List<Exit> exits = new ArrayList<>(location.getExits());
-                    // simple shuffle without keeping a Random field
-                    Collections.shuffle(exits);
+                    Collections.shuffle(exits, rng);
                     for (Exit e : exits) {
                         Location there = e.getDestination();
                         if (!there.containsAnActor() && there.getGround().canActorEnter(candidate)) {
@@ -86,7 +76,8 @@ public abstract class SpawningGround extends Ground {
                 if (dest != null) {
                     try {
                         dest.addActor(candidate);
-                        // (post-spawn hooks, if any, are invoked by subclasses or elsewhere)
+                        // NEW: global post-spawn species effects (deer/bear/wolf/croc)
+                        PostSpawnEffects.apply(candidate, location, rng);
                     } catch (GameEngineException ignored) {
                         // placement failed per engine rule; ignore
                     }

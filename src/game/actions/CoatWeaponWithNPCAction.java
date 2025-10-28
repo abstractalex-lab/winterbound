@@ -80,7 +80,6 @@ public class CoatWeaponWithNPCAction extends Action {
                     "applying " + coating.getName() + " to " + actor + "'s " + weaponName
             );
         } catch (Exception e) {
-            // Fallback dialogue if API fails
             return npc + " says: \"Let me enhance your weapon with my masterful coating!\"";
         }
     }

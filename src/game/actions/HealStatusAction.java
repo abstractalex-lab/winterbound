@@ -97,7 +97,6 @@ public class HealStatusAction extends Action {
                     context
             );
         } catch (Exception e) {
-            // Fallback dialogue if API fails
             return npc + " says: \"Let my ancient healing powers cleanse your afflictions!\"";
         }
     }

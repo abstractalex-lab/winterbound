@@ -30,8 +30,6 @@ public class Poisoned implements Status {
         Display display = new Display();
         target.hurt(damage);
         duration--;
-
-
     }
 
     @Override

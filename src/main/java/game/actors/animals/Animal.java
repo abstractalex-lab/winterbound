@@ -112,10 +112,10 @@ public abstract class Animal extends Actor implements Flammable, Freezable {
      * @param priority The priority of the behavior (lower is higher).
      * @param behaviour The behavior to add.
      */
-    void addBehaviour(int priority, Behaviour behaviour){
+// before: void addBehaviour(int priority, Behaviour behaviour) { ... }
+    public void addBehaviour(int priority, Behaviour behaviour) {
         this.behaviours.put(priority, behaviour);
     }
-
     /**
      * Gets a copy of the animal's behaviors.
      * @return A new sorted map of behaviors.

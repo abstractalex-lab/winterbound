@@ -44,7 +44,6 @@ public class Tundra extends SpawningGround {
 
     @Override
     protected List<Supplier<? extends Actor>> spawnTable() {
-        // Wrap suppliers so spawned actors receive tundra bonuses (+10 max HP, heal to max)
         List<Supplier<? extends Actor>> wrapped = new ArrayList<>();
         for (Supplier<? extends Actor> s : spawnables) {
             wrapped.add(() -> {
@@ -56,7 +55,7 @@ public class Tundra extends SpawningGround {
                     if (cur < max) {
                         a.modifyAttribute(BaseAttributes.HEALTH, ActorAttributeOperation.INCREASE, max - cur);
                     }
-                } catch (IllegalArgumentException ignored) {}
+                } catch (IllegalArgumentException ignored) { }
                 return a;
             });
         }

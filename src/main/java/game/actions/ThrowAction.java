@@ -18,7 +18,7 @@ public class ThrowAction extends Action {
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        Location location = map.locationOf(actor);
+        Location location = map.locationOf(target);
         return throwable.throwAt(location, target);
     }
 

@@ -4,8 +4,13 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
+import game.actions.ThrowAction;
+import game.interfaces.Throwable;
 
-public abstract class Potion extends Item {
+import java.util.List;
+
+public abstract class Potion extends Item implements Throwable {
 
 
     /***
@@ -19,9 +24,27 @@ public abstract class Potion extends Item {
 
     }
 
-    public abstract void applyEffect(Actor actor);
+    public abstract void applyEffect(Actor target);
 
 
+
+    @Override
+    public ActionList allowableActions(Actor owner, GameMap map) {
+        ActionList actions = super.allowableActions(owner, map);
+        List<Location> nearbyLocations = map.locationOf(owner).getNearbyLocations(2);
+        for (Location location : nearbyLocations){
+            if(location.containsAnActor()){
+                Actor target = location.getActor();
+                actions.add(new ThrowAction(this, target));
+            }
+        }
+        return actions;
+    }
+
+    @Override
+    public String toString(){
+        return this.getClass().getSimpleName();
+    }
 
 
 }

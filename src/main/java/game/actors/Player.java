@@ -24,9 +24,9 @@ import game.weapons.Bow;
  */
 public class Player extends Actor implements Flammable, Freezable {
 
-
     static final int HYDRATION_LEVEL = 20;
     static final int WARMTH_LEVEL = 30;
+
 
     /**
      * Constructor.
@@ -68,6 +68,8 @@ public class Player extends Actor implements Flammable, Freezable {
         Menu menu = new Menu(actions);
         return menu.showMenu(this, display);
     }
+
+
 
     public void defaultEffect(){
         this.modifyAttribute(PlayerAttribute.HYDRATION_LEVEL, ActorAttributeOperation.DECREASE, 1);

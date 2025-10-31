@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperation;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
+import edu.monash.fit2099.engine.actors.attributes.BaseAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
@@ -15,6 +16,9 @@ import game.interfaces.Flammable;
 import game.interfaces.Freezable;
 import game.items.Bedroll;
 import game.items.Bottle;
+import game.items.IronArmour;
+import game.items.potions.HealingPotion;
+import game.items.potions.PoisonPotion;
 import game.weapons.BareFist;
 import game.weapons.Bow;
 
@@ -24,8 +28,8 @@ import game.weapons.Bow;
  */
 public class Player extends Actor implements Flammable, Freezable {
 
-    static final int HYDRATION_LEVEL = 20;
-    static final int WARMTH_LEVEL = 30;
+    static final int HYDRATION_LEVEL = 20000;
+    static final int WARMTH_LEVEL = 30000;
 
 
     /**
@@ -41,9 +45,18 @@ public class Player extends Actor implements Flammable, Freezable {
 
         this.addNewStatistic(PlayerAttribute.HYDRATION_LEVEL, new BaseActorAttribute(HYDRATION_LEVEL));
         this.addNewStatistic(PlayerAttribute.WARMTH_LEVEL, new BaseActorAttribute(WARMTH_LEVEL));
-        this.addItemToInventory(new Bedroll());
-        this.addItemToInventory(new Bottle());
-        this.addItemToInventory(new Bow());
+        this.addNewStatistic(PlayerAttribute.DEFENSE_LEVEL, new BaseActorAttribute(0));
+
+//        this.addItemToInventory(new Bedroll());
+//        this.addItemToInventory(new Bottle());
+
+//        this.addItemToInventory(new Bow());
+
+        this.addItemToInventory(new HealingPotion());
+        this.addItemToInventory(new PoisonPotion());
+        this.addItemToInventory(new IronArmour());
+
+
 
         this.enableAbility(Abilities.CAN_ATTACK);
         this.enableAbility(Abilities.CAN_FEED);
@@ -68,8 +81,6 @@ public class Player extends Actor implements Flammable, Freezable {
         Menu menu = new Menu(actions);
         return menu.showMenu(this, display);
     }
-
-
 
     public void defaultEffect(){
         this.modifyAttribute(PlayerAttribute.HYDRATION_LEVEL, ActorAttributeOperation.DECREASE, 1);

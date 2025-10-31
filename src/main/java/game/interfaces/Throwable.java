@@ -9,7 +9,8 @@ public interface Throwable {
      *
      * @param location The actor or location where the potion lands.
      * @param target
+     * @param attacker
      * @return A string describing the effect of the throw.
      */
-    String throwAt(Location location, Actor target);
+    String throwAt(Location location, Actor target, Actor attacker);
 }

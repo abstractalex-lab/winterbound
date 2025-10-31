@@ -11,5 +11,7 @@ public enum PlayerAttribute {
     /**
      * Represents the player's warmth level.
      */
-    WARMTH_LEVEL
+    WARMTH_LEVEL,
+
+    DEFENSE_LEVEL
 }

@@ -31,6 +31,9 @@ public abstract class Potion extends Item implements Throwable {
     @Override
     public ActionList allowableActions(Actor owner, GameMap map) {
         ActionList actions = super.allowableActions(owner, map);
+
+        actions.add(new ThrowAction(this, owner));
+
         List<Location> nearbyLocations = map.locationOf(owner).getNearbyLocations(2);
         for (Location location : nearbyLocations){
             if(location.containsAnActor()){
@@ -40,11 +43,5 @@ public abstract class Potion extends Item implements Throwable {
         }
         return actions;
     }
-
-    @Override
-    public String toString(){
-        return this.getClass().getSimpleName();
-    }
-
 
 }

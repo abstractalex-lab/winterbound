@@ -3,15 +3,14 @@ package game.items.potions;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Location;
 import game.grounds.ToxicSpill;
-import game.interfaces.Throwable;
 import game.statuses.Poisoned;
 
 import java.util.List;
 
-public class PoisonPotion extends Potion implements Throwable {
+public class PoisonPotion extends Potion {
 
-    private static final int DURATION = 3;
-    private static final int DAMAGE = 3;
+    private static final int DURATION = 5;
+    private static final int DAMAGE = 5;
 
 
     public PoisonPotion() {
@@ -19,7 +18,8 @@ public class PoisonPotion extends Potion implements Throwable {
     }
 
     @Override
-    public String throwAt(Location location, Actor target) {
+    public String throwAt(Location location, Actor target, Actor attacker) {
+        attacker.removeItemFromInventory(this);
         applyEffect(target);
 
         List<Location> nearbyLocations = location.getNearbyLocations(1);

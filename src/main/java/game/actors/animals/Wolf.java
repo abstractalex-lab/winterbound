@@ -3,15 +3,18 @@ package game.actors.animals;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import game.behaviours.FollowBehaviour;
 import game.behaviours.DetectBehaviour;
 import game.behaviours.ProtectBehaviour;
 import game.capabilities.Stance;
+import game.grounds.PostSpawnEffects;
 import game.interfaces.FeedableItem;
 import game.interfaces.Tameable;
 import game.weapons.Bite;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A Wolf, a type of Predator, which can follow, protect player and detect other hostile predator for player after being tamed.
@@ -67,5 +70,9 @@ public class Wolf extends PredatorAnimal implements Tameable {
             return " ,which is successfully tamed by " + actor;
         }
         return "";
+    }
+    @Override
+    public void onSpawnedAt(Location origin, ThreadLocalRandom rng){
+        PostSpawnEffects.onWolfSpawn(this,origin,rng);
     }
 }

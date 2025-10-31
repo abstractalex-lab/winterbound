@@ -1,8 +1,14 @@
 // file: game/actors/animals/Crocodile.java
 package game.actors.animals;
 
+import edu.monash.fit2099.engine.positions.Exit;
+import edu.monash.fit2099.engine.positions.Location;
 import game.behaviours.WanderBehaviour;
+import game.grounds.PostSpawnEffects;
+import game.statuses.Poisoned;
 import game.weapons.CrocBite;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Crocodile extends Animal {
     public Crocodile() {
@@ -12,5 +18,11 @@ public class Crocodile extends Animal {
         // addBehaviour(999, new WanderBehaviour());
         this.setIntrinsicWeapon(new CrocBite());
     }
+
+    public void onSpawnedAt(Location origin, ThreadLocalRandom rng) {
+        // Poison every actor in surrounding exits: 3 turns @ 10 dmg/turn
+        PostSpawnEffects.onCrocodileSpawn(this, origin, rng);
+        }
+
 
 }

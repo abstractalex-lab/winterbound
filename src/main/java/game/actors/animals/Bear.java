@@ -3,14 +3,17 @@ package game.actors.animals;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import game.behaviours.FollowBehaviour;
 import game.behaviours.ProtectBehaviour;
 import game.capabilities.Stance;
+import game.grounds.PostSpawnEffects;
 import game.interfaces.FeedableItem;
 import game.interfaces.Tameable;
 import game.weapons.Claw;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 /**
@@ -35,13 +38,14 @@ public class Bear extends PredatorAnimal implements Tameable {
 
     /**
      * Defines the action of feeding the bear.
-     * @param actor The actor feeding the bear.
+     *
+     * @param actor        The actor feeding the bear.
      * @param feedableItem The item used for feeding.
-     * @param map The game map.
+     * @param map          The game map.
      * @return A string describing the result of the feeding action, including a chance to tame the bear.
      */
     @Override
-    public String fedBy(Actor actor, FeedableItem feedableItem, GameMap map){
+    public String fedBy(Actor actor, FeedableItem feedableItem, GameMap map) {
         Random rand = new Random();
         // Attempt to tame the bear if the random roll is within the tame rate and the bear is not already tamed.
         if (rand.nextInt(100) <= TAME_RATE && !this.hasAbility(Stance.TAMED)) {
@@ -52,13 +56,14 @@ public class Bear extends PredatorAnimal implements Tameable {
 
     /**
      * Defines the actions taken when the bear is successfully tamed.
+     *
      * @param actor The actor who successfully tamed the bear.
      * @return A string indicating that the bear has been tamed.
      */
     @Override
-    public String tamedBy(Actor actor){
+    public String tamedBy(Actor actor) {
         // Ensure the bear is conscious before taming.
-        if(this.isConscious()){
+        if (this.isConscious()) {
             // Change the bear's stance to TAMED and remove HOSTILE.
             enableAbility(Stance.TAMED);
             disableAbility(Stance.HOSTILE);
@@ -68,5 +73,10 @@ public class Bear extends PredatorAnimal implements Tameable {
             return " ,which is successfully tamed by " + actor;
         }
         return "";
+    }
+
+    @Override
+    public void onSpawnedAt(Location origin, ThreadLocalRandom rng){
+        PostSpawnEffects.onBearSpawn(this,origin,rng);
     }
 }

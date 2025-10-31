@@ -5,15 +5,18 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import game.actions.RetrieveAction;
 import game.attributes.AnimalAttribute;
 import game.behaviours.CollectFruitBehaviour;
 import game.behaviours.FollowBehaviour;
 import game.capabilities.Stance;
+import game.grounds.PostSpawnEffects;
 import game.interfaces.FeedableItem;
 import game.interfaces.Tameable;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 /**
@@ -79,5 +82,9 @@ public class Deer extends Animal implements Tameable {
             return " ,which is successfully tamed by " + actor;
         }
         return "";
+    }
+    @Override
+    public void onSpawnedAt(Location origin, ThreadLocalRandom rng) {
+        PostSpawnEffects.onDeerSpawn(this, origin, rng);
     }
 }

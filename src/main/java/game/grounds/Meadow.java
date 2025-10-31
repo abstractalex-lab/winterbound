@@ -1,7 +1,6 @@
 // file: game/grounds/Meadow.java
 package game.grounds;
 
-import edu.monash.fit2099.engine.actors.Actor;
 import game.actors.animals.Animal;
 import game.behaviours.CollectFruitBehaviour;
 import game.capabilities.Abilities;
@@ -18,7 +17,7 @@ import java.util.function.Supplier;
  * - Per-tile configurable spawn table via suppliers.
  */
 public class Meadow extends SpawningGround {
-    private List<Supplier<? extends Actor>> spawnables;
+    private List<Supplier<? extends Animal>> spawnables;
 
     /** Back-compat no-arg constructor (empty spawn list until set). */
     public Meadow() {
@@ -26,13 +25,13 @@ public class Meadow extends SpawningGround {
     }
 
     /** Create a meadow with a custom spawn table. */
-    public Meadow(List<Supplier<? extends Actor>> spawnables) {
+    public Meadow(List<Supplier<? extends Animal>> spawnables) {
         super('w', "Meadow");
         this.spawnables = new ArrayList<>(Objects.requireNonNull(spawnables));
     }
 
     /** Optional setter if you prefer constructing with no-arg then injecting later. */
-    public void setSpawnables(List<Supplier<? extends Actor>> spawnables) {
+    public void setSpawnables(List<Supplier<? extends Animal>> spawnables) {
         this.spawnables = new ArrayList<>(Objects.requireNonNull(spawnables));
     }
 
@@ -41,17 +40,15 @@ public class Meadow extends SpawningGround {
     @Override protected int spawnCooldownTicks() { return 7; }
 
     @Override
-    protected List<Supplier<? extends Actor>> spawnTable() {
-        List<Supplier<? extends Actor>> wrapped = new ArrayList<>();
-        for (Supplier<? extends Actor> s : spawnables) {
+    protected List<Supplier<? extends Animal>> spawnTable() {
+        List<Supplier<? extends Animal>> wrapped = new ArrayList<>();
+        for (Supplier<? extends Animal> s : spawnables) {
             wrapped.add(() -> {
-                Actor a = s.get();
+                Animal a = s.get();
                 // allow consuming ground items
                 a.enableAbility(Abilities.CAN_CONSUME);
-                // proactively collect/eat via behaviour (now legal because addBehaviour is public)
-                if (a instanceof Animal) {
-                    ((Animal) a).addBehaviour(1, new CollectFruitBehaviour());
-                }
+                // proactively collect/eat via behaviour
+                a.addBehaviour(1, new CollectFruitBehaviour());
                 return a;
             });
         }

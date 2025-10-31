@@ -16,8 +16,7 @@ public class EquipAction extends Action {
 
     @Override
     public String execute(Actor actor, GameMap map) {
-
-        return "";
+        return equipable.equip(actor);
     }
 
     @Override

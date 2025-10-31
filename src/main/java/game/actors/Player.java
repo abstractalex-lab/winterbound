@@ -14,6 +14,7 @@ import game.attributes.PlayerAttribute;
 import game.capabilities.Abilities;
 import game.interfaces.Flammable;
 import game.interfaces.Freezable;
+import game.items.Armour;
 import game.items.Bedroll;
 import game.items.Bottle;
 import game.items.IronArmour;
@@ -21,6 +22,8 @@ import game.items.potions.HealingPotion;
 import game.items.potions.PoisonPotion;
 import game.weapons.BareFist;
 import game.weapons.Bow;
+
+import java.util.List;
 
 /**
  * Class representing the Player.
@@ -92,6 +95,8 @@ public class Player extends Actor implements Flammable, Freezable {
         display.println(this.toString());
         display.println("hydration: " + this.getAttribute(PlayerAttribute.HYDRATION_LEVEL));
         display.println("warmth: " + this.getAttribute(PlayerAttribute.WARMTH_LEVEL));
+        display.println("defense: " + this.getAttribute(PlayerAttribute.DEFENSE_LEVEL));
+
     }
 
     @Override
@@ -134,6 +139,23 @@ public class Player extends Actor implements Flammable, Freezable {
     public String onFrozen(int warmthReduction) {
         this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, warmthReduction);
         return this + " feels cold.";
+    }
+
+    @Override
+    public void hurt(int damage){
+        int defenseValue = this.getAttribute(PlayerAttribute.DEFENSE_LEVEL);
+        int validDamage = damage - defenseValue;
+        if (validDamage >= 0) {
+            List<Armour> armours = this.getItemInventoryAs(Armour.class);
+            for(Armour armour : armours){
+                if(armour.isEquipped())
+                    armour.unequip(this);
+            }
+            super.hurt(validDamage);
+            return;
+        }
+        this.modifyAttribute(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.DECREASE, damage);
+
     }
 
 }

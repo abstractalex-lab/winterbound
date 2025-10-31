@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
 
+
 /**
  * reference to AttackAction of forest in demo, which is created by Adrian Kristanto
  * An action representing an attack from one actor to another using a weapon.
@@ -61,6 +62,7 @@ public class AttackAction extends Action {
         }
 
         String result = weapon.attack(actor, target, map);
+
         if (!target.isConscious()) {
             result += "\n" + target.unconscious(actor, map);
         }

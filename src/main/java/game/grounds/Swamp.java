@@ -1,9 +1,10 @@
 // file: game/grounds/Swamp.java
 package game.grounds;
 
-import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actors.animals.Animal;
+import game.statuses.Poisoned;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,11 @@ import java.util.function.Supplier;
  * - All animals spawned from a swamp are poisoned for 10 turns (5 dmg/turn).
  */
 public class Swamp extends SpawningGround {
-    private final List<Supplier<? extends Actor>> spawnables;
+    private final List<Supplier<? extends Animal>> spawnables;
 
     public Swamp() { this(new ArrayList<>()); }
 
-    public Swamp(List<Supplier<? extends Actor>> spawnables) {
+    public Swamp(List<Supplier<? extends Animal>> spawnables) {
         super('~', "Swamp");
         this.spawnables = new ArrayList<>(Objects.requireNonNull(spawnables));
     }
@@ -39,11 +40,15 @@ public class Swamp extends SpawningGround {
     }
 
     @Override
-    protected List<Supplier<? extends Actor>> spawnTable() {
+    protected List<Supplier<? extends Animal>> spawnTable() {
         // Wrap suppliers to apply swamp-born poison to spawned animals.
-        List<Supplier<? extends Actor>> wrapped = new ArrayList<>();
-        for (Supplier<? extends Actor> s : spawnables) {
-            wrapped.add(() -> PostSpawnEffects.withSwampPoison(s.get()));
+        List<Supplier<? extends Animal>> wrapped = new ArrayList<>();
+        for (Supplier<? extends Animal> s : spawnables) {
+            wrapped.add(() -> {
+                Animal a = s.get();
+                a = PostSpawnEffects.withSwampPoison(a);  // 10 turns @ 5 dmg/turn
+                return a;
+            });
         }
         return wrapped;
     }

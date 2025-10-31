@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * JUnit test cases for WeaponCoaterNPC and CoatWeaponWithNPCAction.
  * Tests NPC behavior, action offering, and weapon coating functionality.
  *
- * @author FIT2099 Team
  */
 class WeaponCoaterNPCTest {
 

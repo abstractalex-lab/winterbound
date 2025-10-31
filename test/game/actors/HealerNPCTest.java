@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * JUnit test cases for HealerNPC and HealStatusAction.
  * Tests NPC behavior, action offering, and status effect removal functionality.
  *
- * @author FIT2099 Team
  */
 class HealerNPCTest {
 

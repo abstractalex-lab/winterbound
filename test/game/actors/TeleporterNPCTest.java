@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * JUnit test cases for TeleporterNPC and TeleportWithNPCAction.
  * Tests NPC behavior, action offering, and teleportation functionality.
  *
- * @author FIT2099 Team
  */
 class TeleporterNPCTest {
 

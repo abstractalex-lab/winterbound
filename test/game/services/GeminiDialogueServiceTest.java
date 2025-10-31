@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * - Active internet connection
  * - Gemini API access
  *
- * @author FIT2099 Team
  */
 class GeminiDialogueServiceTest {
 

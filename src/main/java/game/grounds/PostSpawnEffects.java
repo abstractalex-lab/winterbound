@@ -16,7 +16,7 @@ import game.statuses.Poisoned;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
+import game.grounds.plants.SpecialYewBerryTree;
 /**
  * Centralised, species-specific post-spawn effects.
  *
@@ -56,7 +56,7 @@ public final class PostSpawnEffects {
      * The special tree drops a YewBerry whenever an adjacent actor is present.
      */
     public static void onWolfSpawn(Wolf wolf, Location origin, ThreadLocalRandom rng) {
-        List<Exit> exits = origin.getExits();
+        var exits = origin.getExits();
         if (!exits.isEmpty()) {
             exits.get(rng.nextInt(exits.size()))
                     .getDestination()
@@ -80,16 +80,4 @@ public final class PostSpawnEffects {
         return spawned;
     }
 
-    /** Yew tree that drops a berry whenever an adjacent actor is present. */
-    public static final class SpecialYewBerryTree extends YewBerryTree {
-        @Override
-        public void tick(Location location) {
-            super.tick(location);
-            boolean someoneNearby = location.getExits().stream()
-                    .anyMatch(ex -> ex.getDestination().containsAnActor());
-            if (someoneNearby) {
-                location.addItem(new YewBerry());
-            }
-        }
-    }
 }

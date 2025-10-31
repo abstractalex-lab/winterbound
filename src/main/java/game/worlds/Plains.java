@@ -5,10 +5,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.DefaultGroundCreator;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
-import game.actors.animals.Bear;
-import game.actors.animals.Crocodile;
-import game.actors.animals.Deer;
-import game.actors.animals.Wolf;
+import game.actors.animals.*;
 import game.grounds.*;
 
 import java.util.Arrays;
@@ -61,20 +58,16 @@ public class Plains extends World {
 
         // Place REQ2 spawners (Plains)
         gameMap.at(8, 7).setGround(
-                new Tundra(java.util.Arrays.<java.util.function.Supplier<? extends Actor>>
-                        asList(() -> new Wolf() , () -> new Crocodile()))
+                new Tundra(Arrays.<Supplier<? extends Animal>>asList(Wolf::new, Crocodile::new))
         );
         gameMap.at(12, 2).setGround(
-                new Cave(java.util.Arrays.<java.util.function.Supplier<? extends Actor>>
-                        asList(() -> new Bear(), () -> new Wolf()))
+                new Cave(Arrays.<Supplier<? extends Animal>>asList(Bear::new, Wolf::new))
         );
         gameMap.at(11, 4).setGround(
-                new Meadow(java.util.Arrays.<java.util.function.Supplier<? extends Actor>>
-                        asList(() -> new Deer(), () -> new Bear()))
+                new Meadow(Arrays.<Supplier<? extends Animal>>asList(Deer::new, Bear::new))
         );
-        gameMap.at(6,6).setGround(
-                new Swamp(java.util.Arrays.<java.util.function.Supplier<? extends Actor>>
-                        asList(() -> new Crocodile()))
+        gameMap.at(6, 6).setGround(
+                new Swamp(Arrays.<Supplier<? extends Animal>>asList(Crocodile::new))
         );
 
         return gameMap; // ← now at the end

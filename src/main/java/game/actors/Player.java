@@ -55,9 +55,11 @@ public class Player extends Actor implements Flammable, Freezable {
 
 //        this.addItemToInventory(new Bow());
 
-        this.addItemToInventory(new HealingPotion());
-        this.addItemToInventory(new PoisonPotion());
+//        this.addItemToInventory(new HealingPotion());
+//        this.addItemToInventory(new PoisonPotion());
         this.addItemToInventory(new IronArmour());
+        this.addItemToInventory(new IronArmour());
+
 
 
 

@@ -15,13 +15,21 @@ import java.util.List;
 public abstract class Armour extends Item implements Equipable {
 
     protected boolean equipped;
+
+    public int getDefenseValue() {
+        return defenseValue;
+    }
+
+    private int defenseValue;
     private final int max_defenseValue;
 
     public Armour(String name, char displayChar, boolean portable, int defenseValue) {
         super(name, displayChar, portable);
         this.equipped = false;
+        this.defenseValue = defenseValue;
         this.max_defenseValue = defenseValue;
     }
+
 
     @Override
     public String equip(Actor actor) {
@@ -32,13 +40,14 @@ public abstract class Armour extends Item implements Equipable {
                     armour.unequip(actor);
             }
         }
-        actor.modifyStatsMaximum(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.UPDATE, max_defenseValue);
+        actor.modifyStatsMaximum(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.UPDATE, defenseValue);
         this.equipped = true;
         return actor + " equips " + this + ".";
     }
 
     @Override
     public String unequip(Actor actor) {
+        defenseValue = actor.getAttribute(PlayerAttribute.DEFENSE_LEVEL);
         actor.modifyStatsMaximum(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.UPDATE, 0);
         this.equipped = false;
         return actor + " unequip " + this + ".";
@@ -64,7 +73,10 @@ public abstract class Armour extends Item implements Equipable {
         return null;
     }
 
-
+    @Override
+    public String toString(){
+        return super.toString() + "[" + defenseValue + "/" + max_defenseValue + ']';
+    }
 
 
 }

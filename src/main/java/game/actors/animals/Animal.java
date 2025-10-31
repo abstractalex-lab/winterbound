@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperation;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import game.actions.AttackAction;
 import game.actions.FeedAction;
 import game.attributes.AnimalAttribute;
@@ -148,4 +149,8 @@ public abstract class Animal extends Actor implements Flammable, Freezable {
         this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, warmthReduction);
         return this + " feels cold.";
     }
+
+
+    public void onSpawnedAt(Location spawnerLocation, java.util.concurrent.ThreadLocalRandom rng) { }
+
 }

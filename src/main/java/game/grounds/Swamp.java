@@ -1,10 +1,10 @@
 // file: game/grounds/Swamp.java
 package game.grounds;
 
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.animals.Animal;
-import game.statuses.Poisoned;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +40,9 @@ public class Swamp extends SpawningGround {
     }
 
     @Override
-    protected List<Supplier<? extends Animal>> spawnTable() {
+    protected List<Supplier<? extends Actor>> spawnTable() {
         // Wrap suppliers to apply swamp-born poison to spawned animals.
-        List<Supplier<? extends Animal>> wrapped = new ArrayList<>();
+        List<Supplier<? extends Actor>> wrapped = new ArrayList<>();
         for (Supplier<? extends Animal> s : spawnables) {
             wrapped.add(() -> {
                 Animal a = s.get();

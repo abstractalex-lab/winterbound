@@ -2,6 +2,7 @@
 package game.grounds;
 
 import edu.monash.fit2099.engine.GameEngineException;
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
@@ -33,8 +34,10 @@ public abstract class SpawningGround extends Ground {
     /** Number of ticks to wait after an attempted spawn (success or fail). */
     protected int spawnCooldownTicks() { return 1; }
 
-    /** Equal chance unless you repeat suppliers to weight. */
-    protected abstract List<Supplier<? extends Animal>> spawnTable();
+    /**
+     * Equal chance unless you repeat suppliers to weight.
+     */
+    protected abstract List<Supplier<? extends Actor>> spawnTable();
 
     /** Subclasses may veto an attempt (e.g., Swamp requires nearby actor). */
     protected boolean canAttempt(Location here) { return true; }
@@ -56,10 +59,10 @@ public abstract class SpawningGround extends Ground {
         ThreadLocalRandom rng = ThreadLocalRandom.current();
 
         if (rng.nextDouble() <= spawnChance()) {
-            List<Supplier<? extends Animal>> table = spawnTable();
+            List<Supplier<? extends Actor>> table = spawnTable();
             if (!table.isEmpty()) {
                 // choose candidate species (weighted by repetition)
-                Animal candidate = table.get(rng.nextInt(table.size())).get();
+                Animal candidate = (Animal) table.get(rng.nextInt(table.size())).get();
 
                 // prefer current tile; else a random free neighbour that can accept the animal
                 Location dest = null;

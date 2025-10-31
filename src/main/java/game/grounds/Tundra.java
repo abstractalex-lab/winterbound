@@ -1,6 +1,7 @@
 // file: game/grounds/Tundra.java
 package game.grounds;
 
+import edu.monash.fit2099.engine.actors.Actor;
 import game.actors.animals.Animal;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperation;
 import edu.monash.fit2099.engine.actors.attributes.BaseAttributes;
@@ -35,8 +36,8 @@ public class Tundra extends SpawningGround {
     @Override protected int spawnCooldownTicks() { return 1; }
 
     @Override
-    protected List<Supplier<? extends Animal>> spawnTable() {
-        List<Supplier<? extends Animal>> wrapped = new ArrayList<>();
+    protected List<Supplier<? extends Actor>> spawnTable() {
+        List<Supplier<? extends Actor>> wrapped = new ArrayList<>();
         for (Supplier<? extends Animal> s : spawnables) {
             wrapped.add(() -> {
                 Animal a = s.get();

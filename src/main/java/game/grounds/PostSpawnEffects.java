@@ -2,109 +2,89 @@
 package game.grounds;
 
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
 
-import game.actors.animals.*;
+import game.actors.animals.Bear;
+import game.actors.animals.Crocodile;
+import game.actors.animals.Deer;
+import game.actors.animals.Wolf;
 import game.grounds.plants.YewBerryTree;
 import game.items.fruits.Apple;
 import game.items.fruits.YewBerry;
 import game.statuses.Poisoned;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-/** Centralised effects that fire after *any* spawner successfully places an animal. */
-final class PostSpawnEffects {
-    private PostSpawnEffects(){}
+/**
+ * Centralised, species-specific post-spawn effects.
+ *
+ * Usage (no instanceof):
+ *   - In Deer.onSpawnedAt(...):        PostSpawnEffects.onDeerSpawn(this, origin, rng);
+ *   - In Bear.onSpawnedAt(...):        PostSpawnEffects.onBearSpawn(this, origin, rng);
+ *   - In Wolf.onSpawnedAt(...):        PostSpawnEffects.onWolfSpawn(this, origin, rng);
+ *   - In Crocodile.onSpawnedAt(...):   PostSpawnEffects.onCrocodileSpawn(this, origin, rng);
+ *
+ * Swamp helper (poison the spawned animal on creation):
+ *   - spawned = PostSpawnEffects.withSwampPoison(spawned);
+ */
+public final class PostSpawnEffects {
+    private PostSpawnEffects() {}
 
-    /** Called by SpawningGround after it places the actor on the map. */
-    static void apply(Actor spawned, Location spawnerLocation, ThreadLocalRandom rng) {
-        // Deer → drop 1 Apple in one random exit
-        if (spawned instanceof Deer) {
-            List<Exit> exits = spawnerLocation.getExits();
-            if (!exits.isEmpty()) {
-                Exit pick = exits.get(rng.nextInt(exits.size()));
-                pick.getDestination().addItem(new Apple());
-            }
-        }
-
-        // Bear → each exit 50% chance to drop 1 YewBerry
-        if (spawned instanceof Bear) {
-            for (Exit e : spawnerLocation.getExits()) {
-                if (rng.nextBoolean()) {
-                    e.getDestination().addItem(new YewBerry());
-                }
-            }
-        }
-
-        // Wolf → grow exactly one special YewBerryTree in one exit
-        if (spawned instanceof Wolf) {
-            List<Exit> exits = new ArrayList<>(spawnerLocation.getExits());
-            if (!exits.isEmpty()) {
-                Exit pick = exits.get(rng.nextInt(exits.size()));
-                pick.getDestination().setGround(new SpecialYewBerryTree());
-            }
-        }
-
-        // Crocodile → poison *all* actors in surrounding exits (3 turns @ 10 dmg/turn)
-        if (spawned instanceof Crocodile) {
-            for (Exit e : spawnerLocation.getExits()) {
-                Location there = e.getDestination();
-                if (there.containsAnActor()) {
-                    PoisonHelper.apply(there.getActor(), 3, 10);
-                }
-            }
+    /** Deer → drop 1 Apple in exactly one random exit of the spawner. */
+    public static void onDeerSpawn(Deer deer, Location origin, ThreadLocalRandom rng) {
+        List<Exit> exits = origin.getExits();
+        if (!exits.isEmpty()) {
+            exits.get(rng.nextInt(exits.size()))
+                    .getDestination()
+                    .addItem(new Apple());
         }
     }
 
-    /** Swamp-born poison (10 turns @ 5 dmg/turn) added to the spawned animal. */
-    static Actor withSwampPoison(Actor a) {
-        PoisonHelper.apply(a, 10, 5);
-        return a;
+    /** Bear → each exit has a 50% chance to drop a YewBerry. */
+    public static void onBearSpawn(Bear bear, Location origin, ThreadLocalRandom rng) {
+        for (Exit e : origin.getExits()) {
+            if (rng.nextBoolean()) {
+                e.getDestination().addItem(new YewBerry());
+            }
+        }
     }
 
     /**
-     * Helper to bridge to your Poisoned status.
-     * Adjust here if your Poisoned API differs.
+     * Wolf → grow one mature YewBerry tree in exactly one exit.
+     * The special tree drops a YewBerry whenever an adjacent actor is present.
      */
-    private static final class PoisonHelper {
-        static void apply(Actor target, int turns, int damagePerTurn) {
-            // If your Poisoned class exposes a different mechanism, adapt here.
-            // Examples (choose the one matching your codebase):
-            //
-            // 1) If Poisoned has a static apply method:
-            // Poisoned.apply(target, turns, damagePerTurn);
-            //
-            // 2) If Poisoned is a capability object you attach:
-            // target.addCapability(new Poisoned(turns, damagePerTurn));
-            //
-            // 3) If Poisoned is a status you register via target.addStatus(...):
-            // target.addStatus(new Poisoned(turns, damagePerTurn));
-            //
-            // Stub call – replace with your actual API:
-            try {
-                Poisoned.apply(target, turns, damagePerTurn);
-            } catch (Throwable t) {
-                // Fallback: if no static apply, try reflective constructor
-                try {
-                    Object inst = Poisoned.class
-                            .getConstructor(int.class, int.class)
-                            .newInstance(turns, damagePerTurn);
-                    // If your Actor exposes addCapability/addStatus:
-                    target.addCapability(inst);
-                } catch (Exception ignored) { /* adjust to your engine */ }
+    public static void onWolfSpawn(Wolf wolf, Location origin, ThreadLocalRandom rng) {
+        List<Exit> exits = origin.getExits();
+        if (!exits.isEmpty()) {
+            exits.get(rng.nextInt(exits.size()))
+                    .getDestination()
+                    .setGround(new SpecialYewBerryTree());
+        }
+    }
+
+    /** Crocodile → poison all actors in surrounding exits (3 turns @ 10 dmg/turn). */
+    public static void onCrocodileSpawn(Crocodile croc, Location origin, ThreadLocalRandom rng) {
+        for (Exit e : origin.getExits()) {
+            Location there = e.getDestination();
+            if (there.containsAnActor()) {
+                there.getActor().addStatus(new Poisoned(there.getActor(), 3, 10));
             }
         }
     }
 
-    /** Special yew tree that drops a berry when any adjacent actor is present. */
-    static class SpecialYewBerryTree extends YewBerryTree {
+    /** Swamp-born poison (10 turns @ 5 dmg/turn) applied to the spawned animal. */
+    public static <T extends Actor> T withSwampPoison(T spawned) {
+        spawned.addStatus(new Poisoned(spawned, 10, 5));
+        return spawned;
+    }
+
+    /** Yew tree that drops a berry whenever an adjacent actor is present. */
+    public static final class SpecialYewBerryTree extends YewBerryTree {
         @Override
         public void tick(Location location) {
-            super.tick(location); // keep base updates if needed
+            super.tick(location);
             boolean someoneNearby = location.getExits().stream()
                     .anyMatch(ex -> ex.getDestination().containsAnActor());
             if (someoneNearby) {

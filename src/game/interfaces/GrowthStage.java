@@ -1,7 +1,7 @@
 package game.interfaces;
 
 import edu.monash.fit2099.engine.positions.Location;
-import game.grounds.plants.Tree;
+import game.grounds.plants.AbstractTree;
 
 /**
  * Represents the growth stage of a tree.
@@ -9,15 +9,25 @@ import game.grounds.plants.Tree;
  */
 public interface GrowthStage {
 
-    void grow(Tree tree, Location location);
+    /**
+     * Handles growth logic for the current stage.
+     *
+     * @param tree the tree in this growth stage
+     * @param location the location of the tree on the map
+     */
+    void grow(AbstractTree tree, Location location);
 
     /**
-     * @return true if the plant can currently produce fruit.
+     * Indicates whether the tree can currently produce fruit.
+     *
+     * @return true if the plant can produce fruit
      */
     boolean canProduceFruit();
 
     /**
-     * @return number of turns between fruit productions for this stage.
+     * Returns the number of turns between fruit productions for this stage.
+     *
+     * @return number of turns between fruit productions
      */
     int getFruitInterval();
 }

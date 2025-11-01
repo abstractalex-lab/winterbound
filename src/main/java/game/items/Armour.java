@@ -3,6 +3,7 @@ package game.items;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperation;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.DropAction;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
@@ -15,13 +16,9 @@ import java.util.List;
 public abstract class Armour extends Item implements Equipable {
 
     protected boolean equipped;
-
-    public int getDefenseValue() {
-        return defenseValue;
-    }
-
     private int defenseValue;
     private final int max_defenseValue;
+    private int damage;
 
     public Armour(String name, char displayChar, boolean portable, int defenseValue) {
         super(name, displayChar, portable);
@@ -30,15 +27,18 @@ public abstract class Armour extends Item implements Equipable {
         this.max_defenseValue = defenseValue;
     }
 
+    public String defend(Actor attacker, Actor defender, GameMap map) {
+        return null;
+    }
 
     @Override
     public String equip(Actor actor) {
+        Display display = new Display();
         List<Armour> armours = actor.getItemInventoryAs(Armour.class);
-        if(!armours.isEmpty()){
-            for(Armour armour : armours){
-                if(armour.isEquipped())
-                    armour.unequip(actor);
-            }
+        for(Armour armour : armours){
+            if(armour.isEquipped())
+                display.println(armour.unequip(actor));
+            break;
         }
         actor.modifyStatsMaximum(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.UPDATE, defenseValue);
         this.equipped = true;
@@ -50,7 +50,7 @@ public abstract class Armour extends Item implements Equipable {
         defenseValue = actor.getAttribute(PlayerAttribute.DEFENSE_LEVEL);
         actor.modifyStatsMaximum(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.UPDATE, 0);
         this.equipped = false;
-        return actor + " unequip " + this + ".";
+        return actor + " unequips " + this + ".";
     }
 
     @Override

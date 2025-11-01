@@ -4,6 +4,9 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
+import game.items.Armour;
+
+import java.util.List;
 
 
 /**
@@ -62,6 +65,15 @@ public class AttackAction extends Action {
         }
 
         String result = weapon.attack(actor, target, map);
+
+        List<Armour> armours = target.getItemInventoryAs(Armour.class);
+        for(Armour armour : armours){
+            if(armour.isEquipped()){
+                String reflectText = armour.defend(actor,  target, map);
+                if (reflectText != null) result += "\n" + reflectText;
+                break;
+            }
+        }
 
         if (!target.isConscious()) {
             result += "\n" + target.unconscious(actor, map);

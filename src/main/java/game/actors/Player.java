@@ -14,10 +14,7 @@ import game.attributes.PlayerAttribute;
 import game.capabilities.Abilities;
 import game.interfaces.Flammable;
 import game.interfaces.Freezable;
-import game.items.Armour;
-import game.items.Bedroll;
-import game.items.Bottle;
-import game.items.IronArmour;
+import game.items.*;
 import game.items.potions.HealingPotion;
 import game.items.potions.PoisonPotion;
 import game.weapons.BareFist;
@@ -58,7 +55,7 @@ public class Player extends Actor implements Flammable, Freezable {
 //        this.addItemToInventory(new HealingPotion());
 //        this.addItemToInventory(new PoisonPotion());
         this.addItemToInventory(new IronArmour());
-        this.addItemToInventory(new IronArmour());
+        this.addItemToInventory(new ThornArmour());
 
 
 
@@ -147,17 +144,18 @@ public class Player extends Actor implements Flammable, Freezable {
     public void hurt(int damage){
         int defenseValue = this.getAttribute(PlayerAttribute.DEFENSE_LEVEL);
         int validDamage = damage - defenseValue;
-        if (validDamage >= 0) {
-            List<Armour> armours = this.getItemInventoryAs(Armour.class);
-            for(Armour armour : armours){
-                if(armour.isEquipped())
-                    armour.unequip(this);
-            }
-            super.hurt(validDamage);
+        if (validDamage < 0) {
+            this.modifyAttribute(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.DECREASE, damage);
             return;
         }
-        this.modifyAttribute(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.DECREASE, damage);
-
+        List<Armour> armours = this.getItemInventoryAs(Armour.class);
+        for(Armour armour : armours){
+            if(armour.isEquipped()){
+                armour.unequip(this);
+                this.removeItemFromInventory(armour);
+            }
+        }
+        super.hurt(validDamage);
     }
 
 }

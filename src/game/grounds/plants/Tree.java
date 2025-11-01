@@ -18,5 +18,4 @@ public class Tree extends Ground {
     public Tree(char displayChar, String name) {
         super(displayChar, name);
     }
-
 }

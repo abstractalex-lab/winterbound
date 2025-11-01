@@ -5,7 +5,6 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperation;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
-import edu.monash.fit2099.engine.actors.attributes.BaseAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
@@ -14,11 +13,11 @@ import game.attributes.PlayerAttribute;
 import game.capabilities.Abilities;
 import game.interfaces.Flammable;
 import game.interfaces.Freezable;
-import game.items.*;
-import game.items.potions.HealingPotion;
+import game.items.armours.Armour;
+import game.items.armours.IronArmour;
+import game.items.armours.ThornArmour;
 import game.items.potions.PoisonPotion;
 import game.weapons.BareFist;
-import game.weapons.Bow;
 
 import java.util.List;
 
@@ -53,7 +52,10 @@ public class Player extends Actor implements Flammable, Freezable {
 //        this.addItemToInventory(new Bow());
 
 //        this.addItemToInventory(new HealingPotion());
-//        this.addItemToInventory(new PoisonPotion());
+        this.addItemToInventory(new PoisonPotion());
+        this.addItemToInventory(new PoisonPotion());
+        this.addItemToInventory(new PoisonPotion());
+
         this.addItemToInventory(new IronArmour());
         this.addItemToInventory(new ThornArmour());
 

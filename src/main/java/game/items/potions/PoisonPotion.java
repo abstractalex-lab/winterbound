@@ -25,6 +25,10 @@ public class PoisonPotion extends Potion {
         List<Location> nearbyLocations = location.getNearbyLocations(1);
         for (Location nearbyLocation : nearbyLocations) {
             nearbyLocation.setGround(new ToxicSpill());
+
+            if(nearbyLocation.containsAnActor())
+                applyEffect(nearbyLocation.getActor());
+
         }
         int x = location.x();
         int y = location.y();

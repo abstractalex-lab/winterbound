@@ -1,9 +1,9 @@
-package game.items;
+package game.items.armours;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 
-public class ThornArmour extends Armour{
+public class ThornArmour extends Armour {
     private final int reflectDamage = 20;
 
     public ThornArmour() {

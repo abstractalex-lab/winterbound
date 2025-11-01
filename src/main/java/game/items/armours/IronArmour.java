@@ -1,4 +1,4 @@
-package game.items;
+package game.items.armours;
 
 
 public class IronArmour extends Armour {

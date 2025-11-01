@@ -6,13 +6,13 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.DefaultGroundCreator;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
-import game.actors.Dragon;
-import game.actors.MultiStateCreature;
-import game.actors.Player;
+import game.actors.*;
 import game.actors.animals.*;
 import game.grounds.*;
 import game.grounds.plants.*;
 import game.items.*;
+import game.services.DialogueService;
+import game.services.GeminiDialogueService;
 import game.states.BerserkState;
 import game.states.CreatureState;
 import game.states.FireState;
@@ -59,6 +59,18 @@ public class Earth extends World {
 
         Player player = new Player("Explorer", 'ඞ', 100);
         this.addPlayer(player, gameMap.at(1, 1));
+
+        // Initialize dialogue service for NPCs
+        DialogueService dialogueService = new GeminiDialogueService();
+
+        // Create and place NPCs
+        NPC teleporterNPC = new TeleporterNPC(dialogueService);
+        NPC weaponCoaterNPC = new WeaponCoaterNPC(dialogueService);
+        NPC healerNPC = new HealerNPC(dialogueService);
+
+        gameMap.at(15, 2).addActor(teleporterNPC);
+        gameMap.at(20, 5).addActor(weaponCoaterNPC);
+        gameMap.at(25, 7).addActor(healerNPC);
 
 //        Animal bear = new Bear();
 //        Animal deer = new Deer();

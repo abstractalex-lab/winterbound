@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * - Gemini API access
  *
  */
-class GeminiDialogueServiceTest {
+public class GeminiDialogueServiceTest {
 
     private DialogueService dialogueService;
 

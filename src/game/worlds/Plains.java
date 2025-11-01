@@ -9,6 +9,8 @@ import game.actors.animals.Bear;
 import game.actors.animals.Deer;
 import game.actors.animals.Wolf;
 import game.grounds.*;
+import game.grounds.plants.FloraFactory;
+import game.grounds.plants.PlainsGrowthBehaviour;
 
 import java.util.Arrays;
 import java.util.List;
@@ -70,6 +72,13 @@ public class Plains extends World {
         gameMap.at(11, 4).setGround(
                 new Meadow(java.util.Arrays.<java.util.function.Supplier<? extends Actor>>
                         asList(() -> new Deer(), () -> new Bear()))
+        );
+
+        gameMap.at(6, 3).setGround(
+                FloraFactory.createWildAppleTree(new PlainsGrowthBehaviour())
+        );
+        gameMap.at(8, 4).setGround(
+                FloraFactory.createYewBerryPlant(new PlainsGrowthBehaviour())
         );
 
         return gameMap; // ← now at the end

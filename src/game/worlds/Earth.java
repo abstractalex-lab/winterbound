@@ -99,6 +99,13 @@ public class Earth extends World {
         GameMap plainsMap = plainsWorld.constructWorld();
         this.addGameMap(plainsMap);
 
+        gameMap.at(19, 3).setGround(
+                FloraFactory.createWildAppleTree(new ForestGrowthBehaviour())
+        );
+        gameMap.at(1, 5).setGround(
+                FloraFactory.createYewBerryPlant(new ForestGrowthBehaviour())
+        );
+
         //door locations across maps
         var forestDoorLoc = gameMap.at(10, 2);
         if (!(forestDoorLoc.getGround() instanceof TeleportDoor)) {

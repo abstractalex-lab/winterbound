@@ -27,11 +27,17 @@ public abstract class Armour extends Item implements Equipable {
     /** Whether the armour is currently equipped */
     protected boolean equipped;
 
+    public int getDefenseValue() {
+        return defenseValue;
+    }
+
     /** Current defense value (may decrease if armour degrades) */
     private int defenseValue;
 
     /** Maximum defense value for display/reference */
     private final int max_defenseValue;
+
+    private int damage;
 
     /**
      * Constructor for Armour.
@@ -60,6 +66,18 @@ public abstract class Armour extends Item implements Equipable {
         return null;
     }
 
+    public int calculateDamage(Actor target, int damage){
+        int validDamage = damage - defenseValue;
+        if (validDamage < 0) {
+            defenseValue += validDamage;
+            return 0;
+        }
+
+        this.unequip(target);
+        target.removeItemFromInventory(this);
+        return validDamage;
+    }
+
     /**
      * Equips the armour and applies its defense stat to the actor.
      */
@@ -76,7 +94,6 @@ public abstract class Armour extends Item implements Equipable {
      */
     @Override
     public String unequip(Actor actor) {
-        defenseValue = actor.getAttribute(PlayerAttribute.DEFENSE_LEVEL);
         actor.modifyStatsMaximum(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.UPDATE, 0);
         this.equipped = false;
         return actor + " unequips " + this + ".";

@@ -11,6 +11,7 @@ import edu.monash.fit2099.engine.displays.Menu;
 import game.actions.GameOverAction;
 import game.attributes.PlayerAttribute;
 import game.capabilities.Abilities;
+import game.interfaces.ArmableActor;
 import game.interfaces.Flammable;
 import game.interfaces.Freezable;
 import game.items.armours.Armour;
@@ -25,7 +26,7 @@ import java.util.List;
  * Class representing the Player.
  * @author Adrian Kristanto
  */
-public class Player extends Actor implements Flammable, Freezable {
+public class Player extends Actor implements Flammable, Freezable, ArmableActor {
 
     static final int HYDRATION_LEVEL = 20000;
     static final int WARMTH_LEVEL = 30000;
@@ -143,22 +144,27 @@ public class Player extends Actor implements Flammable, Freezable {
 
     @Override
     public void hurt(int damage){
-        int defenseValue = this.getAttribute(PlayerAttribute.DEFENSE_LEVEL);
-        int validDamage = damage - defenseValue;
-        if (validDamage < 0) {
-            this.modifyAttribute(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.DECREASE, damage);
-            return;
-        }
+        int validDamage = armour.calculateDamage(this, damage);
 
-        List<Armour> armours = this.getItemInventoryAs(Armour.class);
-        for(Armour armour : armours){
-            if(armour.isEquipped()){
-                armour.unequip(this);
-                this.removeItemFromInventory(armour);
-                break;
-            }
-        }
-        super.hurt(validDamage);
+        if(validDamage > 0)
+            super.hurt(validDamage);
+
+        this.modifyAttribute(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.DECREASE, -validDamage);
     }
 
+    @Override
+    public void equipArmour(Armour armour) {
+        armour.equip(this);
+        this.armour = armour;
+    }
+
+    @Override
+    public Armour getArmour() {
+        return armour;
+    }
+
+    @Override
+    public Boolean isEquipped() {
+        return armour != null;
+    }
 }

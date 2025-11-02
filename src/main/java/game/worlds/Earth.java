@@ -111,10 +111,10 @@ public class Earth extends World {
         GameMap plainsMap = plainsWorld.constructWorld();
         this.addGameMap(plainsMap);
 
-        gameMap.at(19, 3).setGround(
+        gameMap.at(3, 4).setGround(
                 FloraFactory.createWildAppleTree(new ForestGrowthBehaviour())
         );
-        gameMap.at(1, 5).setGround(
+        gameMap.at(1, 3).setGround(
                 FloraFactory.createYewBerryPlant(new ForestGrowthBehaviour())
         );
 

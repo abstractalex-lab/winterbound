@@ -16,7 +16,15 @@ import game.weapons.CrocBite;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * A crocodile predator that can be spawned in the world and tamed by an {@link Actor}.
+ **/
 public class Crocodile extends PredatorAnimal implements Tameable {
+
+/**
+ * Constructs a new {@code Crocodile} with default name, display character, hit points,
+ * and a crocodile bite intrinsic weapon.
+ * **/
     public Crocodile() {
         super("Crocodile", '<', 300,55);
         // Animal already has WanderBehaviour(999) by default in your code,
@@ -24,6 +32,11 @@ public class Crocodile extends PredatorAnimal implements Tameable {
         // addBehaviour(999, new WanderBehaviour());
         this.setIntrinsicWeapon(new CrocBite());
     }
+/**
+ * Hook that is called right after this crocodile is spawned onto the map.
+ *      * @param origin the {@link Location} where this crocodile has just spawned
+ *      * @param rng    the RNG used for any probabilistic post-spawn effects
+ *      */
 
     public void onSpawnedAt(Location origin, ThreadLocalRandom rng) {
         // Poison every actor in surrounding exits: 3 turns @ 10 dmg/turn
@@ -31,7 +44,11 @@ public class Crocodile extends PredatorAnimal implements Tameable {
         }
 
 
-
+/**
+ * Tames this crocodile so that it stops being hostile and starts serving the given {@code actor}.
+     * @param actor the actor that tames this crocodile
+     * @return a short message indicating the crocodile was successfully tamed, or {@code ""} if unconscious
+     */
     @Override
     public String tamedBy(Actor actor) {
         if (!this.isConscious()) return "";

@@ -7,7 +7,6 @@ import game.statuses.Poisoned;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -24,7 +23,7 @@ class PoisonPotionTest {
         PoisonPotion potion = new PoisonPotion();
 
         // action
-        potion.throwAt(location, target, attacker);
+        potion.throwAt(attacker, target, location);
 
         // verify item removal from inventory
         verify(attacker).removeItemFromInventory(potion);
@@ -37,7 +36,7 @@ class PoisonPotionTest {
         Location location = mock(Location.class);
 
         PoisonPotion potion = new PoisonPotion();
-        potion.throwAt(location, target, attacker);
+        potion.throwAt(attacker, target, location);
         verify(target).addStatus(any(Poisoned.class));
     }
 
@@ -58,7 +57,7 @@ class PoisonPotionTest {
         when(center.getNearbyLocations(1)).thenReturn(nearby);
 
         PoisonPotion potion = new PoisonPotion();
-        potion.throwAt(center, target, attacker);
+        potion.throwAt(attacker, target, center);
 
         // ✅ Verify each surrounding tile turned into ToxicSpill
         verify(l1).setGround(any(ToxicSpill.class));

@@ -30,6 +30,7 @@ public class Poisoned implements Status {
         Display display = new Display();
         target.hurt(damage);
         duration--;
+        display.println(target + "is poisoned, losing " + damage + " HP.");
     }
 
     @Override

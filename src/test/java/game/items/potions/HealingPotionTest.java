@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -22,7 +21,7 @@ class HealingPotionTest {
 
         HealingPotion potion = new HealingPotion();
         // target = null means self-throw case
-        potion.throwAt(location, attacker, attacker);
+        potion.throwAt(attacker, attacker, location);
 
         verify(attacker).addStatus(any(Healing.class));
     }
@@ -34,7 +33,7 @@ class HealingPotionTest {
         Location location = mock(Location.class);
 
         HealingPotion potion = new HealingPotion();
-        potion.throwAt(location, attacker, attacker);
+        potion.throwAt(attacker, attacker, location);
 
         // verify target gets healing status
         verify(attacker).addStatus(any(Healing.class));
@@ -62,7 +61,7 @@ class HealingPotionTest {
         when(center.getNearbyLocations(1)).thenReturn(nearbyLocations);
 
         HealingPotion potion = new HealingPotion();
-        potion.throwAt(center, target, attacker);
+        potion.throwAt(attacker, target, center);
 
         verify(target).addStatus(any(Healing.class));
         verify(a1).addStatus(any(Healing.class));

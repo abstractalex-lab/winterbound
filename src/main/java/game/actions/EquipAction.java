@@ -3,6 +3,7 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.interfaces.ArmableActor;
 import game.interfaces.Equipable;
 import game.items.armours.Armour;
 
@@ -15,10 +16,12 @@ import java.util.List;
 public class EquipAction extends Action {
 
     /** The armour to equip */
-    private final Equipable equipable;
+    private final Armour armour;
+    private final ArmableActor armableActor;
 
-    public EquipAction(Equipable equipable){
-        this.equipable = equipable;
+    public EquipAction(ArmableActor armableActor, Armour armour){
+        this.armour = armour;
+        this.armableActor = armableActor;
     }
 
     /**
@@ -26,18 +29,14 @@ public class EquipAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        List<Armour> armours = actor.getItemInventoryAs(Armour.class);
-        for(Armour armour : armours){
-            if(armour.isEquipped()){
-                armour.unequip(actor);
-                break;
-            }
+        if(armableActor.isEquipped()){
+            armableActor.getArmour().unequip(actor);
         }
-        return equipable.equip(actor);
+        return armableActor.equipArmour(armour);
     }
 
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " equips " + equipable;
+        return actor + " equips " + armour;
     }
 }

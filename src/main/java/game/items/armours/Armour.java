@@ -3,16 +3,14 @@ package game.items.armours;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperation;
-import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.DropAction;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.EquipAction;
 import game.actions.UnequipAction;
 import game.attributes.PlayerAttribute;
+import game.interfaces.ArmableActor;
 import game.interfaces.Equipable;
-
-import java.util.List;
 
 /**
  * Base class for armour items that can be equipped to provide defense.
@@ -37,7 +35,7 @@ public abstract class Armour extends Item implements Equipable {
     /** Maximum defense value for display/reference */
     private final int max_defenseValue;
 
-    private int damage;
+    protected int damage;
 
     /**
      * Constructor for Armour.
@@ -62,20 +60,19 @@ public abstract class Armour extends Item implements Equipable {
      * @param map the game map
      * @return combat message (or null if no special effect)
      */
-    public String defend(Actor attacker, Actor defender, GameMap map) {
+    public String applyEffect(Actor attacker, Actor defender, GameMap map) {
         return null;
     }
 
-    public int calculateDamage(Actor target, int damage){
-        int validDamage = damage - defenseValue;
-        if (validDamage < 0) {
-            defenseValue += validDamage;
-            return 0;
-        }
+    public int calculateDamage(int damage) {
+        this.damage = damage;
 
-        this.unequip(target);
-        target.removeItemFromInventory(this);
-        return validDamage;
+        defenseValue -= damage;
+
+        if(defenseValue<0)
+            return -defenseValue;
+
+        return 0;
     }
 
     /**
@@ -104,16 +101,24 @@ public abstract class Armour extends Item implements Equipable {
         return equipped;
     }
 
+    public boolean isBroken() {
+        return defenseValue <= 0;
+    }
+
     /**
      * Allows equipping or unequipping as a contextual action.
      */
     @Override
     public ActionList allowableActions(Actor owner, GameMap map) {
         ActionList actions = super.allowableActions(owner, map);
-        if(!equipped)
-            actions.add(new EquipAction(this));
-        else
-            actions.add(new UnequipAction(this));
+
+        ArmableActor armableActor = map.locationOf(owner).getActorAs(ArmableActor.class);
+        if(armableActor != null){
+            if(!equipped)
+                actions.add(new EquipAction(armableActor, this));
+            else
+                actions.add(new UnequipAction(armableActor,this));
+        }
         return actions;
     }
 

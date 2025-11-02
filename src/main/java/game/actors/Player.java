@@ -17,10 +17,7 @@ import game.interfaces.Freezable;
 import game.items.armours.Armour;
 import game.items.armours.IronArmour;
 import game.items.armours.ThornArmour;
-import game.items.potions.PoisonPotion;
 import game.weapons.BareFist;
-
-import java.util.List;
 
 /**
  * Class representing the Player.
@@ -55,9 +52,9 @@ public class Player extends Actor implements Flammable, Freezable, ArmableActor 
 //        this.addItemToInventory(new Bow());
 
 //        this.addItemToInventory(new HealingPotion());
-        this.addItemToInventory(new PoisonPotion());
-        this.addItemToInventory(new PoisonPotion());
-        this.addItemToInventory(new PoisonPotion());
+//        this.addItemToInventory(new PoisonPotion());
+//        this.addItemToInventory(new PoisonPotion());
+//        this.addItemToInventory(new PoisonPotion());
 
         this.addItemToInventory(new IronArmour());
         this.addItemToInventory(new ThornArmour());
@@ -89,6 +86,7 @@ public class Player extends Actor implements Flammable, Freezable, ArmableActor 
     public void defaultEffect(){
         this.modifyAttribute(PlayerAttribute.HYDRATION_LEVEL, ActorAttributeOperation.DECREASE, 1);
         this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, 1);
+
     }
 
     public void displayStatistics(){
@@ -143,19 +141,34 @@ public class Player extends Actor implements Flammable, Freezable, ArmableActor 
     }
 
     @Override
-    public void hurt(int damage){
-        int validDamage = armour.calculateDamage(this, damage);
+    public void hurt(int damage) {
+        int finalDamage = damage;
 
-        if(validDamage > 0)
-            super.hurt(validDamage);
+        if (armour != null) {
+            finalDamage = armour.calculateDamage(damage);
 
-        this.modifyAttribute(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.DECREASE, -validDamage);
+            if (armour.isBroken()) {
+                Display display = new Display();
+                display.println(armour + " is broken and removed from inventory.");
+                this.armour.unequip(this);
+                this.removeItemFromInventory(armour);
+                this.armour = null;
+            }
+        }
+
+        if (finalDamage > 0) {
+            super.hurt(finalDamage);
+            return;
+        }
+
+        this.modifyAttribute(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.DECREASE, damage);
     }
 
     @Override
-    public void equipArmour(Armour armour) {
-        armour.equip(this);
+    public String equipArmour(Armour armour) {
+
         this.armour = armour;
+        return armour.equip(this);
     }
 
     @Override

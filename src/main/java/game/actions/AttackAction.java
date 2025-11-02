@@ -4,9 +4,9 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
+import game.interfaces.ArmableActor;
 import game.items.armours.Armour;
 
-import java.util.List;
 
 
 /**
@@ -17,10 +17,10 @@ import java.util.List;
 public class AttackAction extends Action {
 
     /** The actor being attacked */
-    private Actor target;
+    private final Actor target;
 
     /** The direction of the attack (for display purposes) */
-    private String direction;
+    private final String direction;
 
     /** The weapon used for the attack (can be null) */
     private Weapon weapon;
@@ -66,14 +66,13 @@ public class AttackAction extends Action {
 
         String result = weapon.attack(actor, target, map);
 
-        List<Armour> armours = target.getItemInventoryAs(Armour.class);
-        for(Armour armour : armours){
-            if(armour.isEquipped()){
-                String reflectText = armour.defend(actor, target, map);
-                if (reflectText != null) result += "\n" + reflectText;
-                break;
-            }
+        ArmableActor armableActor = map.locationOf(target).getActorAs(ArmableActor.class);
+        if(armableActor != null && armableActor.isEquipped()){
+            Armour armour = armableActor.getArmour();
+            String reflectText = armour.applyEffect(actor, target, map);
+            if (reflectText != null) result += "\n" + reflectText;
         }
+
 
         if (!target.isConscious()) {
             result += "\n" + target.unconscious(actor, map);

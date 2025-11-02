@@ -19,13 +19,17 @@ public class ThornArmour extends Armour {
      * Reflects damage to the attacker when the wearer is hit.
      */
     @Override
-    public String defend(Actor attacker, Actor defender, GameMap map) {
-        attacker.hurt(reflectDamage);
-        String result = attacker + " is hurt by the thorns and takes " + reflectDamage + " reflected damage!";
+    public String applyEffect(Actor attacker, Actor defender, GameMap map) {
+        if(damage>0){
+            damage = 0;
+            attacker.hurt(reflectDamage);
+            String result = attacker + " is hurt by the thorns and takes " + reflectDamage + " reflected damage!";
 
-        if (!attacker.isConscious()) {
-            result += "\n" + attacker.unconscious(defender, map);
+            if (!attacker.isConscious()) {
+                result += "\n" + attacker.unconscious(defender, map);
+            }
+            return result;
         }
-        return result;
+        return null;
     }
 }

@@ -3,7 +3,8 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.interfaces.Equipable;
+import game.interfaces.ArmableActor;
+import game.items.armours.Armour;
 
 /**
  * Action that removes an equipped armour item from the actor.
@@ -11,19 +12,22 @@ import game.interfaces.Equipable;
 public class UnequipAction extends Action {
 
     /** The armour to unequip */
-    private final Equipable equipable;
+    private final Armour armour;
 
-    public UnequipAction(Equipable equipable){
-        this.equipable = equipable;
+    private final ArmableActor armableActor;
+
+    public UnequipAction(ArmableActor armableActor, Armour armour){
+        this.armableActor = armableActor;
+        this.armour = armour;
     }
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        return equipable.unequip(actor);
+        return armour.unequip(actor);
     }
 
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " unequips " + equipable;
+        return actor + " unequips " + armour;
     }
 }

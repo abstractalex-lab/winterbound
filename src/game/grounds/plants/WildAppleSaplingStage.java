@@ -24,8 +24,8 @@ public class WildAppleSaplingStage implements GrowthStage {
 
         int turnsToMature = tree.getGrowthBehaviour().getTreeGrowthTurns();
         if (turnsPassed >= turnsToMature) {
-            // Replace with a mature tree version
-            location.setGround(new WildAppleTree(tree.getGrowthBehaviour(), new MatureStage()));
+            tree.setStage(new MatureStage());
+            tree.updateDisplayChar(location, 'T');
         }
     }
 

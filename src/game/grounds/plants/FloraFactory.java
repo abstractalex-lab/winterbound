@@ -15,18 +15,19 @@ public class FloraFactory {
      * @return a new Wild Apple Tree instance starting as a sprout
      */
     public static WildAppleTree createWildAppleTree(GrowthBehaviour behaviour) {
-        // Starts as a sprout
-        return new WildAppleTree(behaviour, new SproutStage());
+        // Wild Apple starts as a sprout ','
+        return new WildAppleTree(',', behaviour, new SproutStage());
     }
 
     /**
-     * Creates a Yew Berry Plant suited for the given environment.
+     * Creates a Yew Berry Plant for the given environment.
+     * Yew Berry Plants start as saplings ('b') and can grow into mature trees over time.
      *
-     * @param behaviour environment-specific growth behaviour (e.g., Forest or Plains)
-     * @return a new Yew Berry Plant instance starting as a sapling
+     * @param behaviour the environment-specific growth behaviour
+     * @return a new Yew Berry Plant starting as a sapling
      */
     public static YewBerryPlant createYewBerryPlant(GrowthBehaviour behaviour) {
-        // Starts as a sapling (berry doesn’t start as sprout)
-        return new YewBerryPlant(behaviour, new YewBerrySaplingStage());
+        // Yew Berry starts as a sapling 'b'
+        return new YewBerryPlant('b', behaviour, new YewBerrySaplingStage());
     }
 }

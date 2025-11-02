@@ -68,4 +68,23 @@ public abstract class AbstractTree extends Tree {
      * @param location the location of the tree on the map
      */
     protected abstract void produceFruit(Location location);
+
+    /**
+     * Changes the display character by replacing this ground with a new tree instance using the same stage and behaviour.
+     *
+     * @param location     the current location of the tree
+     * @param displayChar  the new display character to show
+     */
+    public void updateDisplayChar(Location location, char displayChar) {
+        AbstractTree replacement = recreate(displayChar);
+        replacement.stage = this.stage;
+        replacement.growthBehaviour = this.growthBehaviour;
+        replacement.fruitTimer = this.fruitTimer;
+        location.setGround(replacement);
+    }
+
+    /**
+     * Subclasses must return a new instance of their own type with the given char.
+     */
+    protected abstract AbstractTree recreate(char displayChar);
 }

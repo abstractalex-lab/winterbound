@@ -11,17 +11,37 @@ import game.items.fruits.YewBerry;
  */
 public class YewBerryPlant extends AbstractTree {
 
-    public YewBerryPlant(GrowthBehaviour behaviour, GrowthStage initialStage) {
-        super('y', "Yew Berry Plant", initialStage, behaviour);
-    }
-
-    // NEW: overload so stages can create a mature one with 'Y'
+    /**
+     * Creates a Yew Berry Plant with the given display character,
+     * growth behaviour, and initial growth stage.
+     *
+     * @param displayChar the symbol to display ('b' or 'Y')
+     * @param behaviour the environment-specific growth behaviour
+     * @param initialStage the starting growth stage
+     */
     public YewBerryPlant(char displayChar, GrowthBehaviour behaviour, GrowthStage initialStage) {
         super(displayChar, "Yew Berry Plant", initialStage, behaviour);
     }
 
+    /**
+     * Produces a Yew Berry at the given location.
+     *
+     * @param location the plant's location
+     */
     @Override
     protected void produceFruit(Location location) {
         location.addItem(new YewBerry());
+    }
+
+    /**
+     * Creates a new Yew Berry Plant instance with the same behaviour and stage
+     * but a different display character.
+     *
+     * @param displayChar the new symbol for this plant
+     * @return a new Yew Berry Plant instance
+     */
+    @Override
+    protected AbstractTree recreate(char displayChar) {
+        return new YewBerryPlant(displayChar, this.growthBehaviour, this.stage);
     }
 }

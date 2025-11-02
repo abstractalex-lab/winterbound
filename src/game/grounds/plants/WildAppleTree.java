@@ -13,22 +13,33 @@ import game.items.fruits.Fruit;
 public class WildAppleTree extends AbstractTree {
 
     /**
-     * Constructor for WildAppleTree.
-     *
-     * @param behaviour the environment-dependent behaviour
-     * @param initialStage the initial growth stage (usually SproutStage)
+     * @param displayChar  visual symbol (',', 't', 'T')
+     * @param behaviour    environment-dependent behaviour
+     * @param initialStage initial growth stage
      */
-    public WildAppleTree(GrowthBehaviour behaviour, GrowthStage initialStage) {
-        super('T', "Wild Apple Tree", initialStage, behaviour);
+    public WildAppleTree(char displayChar, GrowthBehaviour behaviour, GrowthStage initialStage) {
+        super(displayChar, "Wild Apple Tree", initialStage, behaviour);
     }
 
     /**
-     * Produces an apple at the current location.
+     * Produces an apple at the given location.
      *
-     * @param location the location of the tree on the map
+     * @param location the tree's location
      */
     @Override
     protected void produceFruit(Location location) {
         location.addItem(new Apple());
+    }
+
+    /**
+     * Creates a new Wild Apple Tree instance with the same behaviour and stage
+     * but a different display character.
+     *
+     * @param displayChar the new symbol for this tree
+     * @return a new Wild Apple Tree instance
+     */
+    @Override
+    protected AbstractTree recreate(char displayChar) {
+        return new WildAppleTree(displayChar, this.growthBehaviour, this.stage);
     }
 }

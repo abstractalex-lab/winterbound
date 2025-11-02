@@ -2,12 +2,11 @@ package game.grounds.plants;
 
 import edu.monash.fit2099.engine.positions.Location;
 import game.interfaces.GrowthStage;
-import game.grounds.plants.AbstractTree;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Represents the sapling stage of a Yew Berry Plant.
- * The sapling has a 50% chance to grow into a mature tree every 3 turns.
+ * The sapling has a 50% chance every 3 turns to grow into a mature tree.
  */
 public class YewBerrySaplingStage implements GrowthStage {
 
@@ -26,11 +25,9 @@ public class YewBerrySaplingStage implements GrowthStage {
 
         // Every 3 turns, 50% chance to become mature
         if (turnsPassed % 3 == 0 && ThreadLocalRandom.current().nextDouble() < 0.5) {
-            // Replace the ground with a new mature plant ('Y') at this location
-            location.setGround(
-                    new YewBerryPlant('Y', tree.getGrowthBehaviour(), new MatureStage())
-            );
-        }
+            tree.setStage(new MatureStage());
+            tree.updateDisplayChar(location, 'Y');
+        }   
     }
 
     /**

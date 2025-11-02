@@ -22,22 +22,15 @@ public class SproutStage implements GrowthStage {
     public void grow(AbstractTree tree, Location location) {
         turnsPassed++;
 
-        // Use GrowthBehaviour to determine how many turns needed to become sapling
         int turnsToSapling = tree.getGrowthBehaviour().getSaplingGrowthTurns();
 
-        if (turnsPassed >= turnsToSapling && turnsToSapling > 0) {
-            // Replace this ground with a new WildAppleTree in sapling stage
-            location.setGround(new WildAppleTree(
-                    tree.getGrowthBehaviour(),
-                    new WildAppleSaplingStage()
-            ));
-        }
-        // If saplingGrowthTurns == 0, the Plains environment will skip to MatureStage immediately
-        else if (turnsToSapling == 0) {
-            location.setGround(new WildAppleTree(
-                    tree.getGrowthBehaviour(),
-                    new MatureStage()
-            ));
+        // If sapling stage is skipped (Plains map)
+        if (turnsToSapling == 0) {
+            tree.setStage(new MatureStage());
+            tree.updateDisplayChar(location, 'T');
+        } else if (turnsPassed >= turnsToSapling) {
+            tree.setStage(new WildAppleSaplingStage());
+            tree.updateDisplayChar(location, 't');
         }
     }
 
@@ -52,9 +45,9 @@ public class SproutStage implements GrowthStage {
     }
 
     /**
-     * Returns how many turns between fruit production attempts (unused here).
+     * Sprouts do not produce fruit, so this is not used.
      *
-     * @return 0, since sprouts do not produce fruit
+     * @return 0
      */
     @Override
     public int getFruitInterval() {

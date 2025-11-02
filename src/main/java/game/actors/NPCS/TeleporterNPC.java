@@ -1,4 +1,4 @@
-package game.actors;
+package game.actors.NPCS;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -11,14 +11,9 @@ import game.services.DialogueService;
  * Provides teleportation services to the player, sending them to random locations on the map.
  * Uses AI-generated dialogue to create immersive, mystical teleportation experiences.
  *
- * <p>This class demonstrates:
- * - Open/Closed Principle: Extends NPC without modifying it
- * - Liskov Substitution: Can be used anywhere an NPC or Actor is expected
- * - Dependency Inversion: Depends on DialogueService abstraction
- *
- * @author FIT2099 Team
  */
-public class TeleporterNPC extends NPC {
+public class TeleporterNPC extends NPC
+{
 
     /**
      * Constructor for the Teleporter NPC.

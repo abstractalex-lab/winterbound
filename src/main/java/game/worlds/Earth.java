@@ -1,12 +1,15 @@
 package game.worlds;
 
-import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.DefaultGroundCreator;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.actors.*;
+import game.actors.NPCS.HealerNPC;
+import game.actors.NPCS.NPC;
+import game.actors.NPCS.TeleporterNPC;
+import game.actors.NPCS.WeaponCoaterNPC;
 import game.actors.animals.*;
 import game.grounds.*;
 import game.grounds.plants.*;
@@ -68,7 +71,7 @@ public class Earth extends World {
         NPC weaponCoaterNPC = new WeaponCoaterNPC(dialogueService);
         NPC healerNPC = new HealerNPC(dialogueService);
 
-        gameMap.at(15, 2).addActor(teleporterNPC);
+        gameMap.at(1, 2).addActor(teleporterNPC);
         gameMap.at(20, 5).addActor(weaponCoaterNPC);
         gameMap.at(25, 7).addActor(healerNPC);
 
@@ -111,12 +114,6 @@ public class Earth extends World {
         GameMap plainsMap = plainsWorld.constructWorld();
         this.addGameMap(plainsMap);
 
-        gameMap.at(19, 3).setGround(
-                FloraFactory.createWildAppleTree(new ForestGrowthBehaviour())
-        );
-        gameMap.at(1, 5).setGround(
-                FloraFactory.createYewBerryPlant(new ForestGrowthBehaviour())
-        );
 
         //door locations across maps
         var forestDoorLoc = gameMap.at(10, 2);

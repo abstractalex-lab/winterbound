@@ -1,4 +1,4 @@
-package game.actors;
+package game.actors.NPCS;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -11,14 +11,9 @@ import game.services.DialogueService;
  * Provides healing services to the player, removing all status effects and ailments.
  * Uses AI-generated dialogue to create immersive healing experiences.
  *
- * <p>This class demonstrates:
- * - Open/Closed Principle: Extends NPC without modifying it
- * - Liskov Substitution: Can be used anywhere an NPC or Actor is expected
- * - Single Responsibility: Only handles healing service offerings
- *
- * @author FIT2099 Team
  */
-public class HealerNPC extends NPC {
+public class HealerNPC extends NPC
+{
 
     /**
      * Constructor for the Healer NPC.

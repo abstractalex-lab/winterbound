@@ -1,4 +1,4 @@
-package game.actors;
+package game.actors.NPCS;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -14,14 +14,9 @@ import game.services.DialogueService;
  * Provides weapon coating services to the player, applying special effects to their weapons.
  * Uses AI-generated dialogue to create immersive crafting experiences.
  *
- * <p>This class demonstrates:
- * - Open/Closed Principle: Extends NPC without modifying it
- * - Liskov Substitution: Can be used anywhere an NPC or Actor is expected
- * - Single Responsibility: Only handles weapon coating service offerings
- *
- * @author FIT2099 Team
  */
-public class WeaponCoaterNPC extends NPC {
+public class WeaponCoaterNPC extends NPC
+{
 
     /**
      * Constructor for the Weapon Coater NPC.

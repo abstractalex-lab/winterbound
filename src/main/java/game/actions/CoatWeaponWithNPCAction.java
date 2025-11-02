@@ -92,7 +92,11 @@ public class CoatWeaponWithNPCAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " requests weapon coating service from " + npc +
-                " (" + coating.getName() + ")";
+        String weaponName = weapon instanceof WeaponItem
+                ? ((WeaponItem) weapon).toString()
+                : weapon.toString();
+
+        return actor + " requests " + npc + " to coat " + weaponName +
+                " with " + coating.getName();
     }
 }

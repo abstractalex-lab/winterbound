@@ -9,69 +9,44 @@
       VF      VF      .JMML..JML.    YM     .JMML.    .JMMmmmmMMM .JMML. .JMM.
 ```
 
-## Contribution Log
-[Link to Group Contribution Log spreadsheet](https://docs.google.com/spreadsheets/d/14l60JpGq3CE-WVBTjQ6HDyauSbhznTMZf4ikgSVDu5s/edit?usp=sharing)
+# REQ3 & REQ4: Potion System
 
----
+## Scenario Overview
 
-# REQ5 — Multi-State Creature System
-## Class Structure
+`In this feature, a Potion System is introduced to enhance the player’s survival and strategy in the wilderness.
+The Explorer can now collect and drink different types of potions to gain temporary abilities and buffs that alter combat and movement. 
+Each potion grants a unique effect for a limited number of turns. 
+Players can combine or sequence potion use to adapt to harsh conditions or powerful enemies.`
 
-### MultiStateCreature
+## Three potions are implemented in this feature:
 
-* An abstract superclass representing creatures capable of switching states.
-* Holds the current active CreatureState.
-* Stores all possible states in a predefined list.
-* Automatically changes state when HP falls below a threshold (HP divided by number of states).
-* Delegates attack logic to the current state’s intrinsic weapon.
-* Calls enterState() and leaveState() to enable/disable abilities and behaviours when transitioning.
+1. Fire Resistance Potion – protects against fire and burning damage.
+2. Swiftness Potion – doubles the Explorer’s movement speed.
+3. Strength Potion – boosts the Explorer’s physical attack power.
 
-### CreatureState
-An abstract class that defines the shared structure for each combat form.
-Each subclass specifies:
-* A unique IntrinsicWeapon for its attack effect.
-* A specific Ability (e.g., elemental resistance).
-* Optional Behaviour(s) that execute automatically every turn. Behaviours are stored in a TreeMap<Integer, Behaviour> to manage multiple concurrent actions by priority.
+### Fire Resistance Potion
 
-### Actions and Behaviours
-RangedAttackAction, RangedAttackBehaviour — attack other actors in different range.
-BurningAuraAction, BurningAuraBehaviour — Sets adjacent tiles on fire while wandering.
-KnockBackAOEAction, KnockBackAOEBehaviour — Pushes away all actors within 1-tile radius, simulating a wind shockwave.
+Symbol: r
+Effect: Grants immunity to all fire-related damage for 5 turns.
+Details:
+The user ignores all damage from Fire ground and Burning status effects.
+If already burning when consumed, the potion immediately extinguishes the flames.
+Cannot be stacked, but re-drinking resets the duration.
 
-### Abilities
-FIRE_RESISTANT — Grants immunity to fire and burning effects while in FireState.
 
-### Example Creature — Dragon
-The Dragon transitions through three states:
-FireState -> WindState -> BerserkState
+### Swiftness Potion
 
-### FireState:
-The dragon can ignite nearby tiles while wandering and resistant to Fire.
-The dragon breathes fire in range of 2 and ignites target's nearby tiles and add Burning status to target.
+Symbol: b
+Effect: Increases the Explorer’s movement speed for 4 turns.
+Details:
+The Explorer moves two tiles per action instead of one.
 
-* Intrinsic Weapon -> FireBreathe
-* Ability -> FIRE_RESISTANT
-* Behaviour(s) -> BurningAuraBehaviour, RangedAttackBehaviour
 
-### WindState:
-The dragon can knock back nearby actors while wandering automatically and attack others in range of 2.
+### Strength Potion
 
-* Intrinsic Weapon -> WindHowl
-* Ability -> null
-* Behaviour(s) -> KnockBackAOEBehaviour, RangedAttackBehaviour
-
-### BerserkState:
-The dragon enters a rage mode, dealing heavy melee damage and restoring health through life steal.
-
-* Intrinsic Weapon -> LifeStealClaw
-* Ability -> null
-* Behaviour(s) -> AttackBehaviour
-
-### State Transition Rules
-
-* The Dragon starts in FireState.
-* When HP falls below 2/3 of its maximum, it transitions to FireState.
-* When HP falls below 1/3, it transitions to BerserkState.
-* On each transition:
-* The previous state’s ability and behaviours are disabled.
-* The new state’s ability and behaviours are activated.
+Symbol: g
+Effect: Increases all outgoing attack damage by 50% (×1.5 multiplier) for 5 turns.
+Details:
+Applies to both intrinsic and weapon-based attacks.
+Compatible with other potions like Fire Resistance.
+Re-drinking refreshes duration rather than stacking.

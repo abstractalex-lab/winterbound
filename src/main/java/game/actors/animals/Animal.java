@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperation;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import game.actions.AttackAction;
 import game.actions.FeedAction;
 import game.attributes.AnimalAttribute;
@@ -112,10 +113,10 @@ public abstract class Animal extends Actor implements Flammable, Freezable {
      * @param priority The priority of the behavior (lower is higher).
      * @param behaviour The behavior to add.
      */
-    void addBehaviour(int priority, Behaviour behaviour){
+// before: void addBehaviour(int priority, Behaviour behaviour) { ... }
+    public void addBehaviour(int priority, Behaviour behaviour) {
         this.behaviours.put(priority, behaviour);
     }
-
     /**
      * Gets a copy of the animal's behaviors.
      * @return A new sorted map of behaviors.
@@ -148,4 +149,8 @@ public abstract class Animal extends Actor implements Flammable, Freezable {
         this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, warmthReduction);
         return this + " feels cold.";
     }
+
+
+    public void onSpawnedAt(Location spawnerLocation, java.util.concurrent.ThreadLocalRandom rng) { }
+
 }

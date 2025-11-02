@@ -89,24 +89,31 @@ public class Earth extends World {
         MultiStateCreature dragon = new Dragon(allStates);
         gameMap.at(6,6).addActor(dragon);
 
+        // ==== Spawners (note: Supplier<? extends Animal>) ====
         gameMap.at(10,9).setGround(
-                new Tundra(Arrays.<Supplier<? extends Actor>>asList(() -> new Bear()))
+                new Tundra(Arrays.<Supplier<? extends Animal>>asList(Bear::new))
         );
         gameMap.at(8, 7).setGround(
-                new Tundra(Arrays.<Supplier<? extends Actor>>asList(() -> new Wolf()))
+                new Tundra(Arrays.<Supplier<? extends Animal>>asList(Wolf::new))
         );
         gameMap.at(11, 6).setGround(
-                new Cave(Arrays.<Supplier<? extends Actor>>asList(() -> new Bear(), () -> new Wolf(), () -> new Deer()))
+                new Cave(Arrays.<Supplier<? extends Animal>>asList(Bear::new, Wolf::new, Deer::new))
         );
         gameMap.at(12, 2).setGround(
-                new Cave(Arrays.<Supplier<? extends Actor>>asList(() -> new Bear(), () -> new Wolf()))
+                new Cave(Arrays.<Supplier<? extends Animal>>asList(Bear::new, Wolf::new))
         );
+        // A3: Meadow in Forest now also spawns Crocodile
         gameMap.at(9, 5).setGround(
-                new Meadow(Arrays.<Supplier<? extends Actor>>asList(() -> new Deer()))
+                new Meadow(Arrays.<Supplier<? extends Animal>>asList(Deer::new, Crocodile::new))
         );
         gameMap.at(11, 4).setGround(
-                new Meadow(Arrays.<Supplier<? extends Actor>>asList(() -> new Deer(), () -> new Bear()))
+                new Meadow(Arrays.<Supplier<? extends Animal>>asList(Deer::new, Bear::new))
         );
+        // A3: Swamp in Forest spawns Crocodile and Deer
+        gameMap.at(7,7).setGround(
+                new Swamp(Arrays.<Supplier<? extends Animal>>asList(Deer::new, Crocodile::new))
+        );
+
         Plains plainsWorld = new Plains(this.display);
         GameMap plainsMap = plainsWorld.constructWorld();
         this.addGameMap(plainsMap);

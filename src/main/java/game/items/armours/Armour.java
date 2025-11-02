@@ -14,12 +14,33 @@ import game.interfaces.Equipable;
 
 import java.util.List;
 
+/**
+ * Base class for armour items that can be equipped to provide defense.
+ * Implements Equipable and manages equip state and defense values.
+ * <p>
+ * Armour increases the player's defense attribute when equipped, and
+ * blocks dropping while equipped. Subclasses may override defend() for
+ * special defensive effects such as reflection or elemental resistance.
+ */
 public abstract class Armour extends Item implements Equipable {
 
+    /** Whether the armour is currently equipped */
     protected boolean equipped;
+
+    /** Current defense value (may decrease if armour degrades) */
     private int defenseValue;
+
+    /** Maximum defense value for display/reference */
     private final int max_defenseValue;
 
+    /**
+     * Constructor for Armour.
+     *
+     * @param name item name
+     * @param displayChar map representation
+     * @param portable whether it can be picked up
+     * @param defenseValue the defense value it provides
+     */
     public Armour(String name, char displayChar, boolean portable, int defenseValue) {
         super(name, displayChar, portable);
         this.equipped = false;
@@ -27,10 +48,21 @@ public abstract class Armour extends Item implements Equipable {
         this.max_defenseValue = defenseValue;
     }
 
+    /**
+     * Defines special defense behaviour. Subclasses may override.
+     *
+     * @param attacker the attacking actor
+     * @param defender the defending actor wearing the armour
+     * @param map the game map
+     * @return combat message (or null if no special effect)
+     */
     public String defend(Actor attacker, Actor defender, GameMap map) {
         return null;
     }
 
+    /**
+     * Equips the armour and applies its defense stat to the actor.
+     */
     @Override
     public String equip(Actor actor) {
         actor.modifyStatsMaximum(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.UPDATE, defenseValue);
@@ -38,6 +70,10 @@ public abstract class Armour extends Item implements Equipable {
         return actor + " equips " + this + ".";
     }
 
+    /**
+     * Unequips the armour and removes its defense value.
+     * Restores the armour's defense value based on player stats.
+     */
     @Override
     public String unequip(Actor actor) {
         defenseValue = actor.getAttribute(PlayerAttribute.DEFENSE_LEVEL);
@@ -51,6 +87,9 @@ public abstract class Armour extends Item implements Equipable {
         return equipped;
     }
 
+    /**
+     * Allows equipping or unequipping as a contextual action.
+     */
     @Override
     public ActionList allowableActions(Actor owner, GameMap map) {
         ActionList actions = super.allowableActions(owner, map);
@@ -61,6 +100,9 @@ public abstract class Armour extends Item implements Equipable {
         return actions;
     }
 
+    /**
+     * Prevents dropping armour while equipped.
+     */
     @Override
     public DropAction getDropAction(Actor actor) {
         if(!equipped)
@@ -72,6 +114,4 @@ public abstract class Armour extends Item implements Equipable {
     public String toString(){
         return super.toString() + "[" + defenseValue + "/" + max_defenseValue + ']';
     }
-
-
 }

@@ -8,15 +8,22 @@ import game.items.armours.Armour;
 
 import java.util.List;
 
+/**
+ * Action that equips an armour item.
+ * If another armour is already equipped, it is first unequipped.
+ */
 public class EquipAction extends Action {
 
+    /** The armour to equip */
     private final Equipable equipable;
 
     public EquipAction(Equipable equipable){
         this.equipable = equipable;
     }
 
-
+    /**
+     * Unequips any currently equipped armour, then equips this one.
+     */
     @Override
     public String execute(Actor actor, GameMap map) {
         List<Armour> armours = actor.getItemInventoryAs(Armour.class);

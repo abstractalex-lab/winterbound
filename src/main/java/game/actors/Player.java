@@ -154,6 +154,7 @@ public class Player extends Actor implements Flammable, Freezable {
         for(Armour armour : armours){
             if(armour.isEquipped()){
                 armour.unequip(this);
+                this.removeItemFromInventory(armour);
                 break;
             }
         }

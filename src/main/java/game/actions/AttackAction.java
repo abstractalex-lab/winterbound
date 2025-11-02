@@ -69,7 +69,7 @@ public class AttackAction extends Action {
         List<Armour> armours = target.getItemInventoryAs(Armour.class);
         for(Armour armour : armours){
             if(armour.isEquipped()){
-                String reflectText = armour.defend(actor,  target, map);
+                String reflectText = armour.defend(actor, target, map);
                 if (reflectText != null) result += "\n" + reflectText;
                 break;
             }

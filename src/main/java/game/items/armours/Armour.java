@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.items.DropAction;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.EquipAction;
+import game.actions.UnequipAction;
 import game.attributes.PlayerAttribute;
 import game.interfaces.Equipable;
 
@@ -18,7 +19,6 @@ public abstract class Armour extends Item implements Equipable {
     protected boolean equipped;
     private int defenseValue;
     private final int max_defenseValue;
-    private int damage;
 
     public Armour(String name, char displayChar, boolean portable, int defenseValue) {
         super(name, displayChar, portable);
@@ -33,13 +33,6 @@ public abstract class Armour extends Item implements Equipable {
 
     @Override
     public String equip(Actor actor) {
-        Display display = new Display();
-        List<Armour> armours = actor.getItemInventoryAs(Armour.class);
-        for(Armour armour : armours){
-            if(armour.isEquipped())
-                display.println(armour.unequip(actor));
-            break;
-        }
         actor.modifyStatsMaximum(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.UPDATE, defenseValue);
         this.equipped = true;
         return actor + " equips " + this + ".";
@@ -63,6 +56,8 @@ public abstract class Armour extends Item implements Equipable {
         ActionList actions = super.allowableActions(owner, map);
         if(!equipped)
             actions.add(new EquipAction(this));
+        else
+            actions.add(new UnequipAction(this));
         return actions;
     }
 

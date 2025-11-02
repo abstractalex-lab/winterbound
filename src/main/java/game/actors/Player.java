@@ -30,6 +30,8 @@ public class Player extends Actor implements Flammable, Freezable {
     static final int HYDRATION_LEVEL = 20000;
     static final int WARMTH_LEVEL = 30000;
 
+    private Armour armour;
+
 
     /**
      * Constructor.
@@ -58,9 +60,6 @@ public class Player extends Actor implements Flammable, Freezable {
 
         this.addItemToInventory(new IronArmour());
         this.addItemToInventory(new ThornArmour());
-
-
-
 
         this.enableAbility(Abilities.CAN_ATTACK);
         this.enableAbility(Abilities.CAN_FEED);
@@ -150,11 +149,12 @@ public class Player extends Actor implements Flammable, Freezable {
             this.modifyAttribute(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.DECREASE, damage);
             return;
         }
+
         List<Armour> armours = this.getItemInventoryAs(Armour.class);
         for(Armour armour : armours){
             if(armour.isEquipped()){
                 armour.unequip(this);
-                this.removeItemFromInventory(armour);
+                break;
             }
         }
         super.hurt(validDamage);

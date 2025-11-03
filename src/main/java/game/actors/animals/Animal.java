@@ -12,6 +12,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.AttackAction;
 import game.actions.FeedAction;
+import game.actions.GameOverAction;
 import game.attributes.AnimalAttribute;
 import game.attributes.PlayerAttribute;
 import game.behaviours.WanderBehaviour;
@@ -54,6 +55,11 @@ public abstract class Animal extends Actor implements Flammable, Freezable {
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        if(!isConscious()){
+
+            return new GameOverAction(unconscious(map));
+        }
+
         // Warmth: -1 per turn; remove at 0
         if (this.hasStatistic(AnimalAttribute.WARMTH_LEVEL)) {
             try {

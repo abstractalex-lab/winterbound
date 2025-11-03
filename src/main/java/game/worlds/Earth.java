@@ -1,15 +1,12 @@
 package game.worlds;
 
+import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.DefaultGroundCreator;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.actors.*;
-import game.actors.NPCS.HealerNPC;
-import game.actors.NPCS.NPC;
-import game.actors.NPCS.TeleporterNPC;
-import game.actors.NPCS.WeaponCoaterNPC;
 import game.actors.animals.*;
 import game.grounds.*;
 import game.grounds.plants.*;
@@ -71,7 +68,7 @@ public class Earth extends World {
         NPC weaponCoaterNPC = new WeaponCoaterNPC(dialogueService);
         NPC healerNPC = new HealerNPC(dialogueService);
 
-        gameMap.at(1, 2).addActor(teleporterNPC);
+        gameMap.at(15, 2).addActor(teleporterNPC);
         gameMap.at(20, 5).addActor(weaponCoaterNPC);
         gameMap.at(25, 7).addActor(healerNPC);
 
@@ -92,28 +89,41 @@ public class Earth extends World {
         MultiStateCreature dragon = new Dragon(allStates);
         gameMap.at(6,6).addActor(dragon);
 
+        // ==== Spawners (note: Supplier<? extends Animal>) ====
         gameMap.at(10,9).setGround(
-                new Tundra(Arrays.<Supplier<? extends Actor>>asList(() -> new Bear()))
+                new Tundra(Arrays.<Supplier<? extends Animal>>asList(Bear::new))
         );
         gameMap.at(8, 7).setGround(
-                new Tundra(Arrays.<Supplier<? extends Actor>>asList(() -> new Wolf()))
+                new Tundra(Arrays.<Supplier<? extends Animal>>asList(Wolf::new))
         );
         gameMap.at(11, 6).setGround(
-                new Cave(Arrays.<Supplier<? extends Actor>>asList(() -> new Bear(), () -> new Wolf(), () -> new Deer()))
+                new Cave(Arrays.<Supplier<? extends Animal>>asList(Bear::new, Wolf::new, Deer::new))
         );
         gameMap.at(12, 2).setGround(
-                new Cave(Arrays.<Supplier<? extends Actor>>asList(() -> new Bear(), () -> new Wolf()))
+                new Cave(Arrays.<Supplier<? extends Animal>>asList(Bear::new, Wolf::new))
         );
+        // A3: Meadow in Forest now also spawns Crocodile
         gameMap.at(9, 5).setGround(
-                new Meadow(Arrays.<Supplier<? extends Actor>>asList(() -> new Deer()))
+                new Meadow(Arrays.<Supplier<? extends Animal>>asList(Deer::new, Crocodile::new))
         );
         gameMap.at(11, 4).setGround(
-                new Meadow(Arrays.<Supplier<? extends Actor>>asList(() -> new Deer(), () -> new Bear()))
+                new Meadow(Arrays.<Supplier<? extends Animal>>asList(Deer::new, Bear::new))
         );
+        // A3: Swamp in Forest spawns Crocodile and Deer
+        gameMap.at(7,7).setGround(
+                new Swamp(Arrays.<Supplier<? extends Animal>>asList(Deer::new, Crocodile::new))
+        );
+
         Plains plainsWorld = new Plains(this.display);
         GameMap plainsMap = plainsWorld.constructWorld();
         this.addGameMap(plainsMap);
 
+        gameMap.at(3, 4).setGround(
+                FloraFactory.createWildAppleTree(new ForestGrowthBehaviour())
+        );
+        gameMap.at(1, 3).setGround(
+                FloraFactory.createYewBerryPlant(new ForestGrowthBehaviour())
+        );
 
         //door locations across maps
         var forestDoorLoc = gameMap.at(10, 2);

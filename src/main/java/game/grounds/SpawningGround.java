@@ -1,33 +1,31 @@
+// file: game/grounds/SpawningGround.java
 package game.grounds;
 
 import edu.monash.fit2099.engine.GameEngineException;
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-import edu.monash.fit2099.engine.actors.Actor;
+import game.actors.animals.Animal;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Supplier;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Abstract ground that can periodically spawn actors.
+ * Abstract ground that can periodically spawn animals.
  * Subclasses specify chance, cooldown, and a spawn table.
+ * - Uses Supplier<? extends Animal> (compile-time safety, no instanceof).
+ * - Calls Animal.onSpawnedAt(...) for species-specific post-spawn effects.
  */
 public abstract class SpawningGround extends Ground {
-    private final Random rng;
+
     private int cooldown = 0;
 
     protected SpawningGround(char displayChar, String name) {
-        this(displayChar, name, new Random());
-    }
-
-    /** For deterministic testing, provide your own Random. */
-    protected SpawningGround(char displayChar, String name, Random rng) {
         super(displayChar, name);
-        this.rng = rng;
     }
 
     /** Chance in [0..1], evaluated on ticks when {@code cooldown == 0}. */
@@ -37,10 +35,12 @@ public abstract class SpawningGround extends Ground {
     protected int spawnCooldownTicks() { return 1; }
 
     /**
-     * Spawn table entries. If you want weighting, repeat entries.
-     * e.g., [Wolf, Wolf, Wolf, Bear] gives Wolf 75%, Bear 25%.
+     * Equal chance unless you repeat suppliers to weight.
      */
     protected abstract List<Supplier<? extends Actor>> spawnTable();
+
+    /** Subclasses may veto an attempt (e.g., Swamp requires nearby actor). */
+    protected boolean canAttempt(Location here) { return true; }
 
     @Override
     public void tick(Location location) {
@@ -51,14 +51,20 @@ public abstract class SpawningGround extends Ground {
             return;
         }
 
-        // roll for a spawn attempt
+        if (!canAttempt(location)) {
+            cooldown = spawnCooldownTicks();
+            return;
+        }
+
+        ThreadLocalRandom rng = ThreadLocalRandom.current();
+
         if (rng.nextDouble() <= spawnChance()) {
-            var table = spawnTable();
+            List<Supplier<? extends Actor>> table = spawnTable();
             if (!table.isEmpty()) {
                 // choose candidate species (weighted by repetition)
-                Actor candidate = table.get(rng.nextInt(table.size())).get();
+                Animal candidate = (Animal) table.get(rng.nextInt(table.size())).get();
 
-                // choose a free destination: prefer current tile, else a random free neighbour
+                // prefer current tile; else a random free neighbour that can accept the animal
                 Location dest = null;
                 if (!location.containsAnActor()) {
                     dest = location;
@@ -77,8 +83,10 @@ public abstract class SpawningGround extends Ground {
                 if (dest != null) {
                     try {
                         dest.addActor(candidate);
+                        // Polymorphic post-spawn (no instanceof anywhere)
+                        candidate.onSpawnedAt(location, rng);
                     } catch (GameEngineException ignored) {
-                        // placement failed per engine rule; ignore
+                        // placement failed per engine rule; ignore and continue
                     }
                 }
             }

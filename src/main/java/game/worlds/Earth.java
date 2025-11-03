@@ -57,7 +57,7 @@ public class Earth extends World {
         GameMap gameMap = new GameMap("Forest", groundCreator, map);
         this.addGameMap(gameMap);
 
-        Player player = new Player("Explorer", 'ඞ', 1000000);
+        Player player = new Player("Explorer", 'ඞ', 100);
         this.addPlayer(player, gameMap.at(1, 1));
 
         Animal bear = new Bear();

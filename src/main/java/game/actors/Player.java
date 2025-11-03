@@ -26,8 +26,8 @@ import game.weapons.BareFist;
  */
 public class Player extends ArmableActor implements Flammable, Freezable {
 
-    static final int HYDRATION_LEVEL = 20000;
-    static final int WARMTH_LEVEL = 30000;
+    static final int HYDRATION_LEVEL = 20;
+    static final int WARMTH_LEVEL = 30;
 
 
     /**

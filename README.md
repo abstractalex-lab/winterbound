@@ -9,6 +9,16 @@
       VF      VF      .JMML..JML.    YM     .JMML.    .JMMmmmmMMM .JMML. .JMM.
 ```
 
+
+# Unit test
+req3:
+HealingPotionTest: Ensures Healing Potion correctly applies healing status to self, targets, and nearby actors
+PoisonPotionTest: Ensures Poison Potion removes itself from inventory when thrown, applies poison status, and creates ToxicSpill around target
+
+req4:
+IronArmourTest: Tests armour damage reduction, durability break, and removal
+
+
 # REQ3: Potion System
 
 ## Scenario Overview
@@ -101,3 +111,4 @@ Damage mitigated by armour
 If damage penetrates, attacker is harmed by thorn effect
 Armour breaks normally when durability hits zero
 Encourages aggressive, close-combat playstyles with a risk-reward mechanic.
+

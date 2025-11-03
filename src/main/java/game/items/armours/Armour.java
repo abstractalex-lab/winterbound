@@ -8,8 +8,8 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.EquipAction;
 import game.actions.UnequipAction;
+import game.actors.ArmableActor;
 import game.attributes.PlayerAttribute;
-import game.interfaces.ArmableActor;
 import game.interfaces.Equipable;
 
 /**

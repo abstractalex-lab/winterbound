@@ -3,7 +3,7 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.interfaces.ArmableActor;
+import game.actors.ArmableActor;
 import game.items.armours.Armour;
 
 /**

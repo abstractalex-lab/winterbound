@@ -3,11 +3,8 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.interfaces.ArmableActor;
-import game.interfaces.Equipable;
+import game.actors.ArmableActor;
 import game.items.armours.Armour;
-
-import java.util.List;
 
 /**
  * Action that equips an armour item.

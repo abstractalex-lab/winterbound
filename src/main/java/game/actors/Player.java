@@ -11,7 +11,6 @@ import edu.monash.fit2099.engine.displays.Menu;
 import game.actions.GameOverAction;
 import game.attributes.PlayerAttribute;
 import game.capabilities.Abilities;
-import game.interfaces.ArmableActor;
 import game.interfaces.Flammable;
 import game.interfaces.Freezable;
 import game.items.armours.Armour;
@@ -23,7 +22,7 @@ import game.weapons.BareFist;
  * Class representing the Player.
  * @author Adrian Kristanto
  */
-public class Player extends Actor implements Flammable, Freezable, ArmableActor {
+public class Player extends ArmableActor implements Flammable, Freezable {
 
     static final int HYDRATION_LEVEL = 20000;
     static final int WARMTH_LEVEL = 30000;
@@ -44,7 +43,6 @@ public class Player extends Actor implements Flammable, Freezable, ArmableActor 
 
         this.addNewStatistic(PlayerAttribute.HYDRATION_LEVEL, new BaseActorAttribute(HYDRATION_LEVEL));
         this.addNewStatistic(PlayerAttribute.WARMTH_LEVEL, new BaseActorAttribute(WARMTH_LEVEL));
-        this.addNewStatistic(PlayerAttribute.DEFENSE_LEVEL, new BaseActorAttribute(0));
 
 //        this.addItemToInventory(new Bedroll());
 //        this.addItemToInventory(new Bottle());
@@ -140,44 +138,5 @@ public class Player extends Actor implements Flammable, Freezable, ArmableActor 
         return this + " feels cold.";
     }
 
-    @Override
-    public void hurt(int damage) {
-        int finalDamage = damage;
 
-        if (armour != null) {
-            finalDamage = armour.calculateDamage(damage);
-
-            if (armour.isBroken()) {
-                Display display = new Display();
-                display.println(armour + " is broken and removed from inventory.");
-                this.armour.unequip(this);
-                this.removeItemFromInventory(armour);
-                this.armour = null;
-            }
-        }
-
-        if (finalDamage > 0) {
-            super.hurt(finalDamage);
-            return;
-        }
-
-        this.modifyAttribute(PlayerAttribute.DEFENSE_LEVEL, ActorAttributeOperation.DECREASE, damage);
-    }
-
-    @Override
-    public String equipArmour(Armour armour) {
-
-        this.armour = armour;
-        return armour.equip(this);
-    }
-
-    @Override
-    public Armour getArmour() {
-        return armour;
-    }
-
-    @Override
-    public Boolean isEquipped() {
-        return armour != null;
-    }
 }

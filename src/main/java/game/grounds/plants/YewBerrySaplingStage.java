@@ -27,7 +27,7 @@ public class YewBerrySaplingStage implements GrowthStage {
         if (turnsPassed % 3 == 0 && ThreadLocalRandom.current().nextDouble() < 0.5) {
             tree.setStage(new MatureStage());
             tree.updateDisplayChar(location, 'Y');
-        }   
+        }
     }
 
     /**

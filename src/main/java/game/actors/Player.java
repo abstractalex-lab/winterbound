@@ -16,6 +16,8 @@ import game.interfaces.Freezable;
 import game.items.armours.Armour;
 import game.items.armours.IronArmour;
 import game.items.armours.ThornArmour;
+import game.items.potions.HealingPotion;
+import game.items.potions.PoisonPotion;
 import game.weapons.BareFist;
 
 /**
@@ -26,8 +28,6 @@ public class Player extends ArmableActor implements Flammable, Freezable {
 
     static final int HYDRATION_LEVEL = 20000;
     static final int WARMTH_LEVEL = 30000;
-
-    private Armour armour;
 
 
     /**
@@ -49,10 +49,8 @@ public class Player extends ArmableActor implements Flammable, Freezable {
 
 //        this.addItemToInventory(new Bow());
 
-//        this.addItemToInventory(new HealingPotion());
-//        this.addItemToInventory(new PoisonPotion());
-//        this.addItemToInventory(new PoisonPotion());
-//        this.addItemToInventory(new PoisonPotion());
+        this.addItemToInventory(new HealingPotion());
+        this.addItemToInventory(new PoisonPotion());
 
         this.addItemToInventory(new IronArmour());
         this.addItemToInventory(new ThornArmour());

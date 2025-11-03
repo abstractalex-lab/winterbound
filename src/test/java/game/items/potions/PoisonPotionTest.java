@@ -59,7 +59,7 @@ class PoisonPotionTest {
         PoisonPotion potion = new PoisonPotion();
         potion.throwAt(attacker, target, center);
 
-        // ✅ Verify each surrounding tile turned into ToxicSpill
+        // Verify each surrounding tile turned into ToxicSpill
         verify(l1).setGround(any(ToxicSpill.class));
         verify(l2).setGround(any(ToxicSpill.class));
         verify(l3).setGround(any(ToxicSpill.class));

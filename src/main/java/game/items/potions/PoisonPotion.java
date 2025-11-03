@@ -23,7 +23,7 @@ public class PoisonPotion extends Potion {
      * Sets the item name and display character.
      */
     public PoisonPotion() {
-        super("Poison Potion", 'P', true);
+        super("Poison Potion", 'p', true);
     }
 
     /**

@@ -9,6 +9,9 @@
       VF      VF      .JMML..JML.    YM     .JMML.    .JMMmmmmMMM .JMML. .JMM.
 ```
 
+## Contribution Log
+[Google Spreadsheet link](https://docs.google.com/spreadsheets/d/14l60JpGq3CE-WVBTjQ6HDyauSbhznTMZf4ikgSVDu5s/edit?usp=sharing)
+
 
 # Unit test
 req3:

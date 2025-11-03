@@ -13,20 +13,22 @@ import game.attributes.PlayerAttribute;
 import game.capabilities.Abilities;
 import game.interfaces.Flammable;
 import game.interfaces.Freezable;
-import game.items.Bedroll;
-import game.items.Bottle;
+import game.items.armours.Armour;
+import game.items.armours.IronArmour;
+import game.items.armours.ThornArmour;
 import game.weapons.BareFist;
-import game.weapons.Bow;
 
 /**
  * Class representing the Player.
  * @author Adrian Kristanto
  */
-public class Player extends Actor implements Flammable, Freezable {
+public class Player extends ArmableActor implements Flammable, Freezable {
 
+    static final int HYDRATION_LEVEL = 20000;
+    static final int WARMTH_LEVEL = 30000;
 
-    static final int HYDRATION_LEVEL = 20;
-    static final int WARMTH_LEVEL = 30;
+    private Armour armour;
+
 
     /**
      * Constructor.
@@ -41,9 +43,19 @@ public class Player extends Actor implements Flammable, Freezable {
 
         this.addNewStatistic(PlayerAttribute.HYDRATION_LEVEL, new BaseActorAttribute(HYDRATION_LEVEL));
         this.addNewStatistic(PlayerAttribute.WARMTH_LEVEL, new BaseActorAttribute(WARMTH_LEVEL));
-        this.addItemToInventory(new Bedroll());
-        this.addItemToInventory(new Bottle());
-        this.addItemToInventory(new Bow());
+
+//        this.addItemToInventory(new Bedroll());
+//        this.addItemToInventory(new Bottle());
+
+//        this.addItemToInventory(new Bow());
+
+//        this.addItemToInventory(new HealingPotion());
+//        this.addItemToInventory(new PoisonPotion());
+//        this.addItemToInventory(new PoisonPotion());
+//        this.addItemToInventory(new PoisonPotion());
+
+        this.addItemToInventory(new IronArmour());
+        this.addItemToInventory(new ThornArmour());
 
         this.enableAbility(Abilities.CAN_ATTACK);
         this.enableAbility(Abilities.CAN_FEED);
@@ -72,6 +84,7 @@ public class Player extends Actor implements Flammable, Freezable {
     public void defaultEffect(){
         this.modifyAttribute(PlayerAttribute.HYDRATION_LEVEL, ActorAttributeOperation.DECREASE, 1);
         this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, 1);
+
     }
 
     public void displayStatistics(){
@@ -79,6 +92,8 @@ public class Player extends Actor implements Flammable, Freezable {
         display.println(this.toString());
         display.println("hydration: " + this.getAttribute(PlayerAttribute.HYDRATION_LEVEL));
         display.println("warmth: " + this.getAttribute(PlayerAttribute.WARMTH_LEVEL));
+        display.println("defense: " + this.getAttribute(PlayerAttribute.DEFENSE_LEVEL));
+
     }
 
     @Override
@@ -122,5 +137,6 @@ public class Player extends Actor implements Flammable, Freezable {
         this.modifyAttribute(PlayerAttribute.WARMTH_LEVEL, ActorAttributeOperation.DECREASE, warmthReduction);
         return this + " feels cold.";
     }
+
 
 }

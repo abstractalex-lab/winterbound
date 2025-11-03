@@ -7,27 +7,39 @@ import game.actors.ArmableActor;
 import game.items.armours.Armour;
 
 /**
- * Action that equips an armour item.
- * If another armour is already equipped, it is first unequipped.
+ * Action that equips armour to an {@link ArmableActor}.
+ * <p>
+ * If the actor already has armour equipped, that armour is unequipped first.
+ * This ensures only one armour may be active at a time.
  */
 public class EquipAction extends Action {
 
-    /** The armour to equip */
+    /** The armour to be equipped */
     private final Armour armour;
+
+    /** The actor capable of wearing armour */
     private final ArmableActor armableActor;
 
+    /**
+     * Constructs an equip action for a specific armour.
+     *
+     * @param armableActor the actor equipping the armour
+     * @param armour the armour to equip
+     */
     public EquipAction(ArmableActor armableActor, Armour armour){
         this.armour = armour;
         this.armableActor = armableActor;
     }
 
     /**
-     * Unequips any currently equipped armour, then equips this one.
+     * Equips the armour and unequips any existing one first.
+     *
+     * @return description of the equip process
      */
     @Override
     public String execute(Actor actor, GameMap map) {
         if(armableActor.isEquipped()){
-            armableActor.getArmour().unequip(actor);
+            armableActor.getArmour().unequip(armableActor);
         }
         return armableActor.equipArmour(armour);
     }

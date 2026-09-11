@@ -1,6 +1,6 @@
 # Winterbound
 
-> *A turn-based winter survival roguelike in Java — forage, fight and freeze in a forest that is actively trying to kill you.*
+> *A turn-based winter survival roguelike in Java - forage, fight and freeze in a forest that is actively trying to kill you.*
 
 [![build](https://github.com/abstractalex-lab/winterbound/actions/workflows/build.yml/badge.svg)](https://github.com/abstractalex-lab/winterbound/actions/workflows/build.yml)
 ![Java](https://img.shields.io/badge/Java_17-ED8B00?style=flat&logo=openjdk&logoColor=white)
@@ -20,12 +20,12 @@ Completed as a three-assignment sequence for **FIT2099 – Object-Oriented Desig
 
 ### 🌟 Highlights
 
-- **Read-only engine constraint** met entirely through extension — no engine file was touched
+- **Read-only engine constraint** met entirely through extension - no engine file was touched
 - **Multi-state boss** whose intrinsic weapon and abilities swap with each state transition
 - **Pluggable dialogue service** that uses the Gemini API when a key is present and hand-written lines when it is not, so the game never requires a secret to run
 - **Terrain that breeds wildlife**, with per-tile spawn tables and species-specific post-spawn effects
 - **Plant lifecycle** progressing sprout → sapling → mature at environment-specific rates
-- **Green on a clean clone** — CI builds and tests on JDK 17 with no API key and no local configuration
+- **Green on a clean clone** - CI builds and tests on JDK 17 with no API key and no local configuration
 
 ### ✍️ Authors
 
@@ -44,7 +44,7 @@ git clone https://github.com/abstractalex-lab/winterbound.git
 2. `mvn compile`
 3. `mvn exec:java`
 
-Move with the number keys around `5`, laid out like a numpad. Everything else — attacking, throwing, equipping, picking things up — appears in the menu the moment it becomes possible.
+Move with the number keys around `5`, laid out like a numpad. Everything else, attacking, throwing, equipping, picking things up, appears in the menu the moment it becomes possible.
 
 Run the test suite with `mvn test`. It passes on a clean clone; the tests that need a Gemini API key are skipped when there is none.
 
@@ -85,7 +85,7 @@ GEMINI_API_KEY=your-api-key-here
 
 ### ⚔️ Combat & Status Effects
 - Bleeding, burning, freezing, poison and healing all tick over time
-- Weapons can be coated — a yew-berry-coated blade poisons on hit
+- Weapons can be coated - a yew-berry-coated blade poisons on hit
 - Bows fire at range
 
 ### 🛡️ Equipment
@@ -94,8 +94,8 @@ GEMINI_API_KEY=your-api-key-here
 - Both break and are removed automatically when spent
 
 ### 🧪 Potions, Thrown Rather Than Drunk
-- **Poison Potion** — 5 damage per turn for 5 turns, leaving a toxic spill on surrounding tiles
-- **Healing Potion** — 5 health per turn for 5 turns to everything in its splash radius, so it can save an ally or accidentally heal a bear
+- **Poison Potion**: 5 damage per turn for 5 turns, leaving a toxic spill on surrounding tiles
+- **Healing Potion**: 5 health per turn for 5 turns to everything in its splash radius, so it can save an ally or accidentally heal a bear
 
 ### 🐉 A Multi-State Boss
 - The dragon rotates through **fire**, **wind** and **berserk** states
@@ -145,7 +145,7 @@ src/main/java/
 
 **The engine is read-only, and that is the point.** Every feature extends an engine abstraction rather than modifying one. Spawning terrain subclasses `Ground` and overrides `tick`; the dragon subclasses `Actor` and delegates its behaviour to a swappable `CreatureState`; NPCs expose services through `allowableActions` rather than special-cased engine hooks.
 
-**Dialogue degrades instead of failing.** `DialogueServiceFactory` checks for a configured key and returns either the Gemini-backed service or `StaticDialogueService`. Construction of the AI client is guarded too, so a key that is present but rejected falls back rather than preventing the game from starting. The offline lines are deliberately ASCII-only — the entire UI is a terminal, and non-ASCII renders as `?` in many of them.
+**Dialogue degrades instead of failing.** `DialogueServiceFactory` checks for a configured key and returns either the Gemini-backed service or `StaticDialogueService`. Construction of the AI client is guarded too, so a key that is present but rejected falls back rather than preventing the game from starting. The offline lines are deliberately ASCII-only, as the entire UI is a terminal, and non-ASCII renders as `?` in many of them.
 
 **Spawn tables are generic-safe.** `SpawningGround` takes `Supplier<? extends Animal>` rather than a class or an enum, so a tile's spawn table is checked at compile time and a species-specific post-spawn effect (tundra's +10 max HP, for instance) is applied polymorphically without a single `instanceof`.
 

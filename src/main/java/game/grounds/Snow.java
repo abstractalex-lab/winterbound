@@ -2,6 +2,7 @@ package game.grounds;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.CoatWeaponAction;
@@ -32,9 +33,10 @@ public class Snow extends Ground {
                 actions.add(new CoatWeaponAction(weapon, null, new SnowCoating()));
             }
 
-            // Snow can be packed and melted to refill a bottle
-            for (Bottle bottle : actor.getItemInventoryAs(Bottle.class)) {
-                if (bottle.isRefillable()) {
+            // Snow can be packed and melted to refill a bottle.
+            // Bottle is a concrete class, so the engine's capability lookup does not apply here and the inventory is scanned directly.
+            for (Item item : actor.getItemInventory()) {
+                if (item instanceof Bottle bottle && bottle.isRefillable()) {
                     actions.add(new FillBottleAction(bottle));
                 }
             }

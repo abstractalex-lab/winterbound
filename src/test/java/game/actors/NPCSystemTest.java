@@ -4,7 +4,7 @@ import game.actors.NPCS.HealerNPC;
 import game.actors.NPCS.TeleporterNPC;
 import game.actors.NPCS.WeaponCoaterNPC;
 import game.services.DialogueService;
-import game.services.GeminiDialogueService;
+import game.services.StaticDialogueService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Complete test suite for the NPC system.
  * Tests NPC instantiation, functionality, dialogue generation, and integration.
+ *
+ * <p>These tests use {@link StaticDialogueService} so they run offline and
+ * deterministically. What is under test is the NPCs, not the dialogue backend.
  */
 public class NPCSystemTest {
 
@@ -20,7 +23,7 @@ public class NPCSystemTest {
 
     @BeforeEach
     void setUp() {
-        dialogueService = new GeminiDialogueService();
+        dialogueService = new StaticDialogueService();
     }
 
     // ===== Instantiation Tests =====

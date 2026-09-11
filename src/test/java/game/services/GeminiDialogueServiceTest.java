@@ -1,9 +1,11 @@
 package game.services;
 
+import game.utils.ApiKeyLoader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * JUnit test cases for GeminiDialogueService.
@@ -14,6 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * - Active internet connection
  * - Gemini API access
  *
+ * They are skipped, not failed, when no key is configured, so that a clean
+ * clone of the repository still has a green test suite.
+ *
  */
 public class GeminiDialogueServiceTest {
 
@@ -21,6 +26,10 @@ public class GeminiDialogueServiceTest {
 
     @BeforeEach
     void setUp() {
+        // Skip the whole class when no key is configured, rather than failing
+        assumeTrue(ApiKeyLoader.isApiKeyAvailable(),
+                "No GEMINI_API_KEY configured - skipping live API tests");
+
         // Initialize the service before each test
         dialogueService = new GeminiDialogueService();
     }

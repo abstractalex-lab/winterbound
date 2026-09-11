@@ -12,6 +12,9 @@ import game.actors.animals.Animal;
 import game.actors.animals.Bear;
 import game.actors.animals.Deer;
 import game.actors.animals.Wolf;
+import game.actors.NPCS.HealerNPC;
+import game.actors.NPCS.TeleporterNPC;
+import game.actors.NPCS.WeaponCoaterNPC;
 import game.grounds.Cave;
 import game.grounds.Dirt;
 import game.grounds.Fire;
@@ -26,6 +29,8 @@ import game.grounds.plants.ForestGrowthBehaviour;
 import game.grounds.plants.HazelnutTree;
 import game.grounds.plants.YewBerryTree;
 import game.items.TeleportCube;
+import game.services.DialogueService;
+import game.services.DialogueServiceFactory;
 import game.states.BerserkState;
 import game.states.CreatureState;
 import game.states.FireState;
@@ -90,6 +95,7 @@ public class Earth extends World {
         placeSpawningGrounds(forest);
         placeFlora(forest);
         placeItems(forest);
+        placeNpcs(forest);
         placeDragon(forest);
 
         GameMap plains = buildPlainsMap();
@@ -195,6 +201,24 @@ public class Earth extends World {
         map.at(3, 1).addItem(new Axe());
         map.at(7, 2).addItem(new Torch());
         map.at(15, 3).addItem(new Bow());
+    }
+
+    /**
+     * Places the three service NPCs across the Forest.
+     *
+     * <p>All three share one {@link DialogueService}, chosen at startup by
+     * {@link DialogueServiceFactory}: AI-generated dialogue when a Gemini key is
+     * configured, hand-written lines otherwise.
+     *
+     * @param map the Forest map
+     * @throws Exception if the engine rejects an actor placement
+     */
+    private void placeNpcs(GameMap map) throws Exception {
+        DialogueService dialogue = DialogueServiceFactory.create();
+
+        map.at(18, 1).addActor(new HealerNPC(dialogue));
+        map.at(22, 8).addActor(new TeleporterNPC(dialogue));
+        map.at(35, 8).addActor(new WeaponCoaterNPC(dialogue));
     }
 
     /**

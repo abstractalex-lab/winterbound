@@ -14,7 +14,7 @@ public class ToxicSpill extends Ground {
 
 
     public ToxicSpill() {
-        super('~', "Toxic Spill");
+        super('!', "Toxic Spill");
     }
 
     @Override

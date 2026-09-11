@@ -18,7 +18,7 @@ public class Axe extends CoatableWeapon {
      * Constructor for Axe.
      */
     public Axe() {
-        super("Axe", 'p', 15, "chops", 75);
+        super("Axe", '/', 15, "chops", 75);
     }
 
     @Override

@@ -29,7 +29,15 @@ Completed as a three-assignment sequence for **FIT2099 – Object-Oriented Desig
 
 ### ✍️ Authors
 
-Built by a team of four across three assignments. *(Contributions to be filled in.)*
+Built by a team of four. Assignment 1 was individual; the team selected one
+member's codebase as the base for Assignments 2 and 3.
+
+**Alex Bui** — teleportation system (A2 REQ1), flora growth stages (A3 REQ1)\
+**Timothy Lim** — animal spawners (A2 REQ2), crocodiles and swamps (A3 REQ2)\
+**Mikhal Angelo Tey** — weapons and coating (A2 REQ3-4), API integration (A3 REQ5)\
+**Shengyuan Jin** — base codebase (A1), stateful creatures (A2 REQ5), creative mode (A3 REQ3-4)
+
+Post-submission maintenance by Alex Bui.
 
 
 ## ⬇️ Getting Started

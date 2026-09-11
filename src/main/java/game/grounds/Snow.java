@@ -5,12 +5,16 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.CoatWeaponAction;
+import game.actions.FillBottleAction;
 import game.coatings.SnowCoating;
 import game.interfaces.Coatable;
+import game.items.Bottle;
 
 /**
  * A class representing snow on the ground.
- * Players standing on snow can coat their weapons with snow.
+ *
+ * <p>Actors standing on snow can coat their weapons with it, or pack it into a
+ * bottle and melt it for drinking water.
  */
 public class Snow extends Ground {
     public Snow() {
@@ -26,6 +30,13 @@ public class Snow extends Ground {
             // Provide snow coating for all coatable weapons
             for (Coatable weapon : actor.getItemInventoryAs(Coatable.class)) {
                 actions.add(new CoatWeaponAction(weapon, null, new SnowCoating()));
+            }
+
+            // Snow can be packed and melted to refill a bottle
+            for (Bottle bottle : actor.getItemInventoryAs(Bottle.class)) {
+                if (bottle.isRefillable()) {
+                    actions.add(new FillBottleAction(bottle));
+                }
             }
         }
 

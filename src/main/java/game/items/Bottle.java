@@ -20,6 +20,8 @@ public class Bottle extends Item implements Consumable {
     private int counter;
     // The amount of hydration restored with each sip.
     static final int INCREASE_HYDRATION_LEVEL = 4;
+    // The number of sips a full bottle holds.
+    static final int MAX_USES = 5;
 
     /**
      * Constructor for the Bottle class.
@@ -27,7 +29,7 @@ public class Bottle extends Item implements Consumable {
      */
     public Bottle() {
         super("Bottle", 'o', true);
-        this.counter = 5;
+        this.counter = MAX_USES;
         this.enableAbility(Abilities.CAN_CONSUME);
     }
 
@@ -64,6 +66,22 @@ public class Bottle extends Item implements Consumable {
      * @param map The current game map.
      * @return An ActionList containing available actions.
      */
+    /**
+     * Refills the bottle to its full capacity.
+     */
+    public void refill() {
+        this.counter = MAX_USES;
+    }
+
+    /**
+     * Reports whether the bottle still has room for more water.
+     *
+     * @return true if the bottle is not full
+     */
+    public boolean isRefillable() {
+        return this.counter < MAX_USES;
+    }
+
     @Override
     public ActionList allowableActions(Actor owner, GameMap map){
 

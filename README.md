@@ -1,5 +1,7 @@
 # Winterbound
 
+[![build](https://github.com/abstractalex-lab/winterbound/actions/workflows/build.yml/badge.svg)](https://github.com/abstractalex-lab/winterbound/actions/workflows/build.yml)
+
 A turn-based winter survival roguelike in Java, played in the terminal.
 
 ```
@@ -43,7 +45,7 @@ recover warmth. Sleeping is interrupted the moment something bites you.
 **Wildlife.** Bears (200 HP), wolves (100 HP), deer (50 HP) and crocodiles
 (300 HP) wander, hunt, follow and flee. Terrain spawns them: tundra strengthens
 what it produces, caves and meadows seed the forest, and swamps breed crocodiles
-when prey is near. Bears can be tamed by feeding them, after which they follow 
+when prey is near. Bears can be tamed by feeding them, after which they follow
 and defend the Explorer instead of attacking.
 
 **Flora with a lifecycle.** Trees grow through sprout, sapling and mature

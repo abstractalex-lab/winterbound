@@ -13,6 +13,8 @@ import game.attributes.PlayerAttribute;
 import game.capabilities.Abilities;
 import game.interfaces.Flammable;
 import game.interfaces.Freezable;
+import game.items.Bedroll;
+import game.items.Bottle;
 import game.items.armours.Armour;
 import game.items.armours.IronArmour;
 import game.items.armours.ThornArmour;
@@ -44,10 +46,10 @@ public class Player extends ArmableActor implements Flammable, Freezable {
         this.addNewStatistic(PlayerAttribute.HYDRATION_LEVEL, new BaseActorAttribute(HYDRATION_LEVEL));
         this.addNewStatistic(PlayerAttribute.WARMTH_LEVEL, new BaseActorAttribute(WARMTH_LEVEL));
 
-//        this.addItemToInventory(new Bedroll());
-//        this.addItemToInventory(new Bottle());
-
-//        this.addItemToInventory(new Bow());
+        // Survival basics: the Explorer starts with water and shelter.
+        // Weapons are left on the map to be found.
+        this.addItemToInventory(new Bedroll());
+        this.addItemToInventory(new Bottle());
 
         this.addItemToInventory(new HealingPotion());
         this.addItemToInventory(new PoisonPotion());
@@ -120,8 +122,8 @@ public class Player extends ArmableActor implements Flammable, Freezable {
      */
     @Override
     public String burn(int damage) {
-            this.hurt(damage);
-            return this + " is burned, losing " + damage + " HP.";
+        this.hurt(damage);
+        return this + " is burned, losing " + damage + " HP.";
     }
 
     /**

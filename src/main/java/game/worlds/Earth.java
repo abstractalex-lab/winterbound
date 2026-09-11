@@ -25,8 +25,6 @@ import game.grounds.plants.FloraFactory;
 import game.grounds.plants.ForestGrowthBehaviour;
 import game.grounds.plants.HazelnutTree;
 import game.grounds.plants.YewBerryTree;
-import game.items.Bedroll;
-import game.items.Bottle;
 import game.items.TeleportCube;
 import game.states.BerserkState;
 import game.states.CreatureState;
@@ -188,8 +186,8 @@ public class Earth extends World {
     }
 
     /**
-     * Scatters equipment across the Forest so the Explorer has to find it rather
-     * than begin holding it.
+     * Scatters weapons across the Forest so the Explorer has to find them rather
+     * than begin holding them.
      *
      * @param map the Forest map
      */
@@ -197,8 +195,6 @@ public class Earth extends World {
         map.at(3, 1).addItem(new Axe());
         map.at(7, 2).addItem(new Torch());
         map.at(15, 3).addItem(new Bow());
-        map.at(4, 8).addItem(new Bedroll());
-        map.at(2, 4).addItem(new Bottle());
     }
 
     /**

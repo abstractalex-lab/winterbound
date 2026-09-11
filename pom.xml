@@ -4,9 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>edu.monash.fit2099</groupId>
-    <artifactId>a2-game</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>io.github.abstractalex</groupId>
+    <artifactId>winterbound</artifactId>
+    <version>1.0.0</version>
+
+    <name>Winterbound</name>
+    <description>A turn-based winter survival roguelike in Java.</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -52,6 +55,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <mainClass>game.Application</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

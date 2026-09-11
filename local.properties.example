@@ -1,0 +1,5 @@
+# Copy this file to `local.properties` and fill in your own key.
+# `local.properties` is gitignored and must never be committed.
+#
+# Get a key from https://aistudio.google.com/app/apikey
+GEMINI_API_KEY=your-api-key-here

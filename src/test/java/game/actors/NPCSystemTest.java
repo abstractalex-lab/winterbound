@@ -1,8 +1,8 @@
 package game.actors;
 
-import game.actors.NPCS.HealerNPC;
-import game.actors.NPCS.TeleporterNPC;
-import game.actors.NPCS.WeaponCoaterNPC;
+import game.actors.npcs.HealerNPC;
+import game.actors.npcs.TeleporterNPC;
+import game.actors.npcs.WeaponCoaterNPC;
 import game.services.DialogueService;
 import game.services.StaticDialogueService;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ public class NPCSystemTest {
         HealerNPC healer = new HealerNPC(dialogueService);
         assertNotNull(healer, "HealerNPC should be instantiated successfully");
         assertTrue(healer.toString().contains("Elder Seraphina"),
-                   "HealerNPC name should be Elder Seraphina");
+                "HealerNPC name should be Elder Seraphina");
     }
 
     @Test
@@ -43,7 +43,7 @@ public class NPCSystemTest {
         TeleporterNPC teleporter = new TeleporterNPC(dialogueService);
         assertNotNull(teleporter, "TeleporterNPC should be instantiated successfully");
         assertTrue(teleporter.toString().contains("Zephyr the Wanderer"),
-                   "TeleporterNPC name should be Zephyr the Wanderer");
+                "TeleporterNPC name should be Zephyr the Wanderer");
     }
 
     @Test
@@ -52,7 +52,7 @@ public class NPCSystemTest {
         WeaponCoaterNPC weaponCoater = new WeaponCoaterNPC(dialogueService);
         assertNotNull(weaponCoater, "WeaponCoaterNPC should be instantiated successfully");
         assertTrue(weaponCoater.toString().contains("Forge Master Thorne"),
-                   "WeaponCoaterNPC name should be Forge Master Thorne");
+                "WeaponCoaterNPC name should be Forge Master Thorne");
     }
 
     // ===== Name and Role Tests =====
@@ -64,14 +64,14 @@ public class NPCSystemTest {
 
         assertNotNull(healer);
         assertTrue(healer.toString().contains("Elder Seraphina"),
-                   "HealerNPC name should be Elder Seraphina");
+                "HealerNPC name should be Elder Seraphina");
 
         // Verify role is meaningful for dialogue
         String role = healer.getRole();
         assertNotNull(role, "NPC should have a role");
         assertTrue(role.toLowerCase().contains("heal") ||
-                   role.toLowerCase().contains("sage"),
-                   "Healer role should relate to healing");
+                        role.toLowerCase().contains("sage"),
+                "Healer role should relate to healing");
     }
 
     @Test
@@ -81,14 +81,14 @@ public class NPCSystemTest {
 
         assertNotNull(teleporter);
         assertTrue(teleporter.toString().contains("Zephyr the Wanderer"),
-                   "TeleporterNPC name should be Zephyr the Wanderer");
+                "TeleporterNPC name should be Zephyr the Wanderer");
 
         // Verify role is meaningful for dialogue
         String role = teleporter.getRole();
         assertNotNull(role, "NPC should have a role");
         assertTrue(role.toLowerCase().contains("teleport") ||
-                   role.toLowerCase().contains("space"),
-                   "Teleporter role should relate to teleportation");
+                        role.toLowerCase().contains("space"),
+                "Teleporter role should relate to teleportation");
     }
 
     @Test
@@ -98,14 +98,14 @@ public class NPCSystemTest {
 
         assertNotNull(weaponCoater);
         assertTrue(weaponCoater.toString().contains("Forge Master Thorne"),
-                   "WeaponCoaterNPC name should be Forge Master Thorne");
+                "WeaponCoaterNPC name should be Forge Master Thorne");
 
         // Verify role is meaningful for dialogue
         String role = weaponCoater.getRole();
         assertNotNull(role, "NPC should have a role");
         assertTrue(role.toLowerCase().contains("weapon") ||
-                   role.toLowerCase().contains("artisan"),
-                   "Weapon Coater role should relate to weapons");
+                        role.toLowerCase().contains("artisan"),
+                "Weapon Coater role should relate to weapons");
     }
 
     // ===== Dialogue Generation Tests =====
@@ -141,8 +141,8 @@ public class NPCSystemTest {
 
         // Generate greeting using the NPC's name and role
         String greeting = dialogueService.generateGreeting(
-            "Elder Seraphina",
-            healer.getRole()
+                "Elder Seraphina",
+                healer.getRole()
         );
 
         assertNotNull(greeting, "NPC should be able to generate greeting");
@@ -157,9 +157,9 @@ public class NPCSystemTest {
 
         // Generate service monologue
         String monologue = dialogueService.generateServiceMonologue(
-            "Zephyr the Wanderer",
-            "teleportation",
-            "sending player to a random location"
+                "Zephyr the Wanderer",
+                "teleportation",
+                "sending player to a random location"
         );
 
         assertNotNull(monologue, "NPC should be able to generate service monologue");

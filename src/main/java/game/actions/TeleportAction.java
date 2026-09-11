@@ -64,11 +64,11 @@ public class TeleportAction extends Action {
     @Override
     public String execute(Actor actor, GameMap currentMap) {
         // side effects before moving
-        switch (mode) {
+        String burnMessage = switch (mode) {
             case DOOR -> burnAroundDestination(destLoc);
             case CIRCLE -> burnOneAroundSource(sourceLoc);
-            case CUBE -> { /* handled below after malfunction roll */ }
-        }
+            case CUBE -> "";
+        };
 
         // resolve final destination (cube can malfunction)
         GameMap finalMap = destMap;
@@ -98,12 +98,14 @@ public class TeleportAction extends Action {
             return "Teleport failed: " + e.getMessage();
         }
 
-        return switch (mode) {
+        String result = switch (mode) {
             case DOOR   -> actor + " uses Teleport Door to teleport to (" + finalLoc.x() + ", " + finalLoc.y() + ") on " + finalMap;
             case CIRCLE -> actor + " uses Teleport Circle to teleport to (" + finalLoc.x() + ", " + finalLoc.y() + ") on " + finalMap;
             case CUBE   -> actor + " uses Teleport Cube to teleport to (" + finalLoc.x() + ", " + finalLoc.y() + ") on " + finalMap
                     + (finalMap == currentMap ? " (malfunction!)" : "");
         };
+
+        return burnMessage.isEmpty() ? result : result + "\n" + burnMessage;
     }
 
     /**
@@ -125,8 +127,9 @@ public class TeleportAction extends Action {
      * Burns all surrounding tiles around the destination location (for DOOR).
      *
      * @param dest the destination location
+     * @return a description of the fire, for the player
      */
-    private void burnAroundDestination(Location dest) {
+    private String burnAroundDestination(Location dest) {
 
         //get the destination (dest) map location, and store the coordinate
         GameMap map = dest.map();
@@ -144,14 +147,18 @@ public class TeleportAction extends Action {
                 if (inBounds(map, x, y)) map.at(x, y).setGround(new Fire());
             }
         }
+
+        return "The Teleport Door scorches the ground around ("
+                + cx + ", " + cy + ") on " + map + ".";
     }
 
     /**
      * Burns one random valid tile around the source location (for CIRCLE).
      *
      * @param src the source location of the teleport
+     * @return a description of the fire, for the player
      */
-    private void burnOneAroundSource(Location src) {
+    private String burnOneAroundSource(Location src) {
 
         //get the source (src) map location, store any valid adjacent tiles
         GameMap map = src.map();
@@ -165,11 +172,17 @@ public class TeleportAction extends Action {
             }
         }
 
+        // a location with no valid neighbours cannot ignite anything
+        if (neighbours.isEmpty()) {
+            return "";
+        }
+
         //random pick 1 out of valid neighbours, and replace it with FireGround ground type
         Location randomNeighbour = neighbours.get(rng.nextInt(neighbours.size()));
         randomNeighbour.setGround(new Fire());
-        System.out.println("TeleportCircle ignited fire at (" +
-                randomNeighbour.x() + "," + randomNeighbour.y() + ") on " + src.map().toString());
+
+        return "The Teleport Circle ignites a fire at ("
+                + randomNeighbour.x() + ", " + randomNeighbour.y() + ") on " + map + ".";
     }
 
     /**

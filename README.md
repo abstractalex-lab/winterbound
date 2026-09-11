@@ -54,7 +54,7 @@ yew berries.
 Forest: a healer who strips every status effect, a teleporter who throws you
 somewhere random, and a weapon coater who enhances what you carry. Their
 dialogue is generated fresh by the Gemini API when a key is configured, and
-falls back to hand-written lines when it is not. See
+falls back to handwritten lines when it is not. See
 [Optional: AI-generated NPC dialogue](#optional-ai-generated-npc-dialogue).
 
 **Combat and status effects.** Bleeding, burning, freezing, poison and healing

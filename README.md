@@ -2,7 +2,7 @@
 
 > *A turn-based winter survival roguelike in Java - forage, fight and freeze in a forest that is actively trying to kill you.*
 
-[![build](https://github.com/abstractalex-lab/winterbound/actions/workflows/build.yml/badge.svg)](https://github.com/abstractalex-lab/winterbound/actions/workflows/build.yml)
+[![build](https://github.com/abstractalex-lab/Winterbound/actions/workflows/build.yml/badge.svg)](https://github.com/abstractalex-lab/Winterbound/actions/workflows/build.yml)
 ![Java](https://img.shields.io/badge/Java_17-ED8B00?style=flat&logo=openjdk&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-C71A36?style=flat&logo=apachemaven&logoColor=white)
 ![JUnit](https://img.shields.io/badge/JUnit_5-25A162?style=flat&logo=junit5&logoColor=white)
@@ -32,12 +32,12 @@ Completed as a three-assignment sequence for **FIT2099 – Object-Oriented Desig
 Built by a team of four. Assignment 1 was individual; the team selected one
 member's codebase as the base for Assignments 2 and 3.
 
-**Alex Bui** — teleportation system (A2 REQ1), flora growth stages (A3 REQ1)\
-**Timothy Lim** — animal spawners (A2 REQ2), crocodiles and swamps (A3 REQ2)\
-**Mikhal Angelo Tey** — weapons and coating (A2 REQ3-4), API integration (A3 REQ5)\
-**Shengyuan Jin** — base codebase (A1), stateful creatures (A2 REQ5), creative mode (A3 REQ3-4)
+**Alex B.** — teleportation system (A2 REQ1), flora growth stages (A3 REQ1)\
+**Timothy L.** — animal spawners (A2 REQ2), crocodiles and swamps (A3 REQ2)\
+**Mikhal T.** — weapons and coating (A2 REQ3–4), API integration (A3 REQ5)\
+**Shengyuan J.** — base codebase (A1), stateful creatures (A2 REQ5), creative mode (A3 REQ3–4)
 
-Post-submission maintenance by Alex Bui.
+Post-submission maintenance by Alex B.
 
 
 ## ⬇️ Getting Started

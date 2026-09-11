@@ -1,117 +1,132 @@
-# FIT2099 Assignment (Semester 2, 2025)
-```                                                                             
-`7MMF'     A     `7MF'`7MMF'`7MN.   `7MF'MMP""MM""YMM `7MM"""YMM  `7MM"""Mq.  
-  `MA     ,MA     ,V    MM    MMN.    M  P'   MM   `7   MM    `7    MM   `MM. 
-   VM:   ,VVM:   ,V     MM    M YMb   M       MM        MM   d      MM   ,M9  
-    MM.  M' MM.  M'     MM    M  `MN. M       MM        MMmmMM      MMmmdM9   
-    `MM A'  `MM A'      MM    M   `MM.M       MM        MM   Y  ,   MM  YM.   
-     :MM;    :MM;       MM    M     YMM       MM        MM     ,M   MM   `Mb. 
+# Winterbound
+
+A turn-based winter survival roguelike in Java, played in the terminal.
+
+```
+`7MMF'     A     `7MF'`7MMF'`7MN.   `7MF'MMP""MM""YMM `7MM"""YMM  `7MM"""Mq.
+  `MA     ,MA     ,V    MM    MMN.    M  P'   MM   `7   MM    `7    MM   `MM.
+   VM:   ,VVM:   ,V     MM    M YMb   M       MM        MM   d      MM   ,M9
+    MM.  M' MM.  M'     MM    M  `MN. M       MM        MMmmMM      MMmmdM9
+    `MM A'  `MM A'      MM    M   `MM.M       MM        MM   Y  ,   MM  YM.
+     :MM;    :MM;       MM    M     YMM       MM        MM     ,M   MM   `Mb.
       VF      VF      .JMML..JML.    YM     .JMML.    .JMMmmmmMMM .JMML. .JMM.
 ```
 
-## Contribution Log
-[Google Spreadsheet link](https://docs.google.com/spreadsheets/d/14l60JpGq3CE-WVBTjQ6HDyauSbhznTMZf4ikgSVDu5s/edit?usp=sharing)
+You are the Explorer, dropped into a frozen forest with nothing. Hydration and
+warmth drain every turn. Wildlife hunts you and each other. Somewhere to the
+east, a dragon cycles through three elemental states and sets the ground on fire
+as it roams.
 
+## About this project
 
-# Unit test
-req3:
-HealingPotionTest: Ensures Healing Potion correctly applies healing status to self, targets, and nearby actors
-PoisonPotionTest: Ensures Poison Potion removes itself from inventory when thrown, applies poison status, and creates ToxicSpill around target
+Built for **FIT2099 Object-Oriented Design and Implementation** at Monash
+University, Semester 2 2025, by a team of four over three assignments. It is
+published here as a portfolio piece and is no longer an active submission.
 
-req4:
-IronArmourTest: Tests armour damage reduction, durability break, and removal
+The game is written on top of a read-only engine supplied by the unit — the
+engine under `src/main/java/edu/monash/fit2099/` could not be modified, so every
+feature had to be built by extending its `Actor`, `Ground`, `Item`, `Action` and
+`Behaviour` abstractions. That constraint is the reason the codebase leans so
+heavily on interfaces, polymorphism and the state and factory patterns rather
+than on editing engine internals.
 
+See [Licence](#licence) for how authorship splits between the game code and the
+engine.
 
-# REQ3: Potion System
+## Features
 
-## Scenario Overview
+**Survival.** Hydration (20) and warmth (30) fall by one each turn and death
+follows when either hits zero. Water and fruit restore them.
 
-`In this feature, a Potion System is introduced to enhance the player’s survival and strategy in the wilderness.
-The Explorer can now collect and throw different types of potions to gain temporary abilities and buffs that alter combat and movement. 
-Each potion grants a unique effect for a limited number of turns. 
-Players can combine or sequence potion use to adapt to harsh conditions or powerful enemies.`
+**Wildlife.** Bears (200 HP), wolves (100 HP), deer (50 HP) and crocodiles
+(300 HP) wander, hunt, follow and flee. Terrain spawns them: tundra strengthens
+what it produces, caves and meadows seed the forest, and swamps breed crocodiles
+when prey is near.
 
-`In this feature, potions are not consumed through a traditional "consume" action.
-Instead, the player throws the potion at a target location or creature.`
+**Flora with a lifecycle.** Trees grow through sprout, sapling and mature
+stages at environment-specific rates, then bear apples, hazelnuts or poisonous
+yew berries.
 
-### The throwing system works as follows:
-1. The player selects ThrowAction from the menu.
-2. The player chooses a direction or target.
-3. The potion is removed from the inventory immediately upon throwing.
+**Combat and status effects.** Bleeding, burning, freezing, poison and healing
+all tick over time. Weapons can be coated — a yew-berry-coated blade poisons on
+hit. Bows fire at range.
 
-### When the potion lands:
-1. Its primary effect is applied to the target (if present)
-2. A splash radius effect may also apply to nearby actors
-3. Certain potions modify the ground in the surrounding tiles
+**Equipment.** Iron Armour absorbs damage across 300 points of durability;
+Thorn Armour trades 100 of that for 20 reflected damage per hit. Both break and
+are removed automatically when spent.
 
-## Three potions are implemented in this feature:
-1. Poison Potion – protects against fire and burning damage.
-2. Swiftness Potion – doubles the Explorer’s movement speed.
-3. Strength Potion – boosts the Explorer’s physical attack power.
+**Potions, thrown rather than drunk.** A Poison Potion deals 5 damage per turn
+for 5 turns and leaves a toxic spill on the surrounding tiles. A Healing Potion
+restores 5 per turn for 5 turns to everything in its splash radius, so it can
+save an ally or accidentally heal a bear.
 
-### Poison Potion
-* Symbol: p
-* Effect: Applies Poisoned status to the target and nearby actors
-* Damage Over Time: 5 HP per turn for 5 turns
-* Area Effect: Tiles around the impact become ToxicSpill, poisoning anyone who steps on them
+**A multi-state boss.** The dragon rotates through fire, wind and berserk
+states, swapping its intrinsic weapon and abilities with each one.
 
-### Healing Potion
-* Symbol: h
-* Effect: Applies Healing status, restoring 5 HP per turn for 5 turns
-* Area Effect: Nearby actors are also healed
-* Usage: Sustain in combat / support allies / self-target for recovery
+**Two linked maps.** Forest and Plains, connected by teleport doors, teleport
+circles and a portable teleport cube.
 
+## Getting started
 
-# REQ4: Armour System
+Requires **JDK 17 or newer** and Maven.
 
-## Scenario Overview
+```bash
+git clone https://github.com/abstractalex-lab/winterbound.git
+cd winterbound
+mvn compile
+mvn exec:java -Dexec.mainClass=game.Application
+```
 
-`In this feature, an Armour System is introduced to enhance player survivability and tactical combat decisions. 
-The Explorer and other eligible characters can now equip physical armour to reduce incoming damage and gain defensive abilities.
-Armour acts as a protective layer that absorbs damage before HP is affected. Once armour durability reaches zero, the armour breaks and is automatically removed.`
+Move with the number keys around `5`. Everything else — attacking, throwing,
+equipping, picking up — appears in the menu when it becomes possible.
 
-## Armour System Workflow
+### Optional: AI-generated NPC dialogue
 
-### Equipping Armour
-1. The player selects Equip from the item menu.
-2. If another armour is already worn, it is automatically unequipped.
-3. The new armour becomes active and contributes defense value.
+The project includes NPCs whose dialogue is generated by the Gemini API. To
+enable it, copy `local.properties.example` to `local.properties` and add your
+own key from [Google AI Studio](https://aistudio.google.com/app/apikey):
 
-### Taking Damage with Armour
-1. When attacked, damage is first passed to the equipped armour.
-2. Armour reduces incoming damage based on its durability.
-3. Armour durability decreases according to damage absorbed.
-4. If durability reaches zero, the armour breaks and is removed.
-5. Remaining damage, if any, is applied to HP.
+```properties
+GEMINI_API_KEY=your-api-key-here
+```
 
-### Special Effects
-Certain armour types provide additional benefits on hit, such as damaging attackers or mitigating elemental effects.
+`local.properties` is gitignored. Do not commit it. The game runs without a key;
+see [Known limitations](#known-limitations) for the current state of this
+feature.
 
-## Two armour types are introduced in this feature:
-1. Iron Armour — reliable physical protection
-2. Thorn Armour — returns damage to attackers
+## Project structure
 
-### Iron Armour
+```
+src/main/java/
+├── edu/monash/fit2099/engine/   Read-only engine supplied by the unit
+└── game/
+    ├── actions/                 Player and NPC actions
+    ├── actors/                  Player, animals, dragon, NPCs
+    ├── behaviours/              AI decision-making
+    ├── grounds/                 Terrain, spawners and plants
+    ├── items/                   Fruit, potions, armour, tools
+    ├── states/                  Dragon state machine
+    ├── statuses/                Damage and healing over time
+    ├── weapons/                 Melee, ranged and intrinsic weapons
+    └── worlds/                  Map construction and linking
+```
 
-* Symbol: i
-* Effect: Absorbs incoming damage until durability depletes
-* Durability: 300
-* Usage: General-purpose defense against melee and creature attacks
-* Mechanics:
-Damage reduces armour durability
-Armour breaks when durability reaches zero
-A staple defensive option for players exploring hostile zones.
+## Known limitations
 
-### Thorn Armour
+- **The NPC dialogue system is not wired into the game.** The healer,
+  teleporter and weapon-coater NPCs are implemented and tested but never placed
+  on a map, so the Gemini integration is currently unreachable in play.
+- **No offline fallback for dialogue.** Once NPCs are placed, running without an
+  API key will fail rather than degrade to static text.
+- **The NPC tests are integration tests.** They call the live API and require a
+  key and a network connection, so the suite does not pass on a clean clone.
+- **Balance is rough.** Animals attack their own species, the dragon's burning
+  aura can consume most of the map over a long game, and hydration is punishing
+  before you find water.
 
-* Symbol: t
-* Effect: Reflects damage back to attackers when the wearer is struck
-* Durability: 200
-* Reflection: 20 damage returned when hit
-* Usage: Effective against frequent small attacks / aggressive creatures
-* Mechanics:
-Damage mitigated by armour
-If damage penetrates, attacker is harmed by thorn effect
-Armour breaks normally when durability hits zero
-Encourages aggressive, close-combat playstyles with a risk-reward mechanic.
+## Licence
 
+The game code is MIT licensed. The engine under
+`src/main/java/edu/monash/fit2099/` was written by Riordan Alfredo and Adrian
+Kristanto and is not covered by that licence — see [LICENSE](LICENSE) for
+details.

@@ -2,13 +2,18 @@ package game.actions;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.BaseAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.interfaces.Sleepable;
 
 import java.util.Random;
 
 /**
- * An action that allows an actor to sleep for a random number of turns.
+ * An action that allows an actor to sleep for a random number of turns,
+ * recovering warmth each turn.
+ *
+ * <p>Sleep is interrupted the moment the sleeper takes damage, so resting in
+ * the open near predators is a gamble rather than a death sentence.
  */
 public class SleepAction extends Action {
 
@@ -18,6 +23,12 @@ public class SleepAction extends Action {
     private static final Random random = new Random();
 
     private int remainingSleepTime;
+
+    /** The sleeper's health at the end of the previous turn, or -1 before the first. */
+    private int healthLastTurn = -1;
+
+    /** Whether the sleeper was woken early by taking damage. */
+    private boolean disturbed = false;
 
     /**
      * Constructor for SleepAction.
@@ -37,6 +48,17 @@ public class SleepAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
+        int health = actor.getAttribute(BaseAttributes.HEALTH);
+
+        // Taking damage while asleep wakes the sleeper immediately.
+        if (healthLastTurn >= 0 && health < healthLastTurn) {
+            disturbed = true;
+            remainingSleepTime = 0;
+            return actor + " is woken by the attack and scrambles out of the "
+                    + sleepable;
+        }
+
+        healthLastTurn = health;
         remainingSleepTime--;
         return sleepable.executeSleep(actor) + " (" + remainingSleepTime + " turns remaining...)";
     }
@@ -57,8 +79,9 @@ public class SleepAction extends Action {
      */
     @Override
     public Action getNextAction() {
-        if (remainingSleepTime > 0)
+        if (!disturbed && remainingSleepTime > 0) {
             return this;
+        }
         return null;
     }
 }
